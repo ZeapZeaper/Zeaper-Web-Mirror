@@ -27,10 +27,10 @@ const StartSelling = ({
   // const router = useRouter();
 
   useEffect(() => {
-    if (addShop) {
+    if (addShop && !floating) {
       setAddNewShop(true);
     }
-  }, []);
+  }, [addShop, floating]);
 
   useEffect(() => {
     if (addShop && addnewShop && !floating) {

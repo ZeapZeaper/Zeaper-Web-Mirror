@@ -74,11 +74,13 @@ export default function VendorWelcome(): React.JSX.Element {
 
   const callback = (userData?: UserInterface) => {
     handleClose();
-    console.log("userData is", userData);
+
     if (userData && !userData?.isGuest && !userData?.shopId) {
+     
       return router.push("/vendor-onboarding?addShop=true");
     }
     if (userData && !userData?.isGuest && userData?.shopId) {
+     
       return router.push("/shop");
     }
   };
@@ -197,17 +199,17 @@ export default function VendorWelcome(): React.JSX.Element {
       </motion.div>
 
       {/* Top bar with logo and profile menu */}
-      <div className="relative z-20 flex justify-between items-center px-6 py-4 max-w-6xl mx-auto">
+      <div className=" flex justify-between items-center px-6 py-4 max-w-6xl mx-auto">
         <Image
           src={Logo}
           alt="Zeaper Logo"
           width={150}
           height={50}
-          className="object-contain"
+          className="object-contain relative z-10"
         />
 
         {/* Profile menu */}
-        <div ref={menuRef} className="relative">
+        <div ref={menuRef} className="relative z-10">
           <UserMenuBar />
         </div>
       </div>

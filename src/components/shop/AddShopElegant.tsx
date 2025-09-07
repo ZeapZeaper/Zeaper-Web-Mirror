@@ -99,7 +99,7 @@ export default function AddShopElegant({
   shop?: ShopInterface;
   setAddNewShop: (value: boolean) => void;
 }) {
-    console.log("Rendering AddShopElegant with openModal:", openModal);
+
   const { user, setUser } = useContext(AuthContext);
   const { setDimBackground } = useContext(ThemeContext);
   const [currentStep, setCurrentStep] = useState(0);

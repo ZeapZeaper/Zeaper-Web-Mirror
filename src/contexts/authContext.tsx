@@ -243,6 +243,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const loginWithGoogle = async (
     callBack?: (userData?: UserInterface) => void
   ) => {
+ 
     const redirectSignInPath =
       localStorage.getItem("redirectSignInPath") || "/";
 
@@ -275,6 +276,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 setUser(userData);
                 localStorage.removeItem("guestUid");
                 if (callBack) {
+               
                   return callBack(userData);
                 }
                 return router.push(redirectSignInPath);
