@@ -16,6 +16,7 @@ import ShopPayments from "./ShopPayments";
 import ShopProducts from "./ShopProducts";
 
 const ShopPage = () => {
+ 
   const token = useSelector(globalSelectors.selectAuthToken);
   const { user } = useContext(AuthContext);
   const shopId = user?.shopId;
@@ -54,7 +55,6 @@ const ShopPage = () => {
               </div>
               <div className="col-span-5 w-full">
                 <ShopProducts shopId={shop.shopId} />
-                
               </div>
             </div>
           </>
