@@ -11,8 +11,8 @@ import {
 } from "firebase/auth";
 import { createContext } from "react";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { globalActions, globalSelectors } from "../redux/services/global.slice";
+import { useDispatch } from "react-redux";
+import { globalActions } from "../redux/services/global.slice";
 import zeapApiSlice from "../redux/services/zeapApi.slice";
 import { UserInterface } from "@/interface/interface";
 import { firebase } from "@/authentication/firebase";
@@ -52,7 +52,6 @@ export const AuthContext = createContext<{
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const originalToken = useSelector(globalSelectors.selectAuthToken);
   const router = useRouter();
   const auth = getAuth(firebase);
   const dispatch = useDispatch();
@@ -76,9 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     zeapApiSlice.useMergePasswordLoginGuestUserMutation();
 
   const getToken = async () => {
-
     const token = await auth?.currentUser?.getIdToken(true);
- 
 
     if (token) {
       dispatch(globalActions.setAuthToken(token));

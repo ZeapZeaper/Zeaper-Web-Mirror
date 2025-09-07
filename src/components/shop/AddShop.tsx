@@ -47,7 +47,7 @@ export function AddShop({
   setOpenModal: (open: boolean) => void;
   mode?: "create" | "edit";
   shop?: ShopInterface;
-  setAddNewShop: (value: boolean) => void;
+  setAddNewShop?: (value: boolean) => void;
 }) {
   const { user, setUser } = useContext(AuthContext);
   const topRef = useRef<HTMLDivElement>(null);
@@ -95,7 +95,7 @@ export function AddShop({
       setSocial(shop?.social || {});
       setIsTailor(shop?.isTailor || false);
       setIsShoeMaker(shop?.isShoeMaker || false);
-      setAddNewShop(false);
+      if (setAddNewShop) setAddNewShop(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shop]);
@@ -191,7 +191,7 @@ export function AddShop({
             setDimBackground(false);
 
             setUser(userData);
-            setAddNewShop(false);
+            if (setAddNewShop) setAddNewShop(false);
 
             setShowOrderSuccessModal(true);
           }
@@ -218,7 +218,7 @@ export function AddShop({
         .unwrap()
         .then(() => {
           setDimBackground(false);
-          setAddNewShop(false);
+          if (setAddNewShop) setAddNewShop(false);
           setOpenModal(false);
         })
         .catch((err) => {
