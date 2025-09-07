@@ -90,6 +90,7 @@ interface ShopInterface {
   businessName: string;
   shopName: string;
   userId: string;
+  source: string;
   description: string;
   imageUrl: ImageUrlInterface;
   shopId: string;

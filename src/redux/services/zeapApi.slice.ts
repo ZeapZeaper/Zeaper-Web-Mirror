@@ -30,6 +30,7 @@ export default createApi({
     "PushToken",
     "EmailTemplate",
     "Help",
+    "Policy",
   ],
   endpoints: (builder) => ({
     getUser: builder.query({
@@ -2700,6 +2701,15 @@ export default createApi({
           body: payload,
         };
       },
+    }),
+    getSellerPolicy: builder.query({
+      query: (arg) => {
+        return {
+          url: `/policy/seller`,
+          params: { ...arg },
+        };
+      },
+      providesTags: ["Policy"],
     }),
   }),
 });

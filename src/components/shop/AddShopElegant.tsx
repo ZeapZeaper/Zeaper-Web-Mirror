@@ -1,0 +1,586 @@
+"use client";
+import { useState, useEffect, useContext } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ShopInterface, SocialInterface } from "@/interface/interface";
+import zeapApiSlice from "@/redux/services/zeapApi.slice";
+import { ThemeContext } from "@/contexts/themeContext";
+import { AuthContext } from "@/contexts/authContext";
+import ButtonPrimary from "@/shared/Button/ButtonPrimary";
+import CountrySelector from "@/shared/Select/CountrySelector";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import ShopSuccessModal from "./ShopSuccessModal";
+import Loading from "../loading/Loading";
+import { Checkbox, Dropdown, Label, TextInput } from "flowbite-react";
+
+const inputTheme = {
+  field: {
+    input: {
+      colors: {
+        primary:
+          "border-darkGold  text-dark placeholder-darkGold focus:border-darkGold focus:ring-darkGold dark:bg-darkGold dark:border-darkGold dark:focus:border-darkGold dark:focus:ring-darkGold",
+      },
+    },
+  },
+};
+
+const checkBoxTheme = {
+  root: {
+    base: "h-4 w-4 rounded border border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700",
+    color: {
+      primary:
+        "text-darkGold focus:ring-darkGold dark:ring-offset-darkGold dark:focus:ring-darkGold border-darkGold",
+    },
+  },
+};
+const sourceOptions = [
+  { label: "Google", value: "google" },
+  { label: "Facebook", value: "facebook" },
+  { label: "Instagram", value: "instagram" },
+  { label: "Twitter", value: "twitter" },
+  { label: "LinkedIn", value: "linkedin" },
+  { label: "TikTok", value: "tiktok" },
+  { label: "Friend or Family", value: "friend_or_family" },
+  { label: "Other", value: "other" },
+];
+const steps = [
+  {
+    label: "Business Info",
+    key: "businessInfo",
+    header: "Lets Get Your Shop Registered",
+  },
+  {
+    label: "Business Type",
+    key: "businessType",
+    header: "What Type of Business Do You Have?",
+  },
+  {
+    label: "Contact Info",
+    key: "contactInfo",
+    header: "How Can We Reach You?",
+  },
+  {
+    label: "Social Links",
+    key: "socialLinks",
+    header: "Your Social Media Links",
+  },
+  {
+    label: "More Social Links",
+    key: "moreSocialLinks",
+    header: "Your Additional Social Media Links",
+  },
+  {
+    label: "Location",
+    key: "location",
+    header: "Where is Your Business Located?",
+  },
+  {
+    label: "Policy & Terms",
+    key: "policyTerms",
+    header: "Vendor Policy & Terms",
+  },
+  {
+    label: "Source",
+    key: "source",
+    header: "How Did You Hear About Us?",
+  },
+];
+
+export default function AddShopElegant({
+  openModal,
+  setOpenModal,
+  mode = "create",
+  shop,
+  setAddNewShop,
+}: {
+  openModal: boolean;
+  setOpenModal: (open: boolean) => void;
+  mode?: "create" | "edit";
+  shop?: ShopInterface;
+  setAddNewShop: (value: boolean) => void;
+}) {
+    console.log("Rendering AddShopElegant with openModal:", openModal);
+  const { user, setUser } = useContext(AuthContext);
+  const { setDimBackground } = useContext(ThemeContext);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [shopName, setShopName] = useState("");
+  const [email, setEmail] = useState(user?.email || "");
+  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || "");
+  const [isTailor, setIsTailor] = useState(false);
+  const [isOther, setIsOther] = useState(false);
+  const [isShoeMaker, setIsShoeMaker] = useState(false);
+  const [address, setAddress] = useState("");
+  const [region, setRegion] = useState<string>();
+  const [country, setCountry] = useState<string>();
+  const [social, setSocial] = useState<SocialInterface>({
+    website: "",
+    facebook: "",
+    instagram: "",
+    twitter: "",
+    linkedin: "",
+    tikTok: "",
+  });
+  const [source, setSource] = useState("");
+  const [acceptedPolicy, setAcceptedPolicy] = useState(false);
+  const [error, setError] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [createShop, createShopStatus] = zeapApiSlice.useCreateShopMutation();
+  const [editShop, editShopStatus] = zeapApiSlice.useUpdateShopMutation();
+  const [triggerGetAuthUser] = zeapApiSlice.useLazyGetAuthUserQuery();
+  const getSellerPolicyQuery = zeapApiSlice.useGetSellerPolicyQuery({});
+  const sellerPolicy: {
+    link: string;
+    name: string;
+  } = getSellerPolicyQuery?.data?.data;
+  const isLoading = createShopStatus.isLoading || editShopStatus.isLoading;
+
+  useEffect(() => {
+    setDimBackground(openModal);
+  }, [openModal, setDimBackground]);
+
+  useEffect(() => {
+    if (shop) {
+      setShopName(shop.shopName || "");
+      setEmail(shop.email || "");
+      setPhoneNumber(shop.phoneNumber || "");
+      setAddress(shop.address || "");
+      setRegion(shop.region);
+      setCountry(shop.country);
+      setSocial(shop.social || {});
+      setIsTailor(shop.isTailor || false);
+      setIsShoeMaker(shop.isShoeMaker || false);
+      setSource(shop.source || "");
+      setAcceptedPolicy(true);
+      setAddNewShop(false);
+    }
+  }, [shop, setAddNewShop]);
+
+  const onCloseModal = () => {
+    console.log("Closing modal");
+    setOpenModal(false);
+    setCurrentStep(0);
+    setError("");
+  };
+
+  const validateStep = () => {
+    switch (currentStep) {
+      case 0:
+        if (!shopName) return "Please enter your business name";
+        break;
+      case 1:
+        if (!isTailor && !isShoeMaker)
+          return "Please select at least one business type";
+        break;
+      case 2:
+        if (!email) return "Please enter your email";
+        if (!phoneNumber) return "Please enter your phone number";
+        break;
+      case 3:
+        if (!address) return "Please enter your address";
+        if (!region) return "Please select your region";
+        if (!country) return "Please select your country";
+        break;
+      case 4:
+        // optional  social validation
+        break;
+      case 5:
+        // optional more social validation
+        break;
+      case 6:
+        if (!acceptedPolicy) return "Please accept the vendor policy & terms";
+        break;
+      case 7:
+        if (!source) return "Please select how you heard about us";
+        break;
+      default:
+        break;
+    }
+    return "";
+  };
+
+  const handleNext = () => {
+    const err = validateStep();
+    if (err) return setError(err);
+    setError("");
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    } else {
+      handleSave();
+    }
+  };
+
+  const handleSave = async () => {
+    setError("");
+    const payload = {
+      shopName,
+      email,
+      phoneNumber,
+      address,
+      region,
+      country,
+      social,
+      isTailor,
+      isShoeMaker,
+      source,
+      ...(mode === "edit" && { shopId: shop?.shopId }),
+    };
+    try {
+      if (mode === "create") {
+        await createShop({ payload }).unwrap();
+      } else {
+        await editShop({ payload }).unwrap();
+      }
+      const uid = user?.uid;
+      const response = await triggerGetAuthUser({ uid });
+      setUser(response?.data?.data);
+      setShowSuccess(true);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err?.data?.error || "Something went wrong");
+    }
+  };
+
+  const stepContent = [
+    <motion.div
+      key="step1"
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      className="space-y-4"
+    >
+      <label className="block text-gray-700 font-semibold">Business Name</label>
+      <TextInput
+        theme={inputTheme}
+        value={shopName}
+        onChange={(e) => setShopName(e.target.value)}
+        type="text"
+        placeholder="Enter your business name"
+        required
+        shadow
+        color="primary"
+      />
+    </motion.div>,
+    <motion.div
+      key="step2"
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      className="space-y-4"
+    >
+      <p className="text-sm text-info mb-2">Select all that apply</p>
+      <div className="flex gap-4">
+        <label className="flex items-center gap-2">
+          <Checkbox
+            theme={checkBoxTheme}
+            color={isTailor ? "success" : "primary"}
+            checked={isTailor}
+            onChange={(e) => setIsTailor(e.target.checked)}
+          />
+          Tailor
+        </label>
+        <label className="flex items-center gap-2">
+          <Checkbox
+            theme={checkBoxTheme}
+            color={isShoeMaker ? "success" : "primary"}
+            checked={isShoeMaker}
+            onChange={(e) => setIsShoeMaker(e.target.checked)}
+          />
+          Shoe Maker
+        </label>
+        <label className="flex items-center gap-2">
+          <Checkbox
+            theme={checkBoxTheme}
+            color={isOther ? "success" : "primary"}
+            checked={isOther}
+            onChange={(e) => setIsOther(e.target.checked)}
+          />
+          Sell Ready To Wear
+        </label>
+      </div>
+    </motion.div>,
+
+    <motion.div
+      key="step3"
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      className="space-y-4"
+    >
+      <div className="mb-4">
+        <div className="mb-2 block">
+          <Label value="Business Email" />
+        </div>
+        <TextInput
+          theme={inputTheme}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          type="email"
+          required
+          shadow
+          color="primary"
+        />
+      </div>
+      <div className="mb-4">
+        <div className="mb-2 block">
+          <Label value="Business Phone Number" />
+        </div>
+
+        <PhoneInput
+          value={phoneNumber}
+          onChange={(value) => setPhoneNumber(value || "")}
+          numberInputProps={{
+            className: "w-full h-12 border border-darkGold rounded-md p-2",
+          }}
+          international
+          placeholder="Enter phone number"
+          required
+        />
+      </div>
+    </motion.div>,
+    <motion.div
+      key="step4"
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      className="space-y-4"
+    >
+      <label className="block text-gray-700 font-semibold">Address</label>
+      <input
+        type="text"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+      />
+      <CountrySelector
+        country={country || ""}
+        setCountry={setCountry}
+        region={region || ""}
+        setRegion={setRegion}
+      />
+    </motion.div>,
+    <motion.div
+      key="step5"
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      className="space-y-4"
+    >
+      <label className="block text-gray-700 font-semibold">Website</label>
+      <input
+        type="text"
+        value={social.website}
+        onChange={(e) => setSocial({ ...social, website: e.target.value })}
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+      />
+      <label className="block text-gray-700 font-semibold">Instagram</label>
+      <input
+        type="text"
+        value={social.instagram}
+        onChange={(e) => setSocial({ ...social, instagram: e.target.value })}
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+      />
+      <label className="block text-gray-700 font-semibold">Facebook</label>
+      <input
+        type="text"
+        value={social.facebook}
+        onChange={(e) => setSocial({ ...social, facebook: e.target.value })}
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+      />
+    </motion.div>,
+    <motion.div
+      key="step6"
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      className="space-y-4"
+    >
+      <label className="block text-gray-700 font-semibold">Twitter</label>
+      <input
+        type="text"
+        value={social.twitter}
+        onChange={(e) => setSocial({ ...social, twitter: e.target.value })}
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+      />
+      <label className="block text-gray-700 font-semibold">LinkedIn</label>
+      <input
+        type="text"
+        value={social.linkedin}
+        onChange={(e) => setSocial({ ...social, linkedin: e.target.value })}
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+      />
+      <label className="block text-gray-700 font-semibold">TikTok</label>
+      <input
+        type="text"
+        value={social.tikTok}
+        onChange={(e) => setSocial({ ...social, tikTok: e.target.value })}
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+      />
+    </motion.div>,
+    <motion.div
+      key="step7"
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      className="space-y-4 max-h-[40vh] overflow-y-auto"
+    >
+      <div className="p-4 border border-gray-300 rounded-lg bg-gray-50">
+        <div className="text-sm text-gray-700 whitespace-pre-line">
+          {getSellerPolicyQuery.isLoading && <p>Loading policy...</p>}
+          {getSellerPolicyQuery.isError && (
+            <p className="text-red-500">
+              Failed to load policy. Please try again later or contact admin.
+            </p>
+          )}
+          {sellerPolicy?.name && (
+            <a
+              href={sellerPolicy.link}
+              target="_blank"
+              className="text-info underline hover:text-darkGold transition cursor-pointer"
+            >
+              View Vendor Policy & Terms
+            </a>
+          )}
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <Checkbox
+          theme={checkBoxTheme}
+          color={acceptedPolicy ? "success" : "primary"}
+          checked={acceptedPolicy}
+          onChange={(e) => setAcceptedPolicy(e.target.checked)}
+        />
+        <span className="text-sm text-gray-700">
+          I have read and agree to the Vendor Policy & Terms
+        </span>
+      </div>
+    </motion.div>,
+    <motion.div
+      key="step8"
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      className="space-y-4 flex justify-center"
+    >
+      <Dropdown
+        color="primary"
+        label={
+          source
+            ? sourceOptions.find((option) => option.value === source)?.label
+            : "Select an option"
+        }
+        value={source}
+      >
+        {sourceOptions.map((option) => (
+          <Dropdown.Item
+            key={option.value}
+            onClick={() => setSource(option.value)}
+          >
+            {option.label}
+          </Dropdown.Item>
+        ))}
+      </Dropdown>
+    </motion.div>,
+  ];
+
+  return (
+    <>
+      {openModal && (
+        <AnimatePresence>
+          <motion.div
+            className={`bg-black/50 flex fixed inset-0  items-center justify-center z-50 text-black `}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white dark:bg-gray-900 rounded-xl p-6 w-full max-w-md shadow-xl overflow-hidden "
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+            >
+              <div className="flex justify-end mb-4">
+                <button
+                  type="button"
+                  className="text-danger hover:text-gray-700 dark:hover:text-slate-300 transition cursor-pointer"
+                  onClick={onCloseModal}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className="flex justify-center gap-3 mb-6">
+                {steps.map((step, index) => (
+                  <motion.div
+                    key={step.key}
+                    className="w-4 h-4 rounded-full bg-gray-300 dark:bg-gray-600"
+                    animate={{
+                      backgroundColor:
+                        index <= currentStep
+                          ? "rgb(202 138 4)"
+                          : "rgb(209 213 219)", // darkGold / gray-300
+                      scale: index === currentStep ? 1.4 : 1,
+                    }}
+                    transition={{ duration: 0.3 }}
+                  />
+                ))}
+              </div>
+              {isLoading && <Loading />}
+              <h2 className="text-2xl font-bold mb-10 text-gray-900 dark:text-white">
+                {mode === "create"
+                  ? `${steps[currentStep].header}`
+                  : "Edit Shop"}
+              </h2>
+              {error && (
+                <div className="mb-4 text-red-500 font-medium">{error}</div>
+              )}
+
+              <AnimatePresence mode="wait">
+                <div className="h-[40vh] md:h-[40vh] lg:h-[30vh] flex flex-col align-center justify-center mt-6">
+                  {stepContent[currentStep]}
+                </div>
+                
+              </AnimatePresence>
+
+              <div className="mt-12 flex justify-between">
+                {currentStep > 0 && (
+                  <ButtonPrimary
+                    className="bg-warning text-gray-700"
+                    onClick={() => setCurrentStep(currentStep - 1)}
+                  >
+                    Back
+                  </ButtonPrimary>
+                )}
+                <ButtonPrimary onClick={handleNext}>
+                  {currentStep === steps.length - 1
+                    ? mode === "create"
+                      ? "Join"
+                      : "Save"
+                    : "Next"}
+                </ButtonPrimary>
+              </div>
+            </motion.div>
+          </motion.div>
+        </AnimatePresence>
+      )}
+
+      {showSuccess && (
+        <ShopSuccessModal
+          showShopSuccessModal={showSuccess}
+          setShowShopSuccessModal={setShowSuccess}
+        />
+      )}
+    </>
+  );
+}

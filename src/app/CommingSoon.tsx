@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Logo from "@/images/Zeaper_White.png";
+import Logo from "@/images/Zeaper_Main_White.png";
 import { motion } from "framer-motion";
 import {
   FaInstagram,

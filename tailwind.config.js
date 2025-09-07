@@ -21,7 +21,7 @@ module.exports = {
         primary: "#133522",
         secondary: "#D5B07B",
         "sky-blue": "#6f51ff",
-        gray: "#eeeeee",
+        // gray: "#eeeeee",
         grey7: "#EDEFF4",
         grey6: "#E0E2E8",
         grey5: "#A8ACB8",
