@@ -147,6 +147,12 @@ export default function VendorWelcome(): React.JSX.Element {
         "Share with millions of customers and grow your brand visibility.",
     },
     {
+      icon: <FaTruck className="w-6 h-6 text-[#1b5236]" />,
+      title: "We Deliver",
+      description:
+        "Sit back and relax while we handle the delivery logistics for you.",
+    },
+    {
       icon: <FaCashRegister className="w-6 h-6 text-[#1b5236]" />,
       title: "Get Paid",
       description:
@@ -236,7 +242,7 @@ export default function VendorWelcome(): React.JSX.Element {
           <h2 className="text-2xl md:text-4xl font-bold mb-8 text-[#D5B07B]">
             Why Partner With Us
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((f, idx) => (
               <motion.div
                 key={idx}
@@ -262,7 +268,7 @@ export default function VendorWelcome(): React.JSX.Element {
           <h2 className="text-2xl md:text-4xl font-bold mb-8 text-[#D5B07B]">
             Selling Simplified
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 2lg:grid-cols-6 gap-6">
             {process.map((step, idx) => (
               <motion.div
                 key={idx}
