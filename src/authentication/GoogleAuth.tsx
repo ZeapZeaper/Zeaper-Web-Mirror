@@ -8,8 +8,8 @@ import LoadingDots from "@/components/loading/LoadingDots";
 
 const GoogleAuth = ({ callBack }: { callBack?: () => void }) => {
 
-  const { loading, user, loginWithGoogle } = useContext(AuthContext);
-  console.log("user", user);
+  const { loading,  loginWithGoogle } = useContext(AuthContext);
+
  
 
   const isLoading =  loading;

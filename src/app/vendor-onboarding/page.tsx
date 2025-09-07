@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { motion } from "framer-motion";
@@ -48,7 +47,7 @@ const drawerTheme = {
 };
 
 export default function VendorWelcome(): React.JSX.Element {
-  const menuRef = useRef<HTMLDivElement>(null);
+
   const router = useRouter();
   const { user, isAuthenticated } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -76,11 +75,9 @@ export default function VendorWelcome(): React.JSX.Element {
     handleClose();
 
     if (userData && !userData?.isGuest && !userData?.shopId) {
-     
       return router.push("/vendor-onboarding?addShop=true");
     }
     if (userData && !userData?.isGuest && userData?.shopId) {
-     
       return router.push("/shop");
     }
   };
@@ -199,7 +196,7 @@ export default function VendorWelcome(): React.JSX.Element {
       </motion.div>
 
       {/* Top bar with logo and profile menu */}
-      <div className=" flex justify-between items-center px-6 py-4 max-w-6xl mx-auto">
+      <div className="  z-20 flex justify-between items-center px-6 py-4 max-w-6xl mx-auto">
         <Image
           src={Logo}
           alt="Zeaper Logo"
@@ -209,9 +206,8 @@ export default function VendorWelcome(): React.JSX.Element {
         />
 
         {/* Profile menu */}
-        <div ref={menuRef} className="relative z-10">
-          <UserMenuBar />
-        </div>
+
+        <UserMenuBar />
       </div>
 
       <main className="relative z-10 flex flex-col items-center px-6 py-24 text-center">
