@@ -1,21 +1,25 @@
 "use client";
 
 // import { AddShop } from "@/components/shop/AddShop";
-import { AuthContext } from "@/contexts/authContext";
+
 import { motion } from "framer-motion";
 import { usePathname, useSearchParams } from "next/navigation";
 //import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AddShopElegant from "./AddShopElegant";
+import { UserInterface } from "@/interface/interface";
 
 const StartSelling = ({
   setIsOpen,
   floating = false,
+  userDetails,
 }: {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   floating?: boolean;
+  userDetails?: UserInterface | null;
 }) => {
-  const { user } = useContext(AuthContext);
+  const user = userDetails;
+  
   const classStyle = floating
     ? "fixed bottom-4 right-6 z-50 px-6 py-3 rounded-full bg-[#D5B07B] text-[#133522] font-bold shadow-2xl hover:bg-[#e6c28c] transition cursor-pointer"
     : "mb-16 inline-block px-8 py-4 rounded-lg bg-[#D5B07B] text-[#133522] font-bold uppercase shadow-lg hover:bg-[#e6c28c] transition cursor-pointer";
@@ -23,20 +27,14 @@ const StartSelling = ({
   const addShop = searchParams.get("addShop") || false;
   const pathname = usePathname();
   const [openModal, setOpenModal] = useState(false);
-  const [addnewShop, setAddNewShop] = useState(false);
+
   // const router = useRouter();
 
   useEffect(() => {
-    if (addShop && !floating) {
-      setAddNewShop(true);
-    }
-  }, [addShop, floating]);
-
-  useEffect(() => {
-    if (addShop && addnewShop && !floating) {
+    if (addShop && !floating && user && !user?.isGuest && !user?.shopId) {
       setOpenModal(true);
     }
-  }, [addnewShop, addShop, floating]);
+  }, [addShop, floating, user]);
 
   return (
     <>
@@ -77,11 +75,7 @@ const StartSelling = ({
       )}
 
       {openModal && (
-        <AddShopElegant
-          setOpenModal={setOpenModal}
-          openModal={openModal}
-          setAddNewShop={setAddNewShop}
-        />
+        <AddShopElegant setOpenModal={setOpenModal} openModal={openModal} />
       )}
       {/* {openModal && (
         <AddShop

@@ -1,11 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Logo from "@/images/Zeaper_Main_White.png";
@@ -26,11 +21,12 @@ import {
 import { FaScissors } from "react-icons/fa6";
 import { UserMenuBar } from "./components/UserMenuBar";
 import StartSelling from "@/components/shop/StartSelling";
-import { Drawer, DrawerHeader, DrawerItems } from "flowbite-react";
+import { Drawer, DrawerItems } from "flowbite-react";
 import { SignInSignUpDrawer } from "@/authentication/SignInSignUpDrawer";
 import { UserInterface } from "@/interface/interface";
 import { AuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
+import Loading from "../loading";
 
 const drawerTheme = {
   root: {
@@ -39,7 +35,7 @@ const drawerTheme = {
     edge: "bottom-16",
     position: {
       right: {
-        on: "right-0 top-[8%] h-screen w-screen md:w-[35rem] transform-none text-black",
+        on: "right-0 top-0 h-screen w-screen md:w-[35rem] transform-none text-black",
         off: "right-0 top-0 h-screen w-80 translate-x-full",
       },
     },
@@ -47,10 +43,12 @@ const drawerTheme = {
 };
 
 export default function VendorWelcome(): React.JSX.Element {
-
   const router = useRouter();
-  const { user, isAuthenticated } = useContext(AuthContext);
+  const { user, isAuthenticated, loading } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [userDetails, setUserDetails] = useState<UserInterface | null>(
+    user || null
+  );
 
   const handleClose = useCallback(() => {
     document.body.classList.remove("overflow-y-hidden");
@@ -66,6 +64,12 @@ export default function VendorWelcome(): React.JSX.Element {
   }, [isOpen]);
 
   useEffect(() => {
+    if (user) {
+      setUserDetails(user);
+    }
+  }, [user]);
+
+  useEffect(() => {
     if (isAuthenticated && !user?.isGuest) {
       handleClose();
     }
@@ -75,9 +79,11 @@ export default function VendorWelcome(): React.JSX.Element {
     handleClose();
 
     if (userData && !userData?.isGuest && !userData?.shopId) {
+      setUserDetails(userData);
       return router.push("/vendor-onboarding?addShop=true");
     }
     if (userData && !userData?.isGuest && userData?.shopId) {
+      setUserDetails(userData);
       return router.push("/shop");
     }
   };
@@ -225,9 +231,10 @@ export default function VendorWelcome(): React.JSX.Element {
           empowers creators, celebrates diversity, and delivers unmatched value
           to customers worldwide.
         </p>
+        {loading && <Loading />}
 
         {/* Start Selling Button */}
-        <StartSelling setIsOpen={setIsOpen} />
+        <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} />
 
         {/* Why Partner With Us */}
         <motion.section
@@ -309,7 +316,7 @@ export default function VendorWelcome(): React.JSX.Element {
       </main>
 
       {/* Floating Start Selling Button */}
-      <StartSelling setIsOpen={setIsOpen} floating />
+      <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} floating />
 
       {isOpen && (
         <Drawer
@@ -318,7 +325,29 @@ export default function VendorWelcome(): React.JSX.Element {
           onClose={handleClose}
           position="right"
         >
-          <DrawerHeader />
+          <div className="flex justify-end mb-4">
+            <button
+              type="button"
+              className="text-danger hover:text-gray-700 dark:hover:text-slate-300 transition cursor-pointer"
+              onClick={handleClose}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
           <DrawerItems>
             <SignInSignUpDrawer callBack={callback} />{" "}
           </DrawerItems>

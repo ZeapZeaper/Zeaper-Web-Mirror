@@ -84,7 +84,7 @@ export function SignInSignUpDrawer({ callBack }: { callBack?: () => void }) {
   }, [password, handleCheckUser]);
 
   return (
-    <div className="max-w-[40rem] w-full flex flex-col gap-2 p-4 z-50">
+    <div className="max-w-[40rem] w-full flex flex-col gap-2 p-4 z-50 overflow-y-auto">
       {!checkedUser && (
         <SignUp
           email={email}

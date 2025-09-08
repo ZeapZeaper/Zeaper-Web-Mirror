@@ -8,6 +8,8 @@ import LoadingDots from "../components/loading/LoadingDots";
 import CryptoJS from "crypto-js";
 import { AuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 const PasswordSignUP = ({
   email,
@@ -322,14 +324,15 @@ const PasswordSignUP = ({
             </div>
           </FormItem>
           <FormItem label="Phone Number">
-            <Input
-              type="text"
-              rounded="rounded-full"
-              sizeClass="h-12 px-4 py-3"
+            <PhoneInput
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              placeholder="Enter your phone number (optional)"
-              className="border-neutral-300 bg-transparent placeholder:text-neutral-500 focus:border-primary"
+              onChange={(value) => setPhoneNumber(value || "")}
+              numberInputProps={{
+                className: "border-neutral-300 bg-transparent placeholder:text-neutral-500 focus:border-primary h-12 px-4 py-3 rounded-full w-full",
+              }}
+              international
+              placeholder="Enter phone number"
+              required
             />
           </FormItem>
           <ButtonPrimary

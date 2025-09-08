@@ -12,6 +12,7 @@ import "react-phone-number-input/style.css";
 import ShopSuccessModal from "./ShopSuccessModal";
 import Loading from "../loading/Loading";
 import { Checkbox, Dropdown, Label, TextInput } from "flowbite-react";
+import { useRouter } from "next/navigation";
 
 const inputTheme = {
   field: {
@@ -52,12 +53,22 @@ const steps = [
   {
     label: "Business Type",
     key: "businessType",
-    header: "What Type of Business Do You Have?",
+    header: "Lets Get To Know Your Business",
   },
   {
     label: "Contact Info",
     key: "contactInfo",
     header: "How Can We Reach You?",
+  },
+  {
+    label: "Location",
+    key: "location",
+    header: "Where is Your Business Located?",
+  },
+  {
+    label: "Bank Details",
+    key: "bankDetails",
+    header: "How Do You Want to Get Paid?",
   },
   {
     label: "Social Links",
@@ -69,11 +80,7 @@ const steps = [
     key: "moreSocialLinks",
     header: "Your Additional Social Media Links",
   },
-  {
-    label: "Location",
-    key: "location",
-    header: "Where is Your Business Located?",
-  },
+
   {
     label: "Policy & Terms",
     key: "policyTerms",
@@ -91,24 +98,22 @@ export default function AddShopElegant({
   setOpenModal,
   mode = "create",
   shop,
-  setAddNewShop,
 }: {
   openModal: boolean;
   setOpenModal: (open: boolean) => void;
   mode?: "create" | "edit";
   shop?: ShopInterface;
-  setAddNewShop: (value: boolean) => void;
 }) {
-
+  const router = useRouter();
   const { user, setUser } = useContext(AuthContext);
   const { setDimBackground } = useContext(ThemeContext);
   const [currentStep, setCurrentStep] = useState(0);
   const [shopName, setShopName] = useState("");
   const [email, setEmail] = useState(user?.email || "");
   const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || "");
-  const [isTailor, setIsTailor] = useState(false);
-  const [isOther, setIsOther] = useState(false);
-  const [isShoeMaker, setIsShoeMaker] = useState(false);
+  const [isTailor, setIsTailor] = useState<"yes" | "no" | "">("");
+
+  const [isShoeMaker, setIsShoeMaker] = useState<"yes" | "no" | "">("");
   const [address, setAddress] = useState("");
   const [region, setRegion] = useState<string>();
   const [country, setCountry] = useState<string>();
@@ -120,6 +125,12 @@ export default function AddShopElegant({
     linkedin: "",
     tikTok: "",
   });
+  const [bankDetails, setBankDetails] = useState({
+    accountNumber: "",
+    bankName: "",
+    accountName: "",
+  });
+  const [confirmAccountNumber, setConfirmAccountNumber] = useState("");
   const [source, setSource] = useState("");
   const [acceptedPolicy, setAcceptedPolicy] = useState(false);
   const [error, setError] = useState("");
@@ -131,7 +142,7 @@ export default function AddShopElegant({
   const sellerPolicy: {
     link: string;
     name: string;
-  } = getSellerPolicyQuery?.data?.data;
+  }[] = getSellerPolicyQuery?.data?.data;
   const isLoading = createShopStatus.isLoading || editShopStatus.isLoading;
 
   useEffect(() => {
@@ -147,17 +158,20 @@ export default function AddShopElegant({
       setRegion(shop.region);
       setCountry(shop.country);
       setSocial(shop.social || {});
-      setIsTailor(shop.isTailor || false);
-      setIsShoeMaker(shop.isShoeMaker || false);
+      setIsTailor(shop.isTailor ? "yes" : "no");
+      setIsShoeMaker(shop.isShoeMaker ? "yes" : "no");
       setSource(shop.source || "");
       setAcceptedPolicy(true);
-      setAddNewShop(false);
+      setBankDetails(
+        shop.bankDetails || { accountNumber: "", bankName: "", accountName: "" }
+      );
     }
-  }, [shop, setAddNewShop]);
+  }, [shop]);
 
   const onCloseModal = () => {
     console.log("Closing modal");
     setOpenModal(false);
+    router.push("/vendor-onboarding");
     setCurrentStep(0);
     setError("");
   };
@@ -168,8 +182,10 @@ export default function AddShopElegant({
         if (!shopName) return "Please enter your business name";
         break;
       case 1:
-        if (!isTailor && !isShoeMaker)
-          return "Please select at least one business type";
+        if (isTailor !== "yes" && isTailor !== "no")
+          return "Please choose if you offer tailoring services";
+        if (isShoeMaker !== "yes" && isShoeMaker !== "no")
+          return "Please choose if you offer shoe making services";
         break;
       case 2:
         if (!email) return "Please enter your email";
@@ -181,15 +197,23 @@ export default function AddShopElegant({
         if (!country) return "Please select your country";
         break;
       case 4:
-        // optional  social validation
+        if (!bankDetails.accountNumber)
+          return "Please enter your account number";
+        if (!bankDetails.bankName) return "Please enter your bank name";
+        if (!confirmAccountNumber) return "Please confirm your account number";
+        if (bankDetails.accountNumber !== confirmAccountNumber)
+          return "Account numbers entered do not match";
         break;
       case 5:
-        // optional more social validation
+        // optional  social validation
         break;
       case 6:
-        if (!acceptedPolicy) return "Please accept the vendor policy & terms";
+        // optional more social validation
         break;
       case 7:
+        if (!acceptedPolicy) return "Please accept the vendor policy & terms";
+        break;
+      case 8:
         if (!source) return "Please select how you heard about us";
         break;
       default:
@@ -219,8 +243,9 @@ export default function AddShopElegant({
       region,
       country,
       social,
-      isTailor,
-      isShoeMaker,
+      isTailor: isTailor === "yes",
+      isShoeMaker: isShoeMaker === "yes",
+      bankDetails,
       source,
       ...(mode === "edit" && { shopId: shop?.shopId }),
     };
@@ -267,35 +292,63 @@ export default function AddShopElegant({
       exit={{ opacity: 0, x: -50 }}
       className="space-y-4"
     >
-      <p className="text-sm text-info mb-2">Select all that apply</p>
-      <div className="flex gap-4">
-        <label className="flex items-center gap-2">
-          <Checkbox
-            theme={checkBoxTheme}
-            color={isTailor ? "success" : "primary"}
-            checked={isTailor}
-            onChange={(e) => setIsTailor(e.target.checked)}
-          />
-          Tailor
-        </label>
-        <label className="flex items-center gap-2">
-          <Checkbox
-            theme={checkBoxTheme}
-            color={isShoeMaker ? "success" : "primary"}
-            checked={isShoeMaker}
-            onChange={(e) => setIsShoeMaker(e.target.checked)}
-          />
-          Shoe Maker
-        </label>
-        <label className="flex items-center gap-2">
-          <Checkbox
-            theme={checkBoxTheme}
-            color={isOther ? "success" : "primary"}
-            checked={isOther}
-            onChange={(e) => setIsOther(e.target.checked)}
-          />
-          Sell Ready To Wear
-        </label>
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <label className="block text-gray-700 font-semibold">
+            Do you offer tailoring services?
+          </label>
+          <div className="flex gap-2 justify-center">
+            <button
+              type="button"
+              className={`px-4 py-2 rounded-md ${
+                isTailor === "yes" ? "bg-green-500 text-white" : "bg-gray-200"
+              }`}
+              onClick={() => setIsTailor(isTailor === "yes" ? "no" : "yes")}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className={`px-4 py-2 rounded-md ${
+                isTailor === "no" ? "bg-green-500 text-white" : "bg-gray-200"
+              }`}
+              onClick={() => setIsTailor(isTailor === "no" ? "yes" : "no")}
+            >
+              No
+            </button>
+          </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="block text-gray-700 font-semibold">
+            Do you offer shoe making services?
+          </label>
+          <div className="flex gap-2 justify-center">
+            <button
+              type="button"
+              className={`px-4 py-2 rounded-md ${
+                isShoeMaker === "yes"
+                  ? "bg-green-500 text-white"
+                  : "bg-gray-200"
+              }`}
+              onClick={() =>
+                setIsShoeMaker(isShoeMaker === "yes" ? "no" : "yes")
+              }
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className={`px-4 py-2 rounded-md ${
+                isShoeMaker === "no" ? "bg-green-500 text-white" : "bg-gray-200"
+              }`}
+              onClick={() =>
+                setIsShoeMaker(isShoeMaker === "no" ? "yes" : "no")
+              }
+            >
+              No
+            </button>
+          </div>
+        </div>
       </div>
     </motion.div>,
 
@@ -365,6 +418,56 @@ export default function AddShopElegant({
       exit={{ opacity: 0, x: -50 }}
       className="space-y-4"
     >
+      <label className="block text-gray-700 font-semibold">Bank Name</label>
+      <input
+        type="text"
+        value={bankDetails.bankName}
+        onChange={(e) =>
+          setBankDetails({ ...bankDetails, bankName: e.target.value })
+        }
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+      />
+      <label className="block text-gray-700 font-semibold">Account Name</label>
+      <input
+        type="text"
+        value={bankDetails.accountName}
+        onChange={(e) =>
+          setBankDetails({ ...bankDetails, accountName: e.target.value })
+        }
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+      />
+      <label className="block text-gray-700 font-semibold">
+        Account Number
+      </label>
+      <input
+        type="text"
+        value={bankDetails.accountNumber}
+        onChange={(e) => {
+          const re = /^[0-9\b]+$/;
+          if (e.target.value === "" || re.test(e.target.value)) {
+            setBankDetails({ ...bankDetails, accountNumber: e.target.value });
+          }
+        }}
+        accept="numeric"
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+      />
+      <label className="block text-gray-700 font-semibold">
+        Confirm Account Number
+      </label>
+      <input
+        type="text"
+        value={confirmAccountNumber}
+        onChange={(e) => setConfirmAccountNumber(e.target.value)}
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+      />
+    </motion.div>,
+    <motion.div
+      key="step6"
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      className="space-y-4"
+    >
       <label className="block text-gray-700 font-semibold">Website</label>
       <input
         type="text"
@@ -388,7 +491,7 @@ export default function AddShopElegant({
       />
     </motion.div>,
     <motion.div
-      key="step6"
+      key="step7"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
@@ -417,7 +520,7 @@ export default function AddShopElegant({
       />
     </motion.div>,
     <motion.div
-      key="step7"
+      key="step8"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
@@ -431,14 +534,22 @@ export default function AddShopElegant({
               Failed to load policy. Please try again later or contact admin.
             </p>
           )}
-          {sellerPolicy?.name && (
-            <a
-              href={sellerPolicy.link}
-              target="_blank"
-              className="text-info underline hover:text-darkGold transition cursor-pointer"
-            >
-              View Vendor Policy & Terms
-            </a>
+
+          {sellerPolicy && sellerPolicy.length > 0 ? (
+            sellerPolicy.map((policy, index) => (
+              <div key={index} className="mb-4">
+                <a
+                  href={policy.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-info underline hover:text-darkGold transition cursor-pointer"
+                >
+                  {policy.name}
+                </a>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500">No policies found.</p>
           )}
         </div>
       </div>
@@ -455,7 +566,7 @@ export default function AddShopElegant({
       </div>
     </motion.div>,
     <motion.div
-      key="step8"
+      key="step9"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
@@ -547,20 +658,21 @@ export default function AddShopElegant({
               )}
 
               <AnimatePresence mode="wait">
-                <div className="h-[40vh] md:h-[40vh] lg:h-[30vh] flex flex-col align-center justify-center mt-6">
+                <div className="h-[45vh]  flex flex-col align-center justify-center mt-6">
                   {stepContent[currentStep]}
                 </div>
-                
               </AnimatePresence>
 
               <div className="mt-12 flex justify-between">
-                {currentStep > 0 && (
+                {currentStep > 0 ? (
                   <ButtonPrimary
                     className="bg-warning text-gray-700"
                     onClick={() => setCurrentStep(currentStep - 1)}
                   >
                     Back
                   </ButtonPrimary>
+                ) : (
+                  <div />
                 )}
                 <ButtonPrimary onClick={handleNext}>
                   {currentStep === steps.length - 1
