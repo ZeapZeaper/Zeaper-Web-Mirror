@@ -4,6 +4,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Logo from "@/images/Zeaper_Main_White.png";
+import Logo2 from "@/images/zeap-text-logo.png";
 import {
   FaChartLine,
   FaGlobe,
@@ -46,7 +47,7 @@ export default function VendorWelcome(): React.JSX.Element {
   const router = useRouter();
   const { user, isAuthenticated, loading } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const [userDetails, setUserDetails] = useState<UserInterface | null>(
     user || null
   );
@@ -91,36 +92,36 @@ export default function VendorWelcome(): React.JSX.Element {
 
   const features = [
     {
-      icon: <FaChartLine className="w-6 h-6 text-[#1b5236]" />,
+      icon: <FaChartLine className="w-6 h-6 text-[#D5B07B]" />,
       title: "Grow Your Revenue",
       description: "Boost your sales with access to a growing customer base.",
     },
     {
-      icon: <FaGlobe className="w-6 h-6 text-[#1b5236]" />,
+      icon: <FaGlobe className="w-6 h-6 text-[#D5B07B]" />,
       title: "Global Reach",
       description:
         "Expand beyond borders and reach customers worldwide instantly.",
     },
     {
-      icon: <FaCheckCircle className="w-6 h-6 text-[#1b5236]" />,
+      icon: <FaCheckCircle className="w-6 h-6 text-[#D5B07B]" />,
       title: "Simple & Efficient",
       description:
         "A smooth vendor dashboard designed to save you time and effort.",
     },
     {
-      icon: <FaTruck className="w-6 h-6 text-[#1b5236]" />,
+      icon: <FaTruck className="w-6 h-6 text-[#D5B07B]" />,
       title: "Seamless Logistics",
       description:
         "We handle the logistics for you — from order to delivery, stress-free.",
     },
     {
-      icon: <FaHeadset className="w-6 h-6 text-[#1b5236]" />,
+      icon: <FaHeadset className="w-6 h-6 text-[#D5B07B]" />,
       title: "Dedicated Support",
       description:
         "Our team is here to guide you at every stage of your journey.",
     },
     {
-      icon: <FaUsers className="w-6 h-6 text-[#1b5236]" />,
+      icon: <FaUsers className="w-6 h-6 text-[#D5B07B]" />,
       title: "Community Access",
       description:
         "Join a thriving fashion ecosystem of creators and entrepreneurs.",
@@ -129,37 +130,37 @@ export default function VendorWelcome(): React.JSX.Element {
 
   const process = [
     {
-      icon: <FaStore className="w-6 h-6 text-[#1b5236]" />,
+      icon: <FaStore className="w-6 h-6 text-[#D5B07B]" />,
       title: "Easy Setup",
       description:
         "Setting up your store on Zeaper is quick and easy. Start selling in no time.",
     },
     {
-      icon: <FaClipboardCheck className="w-6 h-6 text-[#1b5236]" />,
+      icon: <FaClipboardCheck className="w-6 h-6 text-[#D5B07B]" />,
       title: "Business Activation",
       description:
         "Our admin team reviews your application and activates your business.",
     },
     {
-      icon: <FaBoxOpen className="w-6 h-6 text-[#1b5236]" />,
+      icon: <FaBoxOpen className="w-6 h-6 text-[#D5B07B]" />,
       title: "List",
       description:
         "Add your products and showcase them beautifully to eager shoppers.",
     },
     {
-      icon: <FaUsers className="w-6 h-6 text-[#1b5236]" />,
+      icon: <FaUsers className="w-6 h-6 text-[#D5B07B]" />,
       title: "Sell",
       description:
         "Share with millions of customers and grow your brand visibility.",
     },
     {
-      icon: <FaTruck className="w-6 h-6 text-[#1b5236]" />,
+      icon: <FaTruck className="w-6 h-6 text-[#D5B07B]" />,
       title: "We Deliver",
       description:
         "Sit back and relax while we handle the delivery logistics for you.",
     },
     {
-      icon: <FaCashRegister className="w-6 h-6 text-[#1b5236]" />,
+      icon: <FaCashRegister className="w-6 h-6 text-[#D5B07B]" />,
       title: "Get Paid",
       description:
         "Receive your payments quickly and securely after every sale.",
@@ -189,8 +190,9 @@ export default function VendorWelcome(): React.JSX.Element {
 
   return (
     <div className="relative w-full min-h-screen bg-[#133522] ">
+    
       {/* Background overlay */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+      <div className="absolute inset-0 bg-black/60 "></div>
 
       {/* Launching Soon Banner */}
       <motion.div
@@ -208,14 +210,25 @@ export default function VendorWelcome(): React.JSX.Element {
       </motion.div>
 
       {/* Top bar with logo and profile menu */}
-      <div className="  z-20 flex justify-between items-center px-6 py-4 max-w-6xl mx-auto">
-        <Image
-          src={Logo}
-          alt="Zeaper Logo"
-          width={150}
-          height={50}
-          className="object-contain relative z-10"
-        />
+      <div className="  z-20 flex justify-between items-center px-4 pb-4  ">
+        <span className="hidden md:block w-36 h-12">
+          <Image
+            src={Logo}
+            alt="Zeaper Logo"
+            width={150}
+            height={50}
+            className="object-contain relative z-10"
+          />
+        </span>
+        <span className="md:hidden w-28 h-10 bg-white rounded-md flex items-center justify-center z-10">
+          <Image
+            src={Logo2}
+            alt="Zeaper Logo"
+            width={120}
+            height={40}
+            className="object-contain relative "
+          />
+        </span>
 
         {/* Profile menu */}
 
@@ -240,9 +253,8 @@ export default function VendorWelcome(): React.JSX.Element {
         {loading && <Loading />}
 
         {/* Start Selling Button */}
-        
-          <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} />
-        
+
+        <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} />
 
         {/* Why Partner With Us */}
         <motion.section
