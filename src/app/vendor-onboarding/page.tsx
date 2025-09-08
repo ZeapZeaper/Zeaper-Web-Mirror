@@ -46,6 +46,7 @@ export default function VendorWelcome(): React.JSX.Element {
   const router = useRouter();
   const { user, isAuthenticated, loading } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+   const [openModal, setOpenModal] = useState(false);
   const [userDetails, setUserDetails] = useState<UserInterface | null>(
     user || null
   );
@@ -196,13 +197,18 @@ export default function VendorWelcome(): React.JSX.Element {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="fixed top-0 left-0 w-full z-50 bg-[#D5B07B] text-[#133522] font-semibold text-center py-3 shadow-md"
+        className={`fixed top-0 left-0 w-full ${openModal ? "z-10" : "z-40"} bg-[#D5B07B] text-[#133522] font-semibold text-center py-3 shadow-md text-xs md:text-sm`}
       >
-        🚀 Zeaper is launching soon! Be among the first to join as a vendor.
+        <span className="hidden md:block">
+          🚀 Zeaper is launching soon! Be among the first to join as a vendor.{" "}
+        </span>
+        <span className="md:hidden">
+          🚀 Zeaper is launching soon! Join as a vendor.{" "}
+        </span>
       </motion.div>
 
       {/* Top bar with logo and profile menu */}
-      <div className="  z-20 flex justify-between items-center px-6 py-4 max-w-6xl mx-auto">
+      <div className={`${openModal ? "z-0" : "z-20"} flex justify-between items-center px-6 py-4 max-w-6xl mx-auto`}>
         <Image
           src={Logo}
           alt="Zeaper Logo"
@@ -222,11 +228,11 @@ export default function VendorWelcome(): React.JSX.Element {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-3xl md:text-5xl font-bold uppercase tracking-wide mb-6 text-[#D5B07B]"
+          className="text-2xl md:text-5xl font-bold uppercase tracking-wide mb-6 text-[#D5B07B]"
         >
           Welcome Vendors
         </motion.h1>
-        <p className="max-w-2xl text-white/80 mb-8">
+        <p className="max-w-xl text-white/80 mb-8">
           Join Zeaper and become part of a global fashion marketplace that
           empowers creators, celebrates diversity, and delivers unmatched value
           to customers worldwide.
@@ -234,7 +240,8 @@ export default function VendorWelcome(): React.JSX.Element {
         {loading && <Loading />}
 
         {/* Start Selling Button */}
-        <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} />
+
+          <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} openModal={openModal} setOpenModal={setOpenModal} />
 
         {/* Why Partner With Us */}
         <motion.section
@@ -316,7 +323,7 @@ export default function VendorWelcome(): React.JSX.Element {
       </main>
 
       {/* Floating Start Selling Button */}
-      <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} floating />
+      {/* <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} floating /> */}
 
       {isOpen && (
         <Drawer

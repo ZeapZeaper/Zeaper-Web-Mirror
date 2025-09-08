@@ -264,6 +264,16 @@ export default function AddShopElegant({
       setError(err?.data?.error || "Something went wrong");
     }
   };
+  useEffect(() => {
+    if (openModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [openModal]);
 
   const stepContent = [
     <motion.div
@@ -598,7 +608,7 @@ export default function AddShopElegant({
       {openModal && (
         <AnimatePresence>
           <motion.div
-            className={`bg-black/50 flex fixed inset-0  items-center justify-center z-50 text-black `}
+            className={`bg-black/50 flex fixed inset-0 z-40 pointer-events-auto items-center justify-center  text-black max-h-[90vh] overflow-y-auto px-4`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -648,7 +658,7 @@ export default function AddShopElegant({
                 ))}
               </div>
               {isLoading && <Loading />}
-              <h2 className="text-2xl font-bold mb-10 text-gray-900 dark:text-white">
+              <h2 className="md:text-xl lg:text-2xl font-bold mb-10 text-gray-900 dark:text-white">
                 {mode === "create"
                   ? `${steps[currentStep].header}`
                   : "Edit Shop"}
@@ -658,30 +668,39 @@ export default function AddShopElegant({
               )}
 
               <AnimatePresence mode="wait">
-                <div className="h-[45vh]  flex flex-col align-center justify-center mt-6">
-                  {stepContent[currentStep]}
+                <div className=" overflow-auto">
+                  <div className="flex flex-col align-center justify-center">
+                    {stepContent[currentStep]}
+                  </div>
+                  <div className="mt-12 flex justify-between ">
+                    <div className="flex gap-2">
+                      <ButtonPrimary
+                        className="bg-red-500 text-gray-700 hover:bg-red-700"
+                        onClick={onCloseModal}
+                      >
+                        Cancel
+                      </ButtonPrimary>
+                      {currentStep > 0 ? (
+                        <ButtonPrimary
+                          className="bg-warning text-gray-700"
+                          onClick={() => setCurrentStep(currentStep - 1)}
+                        >
+                          Back
+                        </ButtonPrimary>
+                      ) : (
+                        <div />
+                      )}
+                    </div>
+                    <ButtonPrimary onClick={handleNext}>
+                      {currentStep === steps.length - 1
+                        ? mode === "create"
+                          ? "Join"
+                          : "Save"
+                        : "Next"}
+                    </ButtonPrimary>
+                  </div>
                 </div>
               </AnimatePresence>
-
-              <div className="mt-12 flex justify-between">
-                {currentStep > 0 ? (
-                  <ButtonPrimary
-                    className="bg-warning text-gray-700"
-                    onClick={() => setCurrentStep(currentStep - 1)}
-                  >
-                    Back
-                  </ButtonPrimary>
-                ) : (
-                  <div />
-                )}
-                <ButtonPrimary onClick={handleNext}>
-                  {currentStep === steps.length - 1
-                    ? mode === "create"
-                      ? "Join"
-                      : "Save"
-                    : "Next"}
-                </ButtonPrimary>
-              </div>
             </motion.div>
           </motion.div>
         </AnimatePresence>

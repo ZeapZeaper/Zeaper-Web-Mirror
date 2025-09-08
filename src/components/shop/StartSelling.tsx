@@ -5,7 +5,7 @@
 import { motion } from "framer-motion";
 import { usePathname, useSearchParams } from "next/navigation";
 //import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, } from "react";
 import AddShopElegant from "./AddShopElegant";
 import { UserInterface } from "@/interface/interface";
 
@@ -13,21 +13,25 @@ const StartSelling = ({
   setIsOpen,
   floating = false,
   userDetails,
+  openModal, setOpenModal,
 }: {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   floating?: boolean;
   userDetails?: UserInterface | null;
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const user = userDetails;
-  
-  const classStyle = floating
-    ? "fixed bottom-4 right-6 z-50 px-6 py-3 rounded-full bg-[#D5B07B] text-[#133522] font-bold shadow-2xl hover:bg-[#e6c28c] transition cursor-pointer"
-    : "mb-16 inline-block px-8 py-4 rounded-lg bg-[#D5B07B] text-[#133522] font-bold uppercase shadow-lg hover:bg-[#e6c28c] transition cursor-pointer";
+
   const searchParams = useSearchParams();
   const addShop = searchParams.get("addShop") || false;
   const pathname = usePathname();
-  const [openModal, setOpenModal] = useState(false);
-
+ 
+  const classStyle = floating
+    ? `fixed bottom-2 left-4 ${
+        openModal ? "z-0" : "z-40"
+      } px-6 py-3 rounded-full bg-[#D5B07B] text-[#133522] font-bold shadow-2xl hover:bg-[#e6c28c] transition cursor-pointer`
+    : "mb-16 inline-block px-8 py-4 rounded-lg bg-[#D5B07B] text-[#133522] font-bold uppercase shadow-lg hover:bg-[#e6c28c] transition cursor-pointer";
   // const router = useRouter();
 
   useEffect(() => {

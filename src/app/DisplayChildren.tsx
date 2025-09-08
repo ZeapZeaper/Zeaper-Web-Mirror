@@ -34,7 +34,7 @@ const DisplayChildren = ({ children }: { children: React.ReactNode }) => {
         href="https://wa.me/447375387114"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-20 right-4 bg-green-400 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition duration-300 z-50"
+        className="fixed bottom-2 right-4 bg-green-400 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition duration-300 z-20"
       >
         <FaWhatsapp size={24} />
         <span className="sr-only">Chat with us on WhatsApp</span>
