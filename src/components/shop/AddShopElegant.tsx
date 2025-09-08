@@ -11,8 +11,26 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import ShopSuccessModal from "./ShopSuccessModal";
 import Loading from "../loading/Loading";
-import { Checkbox, Dropdown, Label, TextInput } from "flowbite-react";
+import { Checkbox, Dropdown, Label, Modal, TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
+
+const ModalTheme = {
+  root: {
+    base: "fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full",
+    show: {
+      on: "flex bg-gray-900/50 dark:bg-gray-900/80",
+      off: "hidden",
+    },
+    sizes: {
+      lg: "w-[100vw] md:max-w-lg",
+    },
+  },
+  content: {
+    base: "fixed  w-full md:p-4 md:h-auto",
+    inner:
+      "relative flex h-[100vh] md:h-full md:max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700",
+  },
+};
 
 const inputTheme = {
   field: {
@@ -264,16 +282,6 @@ export default function AddShopElegant({
       setError(err?.data?.error || "Something went wrong");
     }
   };
-  useEffect(() => {
-    if (openModal) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [openModal]);
 
   const stepContent = [
     <motion.div
@@ -307,7 +315,7 @@ export default function AddShopElegant({
           <label className="block text-gray-700 font-semibold">
             Do you offer tailoring services?
           </label>
-          <div className="flex gap-2 justify-center">
+          <div className="flex gap-2 ">
             <button
               type="button"
               className={`px-4 py-2 rounded-md ${
@@ -332,7 +340,7 @@ export default function AddShopElegant({
           <label className="block text-gray-700 font-semibold">
             Do you offer shoe making services?
           </label>
-          <div className="flex gap-2 justify-center">
+          <div className="flex gap-2 ">
             <button
               type="button"
               className={`px-4 py-2 rounded-md ${
@@ -605,106 +613,114 @@ export default function AddShopElegant({
 
   return (
     <>
-      {openModal && (
-        <AnimatePresence>
-          <motion.div
-            className={`bg-black/50 flex fixed inset-0 z-40 pointer-events-auto items-center justify-center  text-black max-h-[90vh] overflow-y-auto px-4`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
+      <Modal
+        theme={ModalTheme}
+        show={openModal}
+        size="lg"
+        popup
+        onClose={onCloseModal}
+      >
+        <Modal.Body>
+          <AnimatePresence>
             <motion.div
-              className="bg-white dark:bg-gray-900 rounded-xl p-6 w-full max-w-md shadow-xl overflow-hidden "
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
+              className={` flex  items-center justify-center  text-black max-h-[90vh] overflow-y-auto px-4`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
             >
-              <div className="flex justify-end mb-4">
-                <button
-                  type="button"
-                  className="text-danger hover:text-gray-700 dark:hover:text-slate-300 transition cursor-pointer"
-                  onClick={onCloseModal}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
+              <motion.div
+                className=" rounded-xl p-6 w-full max-w-md  overflow-hidden "
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.8 }}
+              >
+                <div className="flex justify-end mb-4">
+                  <button
+                    type="button"
+                    className="text-danger hover:text-gray-700 dark:hover:text-slate-300 transition cursor-pointer"
+                    onClick={onCloseModal}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div className="flex justify-center gap-3 mb-6">
-                {steps.map((step, index) => (
-                  <motion.div
-                    key={step.key}
-                    className="w-4 h-4 rounded-full bg-gray-300 dark:bg-gray-600"
-                    animate={{
-                      backgroundColor:
-                        index <= currentStep
-                          ? "rgb(202 138 4)"
-                          : "rgb(209 213 219)", // darkGold / gray-300
-                      scale: index === currentStep ? 1.4 : 1,
-                    }}
-                    transition={{ duration: 0.3 }}
-                  />
-                ))}
-              </div>
-              {isLoading && <Loading />}
-              <h2 className="md:text-xl lg:text-2xl font-bold mb-10 text-gray-900 dark:text-white">
-                {mode === "create"
-                  ? `${steps[currentStep].header}`
-                  : "Edit Shop"}
-              </h2>
-              {error && (
-                <div className="mb-4 text-red-500 font-medium">{error}</div>
-              )}
-
-              <AnimatePresence mode="wait">
-                <div className=" overflow-auto">
-                  <div className="flex flex-col align-center justify-center">
-                    {stepContent[currentStep]}
-                  </div>
-                  <div className="mt-12 flex justify-between ">
-                    <div className="flex gap-2">
-                      <ButtonPrimary
-                        className="bg-red-500 text-gray-700 hover:bg-red-700"
-                        onClick={onCloseModal}
-                      >
-                        Cancel
-                      </ButtonPrimary>
-                      {currentStep > 0 ? (
-                        <ButtonPrimary
-                          className="bg-warning text-gray-700"
-                          onClick={() => setCurrentStep(currentStep - 1)}
-                        >
-                          Back
-                        </ButtonPrimary>
-                      ) : (
-                        <div />
-                      )}
-                    </div>
-                    <ButtonPrimary onClick={handleNext}>
-                      {currentStep === steps.length - 1
-                        ? mode === "create"
-                          ? "Join"
-                          : "Save"
-                        : "Next"}
-                    </ButtonPrimary>
-                  </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
                 </div>
-              </AnimatePresence>
+                <div className="flex justify-center gap-3 mb-6">
+                  {steps.map((step, index) => (
+                    <motion.div
+                      key={step.key}
+                      className="w-4 h-4 rounded-full bg-gray-300 dark:bg-gray-600"
+                      animate={{
+                        backgroundColor:
+                          index <= currentStep
+                            ? "rgb(202 138 4)"
+                            : "rgb(209 213 219)", // darkGold / gray-300
+                        scale: index === currentStep ? 1.4 : 1,
+                      }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  ))}
+                </div>
+                {isLoading && <Loading />}
+                <h2 className="text-xl font-bold mb-10 text-gray-900 dark:text-white">
+                  {mode === "create"
+                    ? `${steps[currentStep].header}`
+                    : "Edit Shop"}
+                </h2>
+                {error && (
+                  <div className="mb-4 text-red-500 font-medium">{error}</div>
+                )}
+
+                <AnimatePresence mode="wait">
+                  <div className=" overflow-auto">
+                    <div className="flex flex-col align-center justify-center min-h-[40vh]">
+                      {stepContent[currentStep]}
+                    </div>
+                    <div className="mt-12 flex justify-between ">
+                      <div className="flex gap-2">
+                        <ButtonPrimary
+                          className="bg-red-500 text-gray-700 hover:bg-red-700"
+                          onClick={onCloseModal}
+                        >
+                          Cancel
+                        </ButtonPrimary>
+                        {currentStep > 0 ? (
+                          <ButtonPrimary
+                            className="bg-warning text-gray-700"
+                            onClick={() => setCurrentStep(currentStep - 1)}
+                          >
+                            Back
+                          </ButtonPrimary>
+                        ) : (
+                          <div />
+                        )}
+                      </div>
+                      <ButtonPrimary onClick={handleNext}>
+                        {currentStep === steps.length - 1
+                          ? mode === "create"
+                            ? "Join"
+                            : "Save"
+                          : "Next"}
+                      </ButtonPrimary>
+                    </div>
+                  </div>
+                </AnimatePresence>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        </AnimatePresence>
-      )}
+          </AnimatePresence>
+        </Modal.Body>
+      </Modal>
 
       {showSuccess && (
         <ShopSuccessModal

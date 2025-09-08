@@ -28,7 +28,6 @@ function Content() {
   const router = useRouter();
   const { user, isAuthenticated } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
   const handleClose = useCallback(() => {
     document.body.classList.remove("overflow-y-hidden");
     setIsOpen(false);
@@ -55,12 +54,7 @@ function Content() {
       </div>
       <div className="flex items-center justify-between">
         {" "}
-        <StartSelling
-          setIsOpen={setIsOpen}
-          openModal={openModal}
-          setOpenModal={setOpenModal}
-          userDetails={user}
-        />
+        <StartSelling setIsOpen={setIsOpen} userDetails={user} />
         <div className="flex">
           <button
             type="button"

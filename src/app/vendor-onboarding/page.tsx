@@ -46,7 +46,7 @@ export default function VendorWelcome(): React.JSX.Element {
   const router = useRouter();
   const { user, isAuthenticated, loading } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
-   const [openModal, setOpenModal] = useState(false);
+  
   const [userDetails, setUserDetails] = useState<UserInterface | null>(
     user || null
   );
@@ -197,7 +197,7 @@ export default function VendorWelcome(): React.JSX.Element {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className={`fixed top-0 left-0 w-full ${openModal ? "z-10" : "z-40"} bg-[#D5B07B] text-[#133522] font-semibold text-center py-3 shadow-md text-xs md:text-sm`}
+        className="fixed top-0 left-0 w-full z-20 bg-[#D5B07B] text-[#133522] font-semibold text-center py-3 shadow-md text-xs md:text-sm"
       >
         <span className="hidden md:block">
           🚀 Zeaper is launching soon! Be among the first to join as a vendor.{" "}
@@ -208,7 +208,7 @@ export default function VendorWelcome(): React.JSX.Element {
       </motion.div>
 
       {/* Top bar with logo and profile menu */}
-      <div className={`${openModal ? "z-0" : "z-20"} flex justify-between items-center px-6 py-4 max-w-6xl mx-auto`}>
+      <div className="  z-20 flex justify-between items-center px-6 py-4 max-w-6xl mx-auto">
         <Image
           src={Logo}
           alt="Zeaper Logo"
@@ -240,8 +240,9 @@ export default function VendorWelcome(): React.JSX.Element {
         {loading && <Loading />}
 
         {/* Start Selling Button */}
-
-          <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} openModal={openModal} setOpenModal={setOpenModal} />
+        
+          <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} />
+        
 
         {/* Why Partner With Us */}
         <motion.section
@@ -323,7 +324,7 @@ export default function VendorWelcome(): React.JSX.Element {
       </main>
 
       {/* Floating Start Selling Button */}
-      {/* <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} floating /> */}
+      <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} floating />
 
       {isOpen && (
         <Drawer

@@ -5,7 +5,7 @@
 import { motion } from "framer-motion";
 import { usePathname, useSearchParams } from "next/navigation";
 //import { useRouter } from "next/navigation";
-import { useEffect, } from "react";
+import { useEffect, useState, } from "react";
 import AddShopElegant from "./AddShopElegant";
 import { UserInterface } from "@/interface/interface";
 
@@ -13,16 +13,15 @@ const StartSelling = ({
   setIsOpen,
   floating = false,
   userDetails,
-  openModal, setOpenModal,
+
 }: {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   floating?: boolean;
   userDetails?: UserInterface | null;
-  openModal: boolean;
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+
 }) => {
   const user = userDetails;
-
+ const [openModal, setOpenModal] = useState(false);
   const searchParams = useSearchParams();
   const addShop = searchParams.get("addShop") || false;
   const pathname = usePathname();
