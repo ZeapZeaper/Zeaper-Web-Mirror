@@ -189,8 +189,7 @@ export default function VendorWelcome(): React.JSX.Element {
   ];
 
   return (
-    <div className="relative w-full min-h-screen bg-[#133522] ">
-    
+    <div className="relative w-full min-h-screen bg-[#133522] mt-20">
       {/* Background overlay */}
       <div className="absolute inset-0 bg-black/60 "></div>
 

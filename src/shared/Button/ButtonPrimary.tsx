@@ -11,10 +11,12 @@ export interface ButtonPrimaryProps extends ButtonProps {
 const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
   className = "",
   textClassName = "",
+  outline = false,
   ...args
 }) => {
   return (
     <Button
+      outline={outline}
       className={`disabled:bg-opacity/70 rounded-full bg-primary ${
         textClassName || "text-white"
       } hover:bg-primary/80 hover:text-white ${className}`}

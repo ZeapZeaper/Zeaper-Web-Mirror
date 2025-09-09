@@ -93,11 +93,6 @@ const steps = [
     key: "socialLinks",
     header: "Your Social Media Links",
   },
-  {
-    label: "More Social Links",
-    key: "moreSocialLinks",
-    header: "Your Additional Social Media Links",
-  },
 
   {
     label: "Policy & Terms",
@@ -187,7 +182,6 @@ export default function AddShopElegant({
   }, [shop]);
 
   const onCloseModal = () => {
-    console.log("Closing modal");
     setOpenModal(false);
     router.push("/vendor-onboarding");
     setCurrentStep(0);
@@ -225,13 +219,11 @@ export default function AddShopElegant({
       case 5:
         // optional  social validation
         break;
+
       case 6:
-        // optional more social validation
-        break;
-      case 7:
         if (!acceptedPolicy) return "Please accept the vendor policy & terms";
         break;
-      case 8:
+      case 7:
         if (!source) return "Please select how you heard about us";
         break;
       default:
@@ -303,6 +295,7 @@ export default function AddShopElegant({
         color="primary"
       />
     </motion.div>,
+
     <motion.div
       key="step2"
       initial={{ opacity: 0, x: 50 }}
@@ -310,58 +303,82 @@ export default function AddShopElegant({
       exit={{ opacity: 0, x: -50 }}
       className="space-y-4"
     >
+      <div className="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg shadow-sm">
+        <p className="text-sm font-medium">
+          By default, you are allowed to sell{" "}
+          <span className="font-bold ">Ready-to-wear Items </span>
+          and <span className="font-bold">Accessories</span> regardless of your
+          responses below.
+        </p>
+      </div>
+
       <div className="flex flex-col gap-6">
+        {/* Tailoring Services */}
         <div className="flex flex-col gap-2">
           <label className="block text-gray-700 font-semibold">
-            Do you offer tailoring services?
+            Do you offer <span className="font-extrabold ">bespoke</span>{" "}
+            tailoring services?
           </label>
-          <div className="flex gap-2 ">
+          <p className="text-sm text-gray-500">
+            Selecting <span className="font-semibold">No</span> means you won’t
+            be verified to render tailoring services.
+          </p>
+          <div className="flex gap-3 mt-2">
             <button
               type="button"
-              className={`px-4 py-2 rounded-md ${
-                isTailor === "yes" ? "bg-green-500 text-white" : "bg-gray-200"
+              className={`px-4 py-2 rounded-md border transition ${
+                isTailor === "yes"
+                  ? "bg-green-600 text-white border-green-600"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
               }`}
-              onClick={() => setIsTailor(isTailor === "yes" ? "no" : "yes")}
+              onClick={() => setIsTailor("yes")}
             >
               Yes
             </button>
             <button
               type="button"
-              className={`px-4 py-2 rounded-md ${
-                isTailor === "no" ? "bg-green-500 text-white" : "bg-gray-200"
+              className={`px-4 py-2 rounded-md border transition ${
+                isTailor === "no"
+                  ? "bg-green-600 text-white border-green-600"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
               }`}
-              onClick={() => setIsTailor(isTailor === "no" ? "yes" : "no")}
+              onClick={() => setIsTailor("no")}
             >
               No
             </button>
           </div>
         </div>
+
+        {/* Shoe Making Services */}
         <div className="flex flex-col gap-2">
           <label className="block text-gray-700 font-semibold">
-            Do you offer shoe making services?
+            Do you offer <span className="font-extrabold ">bespoke</span> shoe
+            making services?
           </label>
-          <div className="flex gap-2 ">
+          <p className="text-sm text-gray-500">
+            Selecting <span className="font-semibold">No</span> means you won’t
+            be verified to render shoe making services.
+          </p>
+          <div className="flex gap-3 mt-2">
             <button
               type="button"
-              className={`px-4 py-2 rounded-md ${
+              className={`px-4 py-2 rounded-md border transition ${
                 isShoeMaker === "yes"
-                  ? "bg-green-500 text-white"
-                  : "bg-gray-200"
+                  ? "bg-green-600 text-white border-green-600"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
               }`}
-              onClick={() =>
-                setIsShoeMaker(isShoeMaker === "yes" ? "no" : "yes")
-              }
+              onClick={() => setIsShoeMaker("yes")}
             >
               Yes
             </button>
             <button
               type="button"
-              className={`px-4 py-2 rounded-md ${
-                isShoeMaker === "no" ? "bg-green-500 text-white" : "bg-gray-200"
+              className={`px-4 py-2 rounded-md border transition ${
+                isShoeMaker === "no"
+                  ? "bg-green-600 text-white border-green-600"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
               }`}
-              onClick={() =>
-                setIsShoeMaker(isShoeMaker === "no" ? "yes" : "no")
-              }
+              onClick={() => setIsShoeMaker("no")}
             >
               No
             </button>
@@ -484,13 +501,20 @@ export default function AddShopElegant({
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
-      className="space-y-4"
+      className="space-y-4 max-h-[30rem] md:max-h-[27rem] overflow-auto"
     >
       <label className="block text-gray-700 font-semibold">Website</label>
       <input
         type="text"
         value={social.website}
         onChange={(e) => setSocial({ ...social, website: e.target.value })}
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+      />
+      <label className="block text-gray-700 font-semibold">TikTok</label>
+      <input
+        type="text"
+        value={social.tikTok}
+        onChange={(e) => setSocial({ ...social, tikTok: e.target.value })}
         className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
       />
       <label className="block text-gray-700 font-semibold">Instagram</label>
@@ -507,14 +531,6 @@ export default function AddShopElegant({
         onChange={(e) => setSocial({ ...social, facebook: e.target.value })}
         className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
       />
-    </motion.div>,
-    <motion.div
-      key="step7"
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -50 }}
-      className="space-y-4"
-    >
       <label className="block text-gray-700 font-semibold">Twitter</label>
       <input
         type="text"
@@ -529,16 +545,10 @@ export default function AddShopElegant({
         onChange={(e) => setSocial({ ...social, linkedin: e.target.value })}
         className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
       />
-      <label className="block text-gray-700 font-semibold">TikTok</label>
-      <input
-        type="text"
-        value={social.tikTok}
-        onChange={(e) => setSocial({ ...social, tikTok: e.target.value })}
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
-      />
     </motion.div>,
+
     <motion.div
-      key="step8"
+      key="step7"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
@@ -579,12 +589,12 @@ export default function AddShopElegant({
           onChange={(e) => setAcceptedPolicy(e.target.checked)}
         />
         <span className="text-sm text-gray-700">
-          I have read and agree to the Vendor Policy & Terms
+          I have read and agree to the Vendor Policy, Terms & Contract
         </span>
       </div>
     </motion.div>,
     <motion.div
-      key="step9"
+      key="step8"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
@@ -684,20 +694,16 @@ export default function AddShopElegant({
 
                 <AnimatePresence mode="wait">
                   <div className=" overflow-auto">
-                    <div className="flex flex-col align-center justify-center min-h-[40vh]">
+                    <div className="flex flex-col align-center justify-center min-h-[40vh] ">
                       {stepContent[currentStep]}
                     </div>
                     <div className="mt-12 flex justify-between ">
                       <div className="flex gap-2">
-                        <ButtonPrimary
-                          className="bg-red-500 text-gray-700 hover:bg-red-700"
-                          onClick={onCloseModal}
-                        >
-                          Cancel
-                        </ButtonPrimary>
                         {currentStep > 0 ? (
                           <ButtonPrimary
-                            className="bg-warning text-gray-700"
+                            textClassName="text-slate-700"
+                            className="hover:bg-slate-200  text-slate-700 border border-slate-300 disabled:border-slate-200 hover:text-slate-900"
+                            outline
                             onClick={() => setCurrentStep(currentStep - 1)}
                           >
                             Back

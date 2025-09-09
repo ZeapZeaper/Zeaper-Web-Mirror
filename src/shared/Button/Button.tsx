@@ -12,6 +12,7 @@ export interface ButtonProps {
   fontSize?: string;
   loading?: boolean;
   disabled?: boolean;
+  outline?: boolean;
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
   href?: Route;
   onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
@@ -28,12 +29,17 @@ const Button: FC<ButtonProps> = ({
   children,
   type,
   loading,
+  outline,
   onClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
     e?.preventDefault();
   }
 }) => {
   const CLASSES = `relative h-auto inline-flex items-center justify-center rounded-full transition-colors
-   ${fontSize} ${sizeClass} ${translate} ${className}`;
+   ${fontSize} ${sizeClass} ${translate} ${className} ${
+    outline
+      ? 'bg-transparent border border-slate-300 hover:bg-slate-100 disabled:border-slate-200'
+      : ''
+  }`;
 
   const renderLoading = () => {
     return (
