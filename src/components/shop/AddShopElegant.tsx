@@ -304,7 +304,7 @@ export default function AddShopElegant({
       className="space-y-4"
     >
       <div className="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg shadow-sm">
-        <p className="text-sm font-medium">
+        <p className="text-xs font-medium">
           By default, you are allowed to sell{" "}
           <span className="font-bold ">Ready-to-wear Items </span>
           and <span className="font-bold">Accessories</span> regardless of your
@@ -453,6 +453,11 @@ export default function AddShopElegant({
       exit={{ opacity: 0, x: -50 }}
       className="space-y-4"
     >
+      <div className="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-2 rounded-lg shadow-sm">
+        <p className="text-xs font-medium">
+          Your account name must match your full name or business name as it appears on your profile. Otherwise, your payments will not be processed.
+        </p>
+      </div>
       <label className="block text-gray-700 font-semibold">Bank Name</label>
       <input
         type="text"
@@ -683,7 +688,7 @@ export default function AddShopElegant({
                   ))}
                 </div>
                 {isLoading && <Loading />}
-                <h2 className="text-xl font-bold mb-10 text-gray-900 dark:text-white">
+                <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
                   {mode === "create"
                     ? `${steps[currentStep].header}`
                     : "Edit Shop"}

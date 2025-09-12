@@ -56,7 +56,7 @@ export default function VendorOnboardingLayout({
                       {/* Background overlay */}
                       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
-                      <div className="flex flex-col   text-center z-10 overflow-hidden">
+                      <div className="flex flex-col   text-center z-10 overflow-hidden ">
                         {children}
                       </div>
                     </div>

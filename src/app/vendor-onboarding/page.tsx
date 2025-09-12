@@ -4,7 +4,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Logo from "@/images/Zeaper_Main_White.png";
-import Logo2 from "@/images/zeap-text-logo.png";
+
 import {
   FaChartLine,
   FaGlobe,
@@ -66,6 +66,7 @@ export default function VendorWelcome(): React.JSX.Element {
   }, [isOpen]);
 
   useEffect(() => {
+    localStorage.setItem("landingPage", "/vendor-onboarding");
     if (user) {
       setUserDetails(user);
     }
@@ -189,7 +190,7 @@ export default function VendorWelcome(): React.JSX.Element {
   ];
 
   return (
-    <div className="relative w-full min-h-screen bg-[#133522] mt-20">
+    <div className="relative w-full min-h-screen bg-[#133522] ">
       {/* Background overlay */}
       <div className="absolute inset-0 bg-black/60 "></div>
 
@@ -209,25 +210,14 @@ export default function VendorWelcome(): React.JSX.Element {
       </motion.div>
 
       {/* Top bar with logo and profile menu */}
-      <div className="  z-20 flex justify-between items-center px-4 pb-4  ">
-        <span className="hidden md:block w-36 h-12">
-          <Image
-            src={Logo}
-            alt="Zeaper Logo"
-            width={150}
-            height={50}
-            className="object-contain relative z-10"
-          />
-        </span>
-        <span className="md:hidden w-28 h-10 bg-white rounded-md flex items-center justify-center z-10">
-          <Image
-            src={Logo2}
-            alt="Zeaper Logo"
-            width={120}
-            height={40}
-            className="object-contain relative "
-          />
-        </span>
+      <div className="  z-20 flex justify-between items-center px-4 pb-4 align-center mt-16">
+        <Image
+          src={Logo}
+          alt="Zeaper Logo"
+          width={150}
+          height={50}
+          className="object-contain relative z-10 w-16 md:w-20 lg:w-24 cursor-pointer"
+        />
 
         {/* Profile menu */}
 

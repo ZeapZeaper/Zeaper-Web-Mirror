@@ -112,6 +112,7 @@ interface ShopInterface {
   currency?: CurrencyInterface;
   email?: string;
   bankDetails?: { accountNumber: string; bankName: string; accountName: string };
+  status?: string;
 }
 
 interface ColorInterface {

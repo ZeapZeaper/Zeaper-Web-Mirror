@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { BiSupport } from "react-icons/bi";
+import { BiHelpCircle } from "react-icons/bi";
 import { FaSquareWhatsapp } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import heroImage from "@/images/hero.png";
@@ -473,15 +474,31 @@ export const contactSection = {
   description:
     "You can find answers to most questions here in our Help Centre, where you’ll find help with any issues around 🔍 buying, 🔍 selling, and your 🔍 account.",
   subDescription:
-    "If you can’t find the answer you’re looking for, you can contact us directly via below options. We’re here to help!",
+    "If you can’t find the answer you’re looking for, you can contact us directly via other options. We’re here to help!",
   directContactInfo: [
+    {
+      icon: <BiHelpCircle className="text-3xl text-secondary" />,
+      title: "Help Center",
+      contactLinks: [
+        {
+          href: "/help",
+          title: "Visit our Help Center",
+        },
+      ],
+    },
     {
       icon: <BiSupport className="text-3xl text-info" />,
       title: "Call",
       contactLinks: [
         {
+          href: "tel:+2347075374026",
+          title: "+2347075374026",
+          flag: "🇳🇬",
+        },
+        {
           href: "tel:+447518465207",
           title: "+447518465207",
+          flag: "🇬🇧",
         },
       ],
     },

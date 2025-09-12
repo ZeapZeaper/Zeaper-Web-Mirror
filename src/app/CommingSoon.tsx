@@ -37,6 +37,7 @@ export default function ComingSoon(): React.JSX.Element {
     zeapApiSlice.useAddToWaitingListMutation();
   const isLoading = addToWaitingListStatus.isLoading;
   useEffect(() => {
+    localStorage.setItem("landingPage", "/");
     if (savedJoined === "true") setSubmitted(true);
     if (savedEmail) setEmail(savedEmail);
     // eslint-disable-next-line react-hooks/exhaustive-deps

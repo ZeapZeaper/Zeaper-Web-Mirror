@@ -14,9 +14,9 @@ import ShopProductOrders from "./ShopProductOrders";
 import ShopProfile from "./ShopProfile";
 import ShopPayments from "./ShopPayments";
 import ShopProducts from "./ShopProducts";
+import NewShop from "@/components/shop/NewShop";
 
 const ShopPage = () => {
- 
   const token = useSelector(globalSelectors.selectAuthToken);
   const { user } = useContext(AuthContext);
   const shopId = user?.shopId;
@@ -42,8 +42,9 @@ const ShopPage = () => {
           ))}
         </div>
       )}
+      {isFulfilled && shop?.disabled && shop?.status === "new" && <NewShop />}
       <div className="container pb-6 lg:pb-28">
-        {user && shop && shopAnalytics && (
+        {user && shop && !shop.disabled && shopAnalytics && (
           <>
             <TopSection shop={shop} shopAnalytics={shopAnalytics} />
             <ShopOverview shopAnalytics={shopAnalytics} />
@@ -62,7 +63,9 @@ const ShopPage = () => {
       </div>
       <div className="container py-6 lg:pb-28">
         {isFulfilled && !shop?._id && <NoShop />}
-        {isFulfilled && shop?.disabled && <DisabledShop />}
+        {isFulfilled && shop?.disabled && shop?.status !== "new" && (
+          <DisabledShop />
+        )}
       </div>
     </>
   );

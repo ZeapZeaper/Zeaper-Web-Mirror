@@ -67,7 +67,7 @@ function Content() {
 
           <button
             type="button"
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/vendor-onboarding")}
             className="mr-2 inline-flex items-center  rounded-lg border border-cyan-700 bg-transparent px-3 py-1.5 text-center text-xs md:text-lg font-medium text-cyan-700 hover:bg-cyan-800 hover:text-white focus:ring-4 focus:ring-cyan-300 dark:border-cyan-800 dark:text-cyan-800 dark:hover:text-white"
           >
             <HomeIcon className="-ml-0.5 mr-2 h-4 w-4" />

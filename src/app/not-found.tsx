@@ -1,6 +1,9 @@
+"use client";
 import Link from "next/link";
 
 const NotFound = () => {
+  const landingPage = typeof window !== "undefined" ? localStorage.getItem("landingPage") || "/" : "/";
+  
   return (
     <div className="container">
       <div className="mx-auto flex max-w-2xl flex-col items-center justify-center gap-5 py-24">
@@ -11,7 +14,7 @@ const NotFound = () => {
           404
         </h1>
         <h4 className="text-4xl font-semibold">Page Not Found</h4>
-        <Link href="/" className="border-2 border-primary text-primary">
+        <Link href={landingPage} className="border-2 border-primary text-primary">
           Go Home
         </Link>
       </div>
