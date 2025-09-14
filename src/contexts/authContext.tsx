@@ -24,7 +24,8 @@ export const AuthContext = createContext<{
   passwordLogin: (
     email: string,
     password: string,
-    callBack?: () => void
+    callBack?: () => void,
+    merge?: boolean
   ) => void;
   loginWithGoogle: (callBack?: () => void) => Promise<void>;
   logout: () => void;
@@ -163,12 +164,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const passwordLogin = (
     email: string,
     password: string,
-    callBack?: (userData?: UserInterface) => void
+    callBack?: (userData?: UserInterface) => void,
+    merge: boolean = true
   ) => {
     try {
       const redirectSignInPath =
         localStorage.getItem("redirectSignInPath") || "/";
-      console.log("redirectSignInPath in passwordLogin is", redirectSignInPath);
+
       setLoginError(null);
       setLoading(true);
 
@@ -188,20 +190,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             const payload = {
               guestUid: guestUid,
             };
-            mergePasswordLogin({ payload })
-              .unwrap()
-              .then((result) => {
-                const userData = result.data;
-                setUser(userData);
-                localStorage.removeItem("guestUid");
-                if (callBack) {
-                  return callBack(userData);
-                }
-                return router.push(redirectSignInPath);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+            if (merge) {
+              mergePasswordLogin({ payload })
+                .unwrap()
+                .then((result) => {
+                  const userData = result.data;
+                  setUser(userData);
+                  localStorage.removeItem("guestUid");
+                  if (callBack) {
+                    return callBack(userData);
+                  }
+                  return router.push(redirectSignInPath);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }
           }
           if (callBack) {
             return callBack();
@@ -243,7 +247,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const loginWithGoogle = async (
     callBack?: (userData?: UserInterface) => void
   ) => {
- 
     const redirectSignInPath =
       localStorage.getItem("redirectSignInPath") || "/";
 
@@ -276,7 +279,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 setUser(userData);
                 localStorage.removeItem("guestUid");
                 if (callBack) {
-               
                   return callBack(userData);
                 }
                 return router.push(redirectSignInPath);

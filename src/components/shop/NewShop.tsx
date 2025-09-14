@@ -33,12 +33,13 @@ export default function NewShop() {
             process.
           </p>
           <p className="text-gray-700 dark:text-gray-300">
-            ⏳ The sooner you respond and comply with admin requests, the sooner
-            your account will be verified and you can start selling.
+            ⏳ The sooner you respond and comply with admin requests, the
+            quicker your account will be verified, and you can start selling.
           </p>
           <p className="text-gray-700 dark:text-gray-300">
             📞 Kindly contact our team if you do not hear from us after{" "}
-            <span className="font-semibold">48 hours</span> or if you have any questions.
+            <span className="font-semibold">48 hours</span> or if you have any
+            questions.
           </p>
         </div>
 

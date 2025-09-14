@@ -102,7 +102,7 @@ const PasswordSignUP = ({
       .then((res) => {
         const newuser = res?.data?.data;
         setCheckedUser(newuser);
-        passwordLogin(email, password);
+        passwordLogin(email, password, undefined, false);
         setError(null);
         if (callBack) {
           return callBack();

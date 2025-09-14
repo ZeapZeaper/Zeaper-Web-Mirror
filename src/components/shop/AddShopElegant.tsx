@@ -594,7 +594,7 @@ export default function AddShopElegant({
           onChange={(e) => setAcceptedPolicy(e.target.checked)}
         />
         <span className="text-sm text-gray-700">
-          I have read and agree to the Vendor Policy, Terms & Contract
+          I have read and agree to the Vendor Contract, Policy & Term
         </span>
       </div>
     </motion.div>,
