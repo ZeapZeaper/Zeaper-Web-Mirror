@@ -33,8 +33,7 @@ export default function NewShop() {
             process.
           </p>
           <p className="text-gray-700 dark:text-gray-300">
-            ⏳ The sooner you respond and comply with admin requests, the
-            quicker your account will be verified, and you can start selling.
+            ⏳ To get verified quickly and start selling, please respond to admin requests promptly.
           </p>
           <p className="text-gray-700 dark:text-gray-300">
             📞 Kindly contact our team if you do not hear from us after{" "}

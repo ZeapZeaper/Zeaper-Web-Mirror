@@ -3,7 +3,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Logo from "@/images/Zeaper_Main_White.png";
+import Logo from "@/images/Zeaper_Main_White_horizontal.png";
 
 import {
   FaChartLine,
@@ -216,7 +216,7 @@ export default function VendorWelcome(): React.JSX.Element {
           alt="Zeaper Logo"
           width={150}
           height={50}
-          className="object-contain relative z-10 w-16 md:w-20 lg:w-24 cursor-pointer"
+          className="object-contain relative z-10 w-28 md:w-36 lg:w-48 cursor-pointer"
         />
 
         {/* Profile menu */}
