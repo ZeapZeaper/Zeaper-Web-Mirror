@@ -10,7 +10,7 @@ const SignUp = ({
   error,
   handleContinue,
   isLoading = false,
-  callBack
+  callBack,
 }: {
   email: string;
   setEmail: (value: string) => void;
@@ -23,7 +23,10 @@ const SignUp = ({
   callBack?: () => void;
 }) => {
   return (
-    <div className="nc-PageLogin" data-nc-id="PageLogin">
+    <div
+      className="nc-PageLogin max-h-[calc(100vh-4rem)] overflow-y-auto"
+      data-nc-id="PageLogin"
+    >
       <div className="container ">
         <span className="font-bold text-2xl text-center mb-6">
           SIGN IN OR CREATE ACCOUNT

@@ -3,7 +3,6 @@ import { AuthContext } from "@/contexts/authContext";
 import {
   Avatar,
   Drawer,
-
   DrawerItems,
   //   List,
   ListItem,
@@ -32,8 +31,8 @@ const drawerTheme = {
     edge: "bottom-16",
     position: {
       right: {
-        on: "right-0 top-0 h-screen w-screen md:w-[35rem] transform-none text-black",
-        off: "right-0 top-0 h-screen w-80 translate-x-full",
+        on: "right-0 top-0 h-[100vh] w-[100vw] md:w-[35rem] transform-none text-black",
+        off: "right-0 top-0 h-[100vh] w-80 translate-x-full",
       },
     },
   },
@@ -179,7 +178,7 @@ export function UserMenuBar() {
           onClose={handleClose}
           position="right"
         >
-      <div className="flex justify-end mb-4">
+          <div className="flex justify-end mb-4">
             <button
               type="button"
               className="text-danger hover:text-gray-700 dark:hover:text-slate-300 transition cursor-pointer"

@@ -1,13 +1,12 @@
-import { Modal } from 'flowbite-react';
-import { useContext, useEffect, useState } from 'react';
-import { Alert, ModalBody, ModalFooter, ModalHeader } from 'flowbite-react';
-import { AuthContext } from '@/contexts/authContext';
-import { ThemeContext } from '@/contexts/themeContext';
-
+import { Modal } from "flowbite-react";
+import { useContext, useEffect, useState } from "react";
+import { Alert, ModalBody, ModalFooter, ModalHeader } from "flowbite-react";
+import { AuthContext } from "@/contexts/authContext";
+import { ThemeContext } from "@/contexts/themeContext";
 
 const modalTheme = {
   root: {
-    base: 'fixed inset-x-0 top-0 z-999999 w-screen h-screen overflow-y-auto overflow-x-hidden ',
+    base: "fixed inset-x-0 top-0 z-50 w-screen h-screen overflow-y-auto overflow-x-hidden ",
   },
 };
 
@@ -20,29 +19,29 @@ const ForgotPasswordModal = ({
 }) => {
   const { resetPassword, loginError, loading } = useContext(AuthContext);
   const { setDimBackground } = useContext(ThemeContext);
-  const [email, setEmail] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   useEffect(
     () => {
       setDimBackground(openModal);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [openModal],
+    [openModal]
   );
 
   const handleResetPassword = async () => {
-    if (email.trim() === '') {
-      setError('Email is required');
+    if (email.trim() === "") {
+      setError("Email is required");
       return;
     }
     try {
       await resetPassword(email);
-      setEmail('');
-      setError('');
+      setEmail("");
+      setError("");
     } catch (err) {
-      console.error('Error resetting password:', err);
-      setError('Failed to reset password. Please try again.');
+      console.error("Error resetting password:", err);
+      setError("Failed to reset password. Please try again.");
     }
   };
 
@@ -75,7 +74,7 @@ const ForgotPasswordModal = ({
           {loginError && (
             <Alert
               color={
-                loginError.includes('successfully') ? 'success' : 'failure'
+                loginError.includes("successfully") ? "success" : "failure"
               }
               className="mb-4"
             >
@@ -85,9 +84,11 @@ const ForgotPasswordModal = ({
           <button
             onClick={handleResetPassword}
             disabled={loading}
-            className={`w-full p-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`w-full p-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            {loading ? 'Sending...' : 'Reset Password'}
+            {loading ? "Sending..." : "Reset Password"}
           </button>
         </div>
       </ModalBody>

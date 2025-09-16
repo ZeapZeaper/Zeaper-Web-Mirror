@@ -36,8 +36,8 @@ const drawerTheme = {
     edge: "bottom-16",
     position: {
       right: {
-        on: "right-0 top-0 h-screen w-screen md:w-[35rem] transform-none text-black",
-        off: "right-0 top-0 h-screen w-80 translate-x-full",
+        on: "right-0 top-0 h-[100vh] w-[100vw] md:w-[35rem] transform-none text-black",
+        off: "right-0 top-0 h-[100vh] w-80 translate-x-full",
       },
     },
   },
