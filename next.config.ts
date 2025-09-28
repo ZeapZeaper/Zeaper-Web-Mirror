@@ -1,8 +1,10 @@
 import type { NextConfig } from "next";
+import withPWA from "next-pwa";
+// @ts-expect-error: next-pwa/cache does not have TypeScript types
+
+import runtimeCaching from "next-pwa/cache";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-
   images: {
     domains: [
       "storage.googleapis.com",
@@ -39,4 +41,13 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPWA({
+  ...nextConfig,
+    // @ts-expect-error: next-pwa types not available
+  pwa: {
+    dest: "public",
+    runtimeCaching,
+    register: true,
+    skipWaiting: true,
+  },
+});
