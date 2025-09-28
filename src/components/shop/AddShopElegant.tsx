@@ -737,6 +737,7 @@ export default function AddShopElegant({
         <ShopSuccessModal
           showShopSuccessModal={showSuccess}
           setShowShopSuccessModal={setShowSuccess}
+          setOpenModal={setOpenModal}
         />
       )}
     </>

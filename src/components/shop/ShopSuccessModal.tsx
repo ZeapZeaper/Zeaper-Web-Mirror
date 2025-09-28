@@ -10,9 +10,11 @@ import Image from "next/image";
 const ShopSuccessModal = ({
   showShopSuccessModal,
   setShowShopSuccessModal,
+  setOpenModal,
 }: {
   showShopSuccessModal: boolean;
   setShowShopSuccessModal: (value: boolean) => void;
+  setOpenModal?: (value: boolean) => void;
 }) => {
   const { setDimBackground } = useContext(ThemeContext);
   const router = useRouter();
@@ -28,8 +30,11 @@ const ShopSuccessModal = ({
     <Modal
       show={showShopSuccessModal}
       onClose={() => {
-        router.push("/vendor-onboarding");
         setShowShopSuccessModal(false);
+        if (setOpenModal) {
+          setOpenModal(false);
+        }
+        router.push("/vendor-onboarding");
         setDimBackground(false);
       }}
     >
@@ -71,6 +76,9 @@ const ShopSuccessModal = ({
 
                 setShowShopSuccessModal(false);
                 setDimBackground(false);
+                if (setOpenModal) {
+                  setOpenModal(false);
+                }
                 router.push("/vendor-onboarding");
               }}
               className="w-full rounded-lg h-[3rem] bg-secondary text-white"
