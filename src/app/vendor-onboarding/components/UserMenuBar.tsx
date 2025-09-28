@@ -10,9 +10,9 @@ import {
 } from "flowbite-react";
 import { useCallback, useContext, useEffect, useState } from "react";
 import {
+  HiBell,
   //   HiDatabase,
   //   HiGift,
-  //   HiBell,
   HiLogout,
   //   HiUserCircle,
 } from "react-icons/hi";
@@ -23,6 +23,11 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 import { SignInSignUpDrawer } from "@/authentication/SignInSignUpDrawer";
+import { useSelector } from "react-redux";
+import { globalSelectors } from "@/redux/services/global.slice";
+import zeapApiSlice from "@/redux/services/zeapApi.slice";
+import { messaging } from "@/authentication/firebase";
+import { getToken } from "firebase/messaging";
 
 const drawerTheme = {
   root: {
@@ -37,13 +42,17 @@ const drawerTheme = {
     },
   },
 };
+const vapidKey = process.env.REACT_APP_FIREBASE_CLOUD_MESSAGING_PUBLIC_KEY;
 
 export function UserMenuBar() {
+  const token = useSelector(globalSelectors.selectAuthToken);
+
   const pathname = usePathname();
   const { isAuthenticated, user, logout } = useContext(AuthContext);
 
   const { setDimBackground } = useContext(ThemeContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [registerPushToken] = zeapApiSlice.useRegisterPushTokenMutation();
   const handleClose = useCallback(() => {
     document.body.classList.remove("overflow-y-hidden");
     setIsOpen(false);
@@ -71,6 +80,35 @@ export function UserMenuBar() {
     }
   }, [isAuthenticated, user?.isGuest, handleClose]);
 
+  const checkPermission = async () => {
+    if (!("Notification" in window)) {
+      alert("Notifications not supported in this browser");
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+    if (permission === "granted") {
+      const pushToken = await getToken(messaging, {
+        vapidKey,
+      });
+
+      const payload = {
+        pushToken,
+      };
+      registerPushToken({ payload })
+        .unwrap()
+        .then(() => {
+          console.log("Push token registered and saved to server");
+        })
+        .catch((err) => {
+          console.error("Error while registering push token", err);
+        });
+    } else if (permission === "denied") {
+      //notifications are blocked
+      console.log("Notifications are blocked");
+    }
+    alert("Permission: " + permission);
+  };
   const content = (
     <div className=" w-64 text-sm text-slate-700 dark:text-gray-400 flex flex-col gap-2 bg-white overflow-y-auto max-h-[calc(100vh-4rem)]">
       <div className="flex flex-col items-center gap-2 w-full overflow-y-auto">
@@ -114,9 +152,19 @@ export function UserMenuBar() {
           </div>
         )}
         {user && !user?.isGuest && (
-          <div onClick={logout} className="flex flex-col w-full ">
+          <div className="flex flex-col w-full gap-2 ">
+            {token && (
+              <ListItem
+                className="hover:bg-slate-100 p-2 rounded-md cursor-pointer"
+                icon={() => <HiBell className=" mr-3" />}
+                onClick={checkPermission}
+              >
+                Enable Notifications
+              </ListItem>
+            )}
             <hr className="border-b border-slate-300 w-full my-2" />
             <ListItem
+              onClick={logout}
               className="hover:bg-slate-100 p-2 rounded-md cursor-pointer text-danger"
               icon={() => <HiLogout className=" mr-3" />}
             >
