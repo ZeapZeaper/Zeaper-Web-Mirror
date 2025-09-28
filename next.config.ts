@@ -1,10 +1,19 @@
 import type { NextConfig } from "next";
-import withPWA from "next-pwa";
-// @ts-expect-error: next-pwa/cache does not have TypeScript types
+import withPWAInit from "next-pwa";
 
+// @ts-expect-error: next-pwa/cache does not have TypeScript types
 import runtimeCaching from "next-pwa/cache";
 
+const withPWA = withPWAInit({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  runtimeCaching,
+  disable: process.env.NODE_ENV === "development", // Optional: disable PWA in dev
+});
+
 const nextConfig: NextConfig = {
+  reactStrictMode: true,
   images: {
     domains: [
       "storage.googleapis.com",
@@ -41,13 +50,6 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withPWA({
-  ...nextConfig,
-    // @ts-expect-error: next-pwa types not available
-  pwa: {
-    dest: "public",
-    runtimeCaching,
-    register: true,
-    skipWaiting: true,
-  },
-});
+// ✅ Correct: wrap AFTER defining config
+//@ts-expect-error: withPWA does not have TypeScript types
+export default withPWA(nextConfig);
