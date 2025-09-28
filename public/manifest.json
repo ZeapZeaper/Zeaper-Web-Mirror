@@ -1,8 +1,8 @@
 {
-    "name": "Zeaper",
-    "short_name": "Zeaper",
+    "name": "Zeaper Vendor Onboarding",
+    "short_name": "Zeaper Vendor Onboarding",
     "description": "Discover the latest fashion trends and styles at Zeaper Fashion. Shop now for exclusive collections and deals.",
-    "start_url": "/",
+    "start_url": "/vendor-onboarding",
     "display": "standalone",
     "background_color": "#133522",
     "theme_color": "#133522",
