@@ -68,9 +68,10 @@ const ShopSuccessModal = ({
                   e.preventDefault();
                   e.stopPropagation();
                 }
-                router.push("/vendor-onboarding");
-            
+
+                setShowShopSuccessModal(false);
                 setDimBackground(false);
+                router.push("/vendor-onboarding");
               }}
               className="w-full rounded-lg h-[3rem] bg-secondary text-white"
             >
