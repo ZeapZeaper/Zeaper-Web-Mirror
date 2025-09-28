@@ -92,6 +92,16 @@ export default function VendorWelcome(): React.JSX.Element {
     }
   };
 
+  const checkPermission = async () => {
+    if (!("Notification" in window)) {
+      alert("Notifications not supported in this browser");
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+    alert("Permission: " + permission);
+  };
+
   const features = [
     {
       icon: <FaChartLine className="w-6 h-6 text-[#D5B07B]" />,
@@ -249,6 +259,12 @@ export default function VendorWelcome(): React.JSX.Element {
           to customers worldwide.
         </p>
         {loading && <Loading />}
+        <button
+          onClick={checkPermission}
+          className="mb-12 px-6 py-3 bg-[#D5B07B] text-[#133522] font-semibold rounded-full hover:bg-[#b9986c] transition"
+        >
+          Enable Notifications
+        </button>
 
         {/* Start Selling Button */}
 
