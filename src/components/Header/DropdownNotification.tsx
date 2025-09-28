@@ -28,6 +28,7 @@ const DropdownNotification = () => {
     { skip: !token || !user?._id }
   );
   const notifications = getNotificationsQuery?.data?.data.notifications;
+  console.log("notifications", notifications);
   const [deleteNotification, deleteNotificationStatus] =
     zeapApiSlice.useDeleteNotificationMutation();
   const [deleteAllNotifications, deleteAllNotificationsStatus] =
@@ -168,7 +169,9 @@ const DropdownNotification = () => {
                             {notification?.title}
                           </h5>
                         </div>
-                        <p className="text-xs">{notification?.body}</p>
+                        <p className="text-xs text-slate-700 dark:text-white text-start">
+                          {notification?.body}
+                        </p>
                         <div className="flex justify-between items-center">
                           <p className="text-xs text-success">
                             <ReactTimeAgo
