@@ -28,9 +28,9 @@ const ShopSuccessModal = ({
     <Modal
       show={showShopSuccessModal}
       onClose={() => {
+        router.push("/vendor-onboarding");
         setShowShopSuccessModal(false);
         setDimBackground(false);
-        router.push("/vendor-onboarding");
       }}
     >
       {/* <ModalHeader /> */}
@@ -63,10 +63,14 @@ const ShopSuccessModal = ({
             </ButtonPrimary>
 
             <ButtonSecondary
-              onClick={() => {
-                setShowShopSuccessModal(false);
-                setDimBackground(false);
+              onClick={(e) => {
+                if (e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }
                 router.push("/vendor-onboarding");
+            
+                setDimBackground(false);
               }}
               className="w-full rounded-lg h-[3rem] bg-secondary text-white"
             >

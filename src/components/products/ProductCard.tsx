@@ -34,7 +34,7 @@ const ProductCard = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-    const productGroupPage = searchParams.get("productGroupPage") || "HOME";
+  const productGroupPage = searchParams.get("productGroupPage") || "HOME";
   const [clickedColor, setClickedColor] = useState<string>("");
   const [addProductToWishList] = zeapApiSlice.useAddProductToWishListMutation();
   const [removeProductFromWishList] =
@@ -166,7 +166,7 @@ const ProductCard = ({
             }  `}
             onClick={() => {
               if (disableLink) return;
-            
+
               if (href) {
                 return router.push(href);
               }
@@ -176,13 +176,13 @@ const ProductCard = ({
                   .replace(/&/g, "and")
                   .replace(/\//g, "-")}-${
                   clickedColor || getDefaultColor()
-                }?productId=${
-                  product?.productId
-                }&color=${clickedColor || getDefaultColor()}&productGroupPage=${productGroupPage}`
+                }?productId=${product?.productId}&color=${
+                  clickedColor || getDefaultColor()
+                }&productGroupPage=${productGroupPage}`
               );
             }}
           >
-            <div className=" flex md:hidden flex-col  bg-slate-100 gap-2  my-2  rounded-lg  duration-300 hover:scale-105 transform overflow-hidden  ">
+            <div className=" flex md:hidden flex-col    bg-slate-100 gap-2  my-2  rounded-lg  duration-300 hover:scale-105 transform overflow-hidden  ">
               <Image
                 src={
                   getClickedColorImage(product) ||
@@ -197,7 +197,7 @@ const ProductCard = ({
                   width: "full",
                   height: "20rem",
                 }}
-                className="w-full object-contain object-cover"
+                className="w-full object-contain object-cover "
               />
 
               <button
@@ -212,7 +212,7 @@ const ProductCard = ({
                 {/* {isWLHovered || alreadyWishlisted ? <HeartSolid /> : <Heart />} */}
               </button>
             </div>
-            <div className=" flex hidden md:block lg:hidden flex-col  bg-slate-100 gap-2  my-2  rounded-lg  duration-300 hover:scale-105 transform overflow-hidden  ">
+            <div className=" hidden md:block lg:hidden flex-col  bg-slate-100 gap-2  my-2  rounded-lg  duration-300 hover:scale-105 transform overflow-hidden  ">
               <Image
                 src={
                   getClickedColorImage(product) ||
@@ -268,7 +268,7 @@ const ProductCard = ({
               </button>
             </div>
           </div>
-          <div className="p-4 h-25 xl:h-[7rem] md:w-72">
+          <div className="p-4 h-[7rem] xl:h-[7rem] md:w-72">
             <p className=" text-sm   text-gray-900 overflow-auto truncate ">
               {capitalizeFirstLetter(product?.title?.toLowerCase())}-
               {getColorNameFromLink(

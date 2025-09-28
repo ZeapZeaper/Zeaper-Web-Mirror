@@ -29,7 +29,8 @@ const nextConfig: NextConfig = {
       "www.skinnydiplondon.com",
       "assets.digitalcontent.marksandspencer.app",
       "media.theeverygirl.com",
-      "img.freepik.com"
+      "admin.zeaper.com",
+      "zeaper.com",
     ],
     minimumCacheTTL: 1500000,
   },

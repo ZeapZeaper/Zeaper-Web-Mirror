@@ -28,6 +28,7 @@ import { UserInterface } from "@/interface/interface";
 import { AuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
 import Loading from "../loading";
+import DropdownNotification from "@/components/Header/DropdownNotification";
 
 const drawerTheme = {
   root: {
@@ -220,8 +221,16 @@ export default function VendorWelcome(): React.JSX.Element {
         />
 
         {/* Profile menu */}
+        <div className="flex items-center gap-4 ">
+          {/* User Menu Bar */}
+          {user && (
+            <span className="inline-block mt-3">
+              <DropdownNotification />
+            </span>
+          )}
 
-        <UserMenuBar />
+          <UserMenuBar />
+        </div>
       </div>
 
       <main className="relative z-10 flex flex-col items-center px-6 py-24 text-center">

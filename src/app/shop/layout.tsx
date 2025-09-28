@@ -15,6 +15,8 @@ import Loading from "../loading";
 import { UserMenuBar } from "../vendor-onboarding/components/UserMenuBar";
 import Image from "next/image";
 import Link from "next/link";
+import NotificationProvider from "@/shared/Notification";
+import DropdownNotification from "@/components/Header/DropdownNotification";
 
 const getBodoniFont = Bodoni_Moda({
   variable: "--font-bodoni",
@@ -40,44 +42,56 @@ export default function ShopLayout({
         <AuthProvider>
           <ThemeProvider>
             <FlowBiteTheme>
-              <html lang="en">
-                <head>
-                  <link rel="icon" href="/favicon.ico" />
-                  <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1"
-                  />
-                  <meta name="theme-color" content="#000000" />
+              <NotificationProvider>
+                <html lang="en">
+                  <head>
+                    <link rel="icon" href="/favicon.ico" />
+                    <meta
+                      name="viewport"
+                      content="width=device-width, initial-scale=1"
+                    />
+                    <meta name="theme-color" content="#000000" />
 
-                  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-                  <link rel="manifest" href="/manifest.json" />
-                  <link rel="preconnect" href="https://fonts.googleapis.com" />
-                </head>
-                <body
-                  className={` ${getBodoniFont.variable} antialiased h-full`}
-                >
-                  <Suspense fallback={<Loading />}>
-                    <div className="flex flex-col min-h-screen">
-                      <div className="sticky top-0 z-50 w-full bg-white shadow-md dark:bg-gray-900">
-                        <div className="flex justify-between items-center px-4 py-2 md:px-8 md:py-4">
-                          <Link href="/vendor-onboarding">
-                            <Image
-                              src={logo.src}
-                              alt="Zeap Logo"
-                              className="h-8 md:h-10"
-                              width={150}
-                              height={40}
-                            />
-                          </Link>
-                          {/* User Menu Bar */}
-                          <UserMenuBar />
+                    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+                    <link rel="manifest" href="/manifest.json" />
+                    <link
+                      rel="preconnect"
+                      href="https://fonts.googleapis.com"
+                    />
+                  </head>
+                  <body
+                    className={` ${getBodoniFont.variable} antialiased h-full`}
+                  >
+                    <Suspense fallback={<Loading />}>
+                      <div className="flex flex-col min-h-screen">
+                        <div className="sticky top-0 z-50 w-full bg-white shadow-md dark:bg-gray-900">
+                          <div className="flex justify-between items-center px-4 py-2 md:px-8 md:py-4">
+                            <Link href="/vendor-onboarding">
+                              <Image
+                                src={logo.src}
+                                alt="Zeap Logo"
+                                className="h-8 md:h-10"
+                                width={150}
+                                height={40}
+                              />
+                            </Link>
+                            <div className="flex items-center gap-4 ">
+                            {/* User Menu Bar */}
+                            <span className="inline-block mt-3">
+                              <DropdownNotification />
+                            </span>
+                          
+
+                            <UserMenuBar />
+                            </div>
+                          </div>
                         </div>
+                        <div className="flex-grow mt-8">{children}</div>
                       </div>
-                      <div className="flex-grow mt-8">{children}</div>
-                    </div>
-                  </Suspense>
-                </body>
-              </html>
+                    </Suspense>
+                  </body>
+                </html>
+              </NotificationProvider>
             </FlowBiteTheme>
           </ThemeProvider>
         </AuthProvider>

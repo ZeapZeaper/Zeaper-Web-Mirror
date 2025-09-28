@@ -29,6 +29,7 @@ export default function RootLayout({
 
   return (
     <StoreProvider>
+      
       <html lang="en">
         <head>
           <link rel="icon" href="/favicon.ico" />

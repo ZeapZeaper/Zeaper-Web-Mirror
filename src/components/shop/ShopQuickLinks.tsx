@@ -7,7 +7,7 @@ import { MdOutlinePayments } from "react-icons/md";
 const ShopQuickLinks = ({ shopId }: { shopId: string }) => {
   const router = useRouter();
   return (
-    <div className="flex justify-between items-center gap-2 md:gap-4 flex-wrap md:flex-nowrap">
+    <div className="grid grid-cols-2 md:grid-cols-4 items-center gap-2 md:gap-4  ">
       <button
         onClick={() => router.push(`shop/add-product`)}
         className="flex  md:w-[9rem] h-fit items-center justify-center gap-1 px-3 py-1.5 text-sm font-medium text-white bg-primary rounded-md hover:bg-opacity-90"

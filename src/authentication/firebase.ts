@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-// import { getMessaging } from 'firebase/messaging';
+ import { getMessaging, Messaging } from 'firebase/messaging';
+
 
 const env = process.env.ENV || "dev";
 const bucket =
@@ -18,6 +19,9 @@ const firebaseConfig = {
 };
 
 const firebase = initializeApp(firebaseConfig);
-// const messaging = getMessaging(firebase);
+let messaging : Messaging;
+if (typeof window !== "undefined" && "Notification" in window) {
+  messaging = getMessaging(firebase);
+}
 
-export { firebase };
+export { firebase, messaging };
