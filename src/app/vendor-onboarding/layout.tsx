@@ -45,21 +45,7 @@ export default function VendorOnboardingLayout({
                       name="apple-mobile-web-app-title"
                       content="Zeaper Vendor Onboarding"
                     />
-                    <link
-                      rel="apple-touch-icon"
-                      sizes="180x180"
-                      href="/app_logo-180.png"
-                    />
-                    <link
-                      rel="apple-touch-icon"
-                      sizes="152x152"
-                      href="/app_logo-152.png"
-                    />
-                    <link
-                      rel="apple-touch-icon"
-                      sizes="120x120"
-                      href="/app_logo-120.png"
-                    />
+                    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                     <link rel="manifest" href="/manifest.json" />
                     <link
                       rel="preconnect"
