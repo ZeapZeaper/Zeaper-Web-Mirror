@@ -1,57 +1,71 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect } from "react";
 
-export default function InputZoomFix() {
+export default function InputZoomFixGlobal() {
   useEffect(() => {
     const handleFocus = () => {
-        console.log("Input focused");
-      const meta = document.querySelector('meta[name=viewport]');
-      console.log("meta", meta);
+      console.log("Input focused - disabling zoom");
+      const meta = document.querySelector("meta[name=viewport]");
       if (meta) {
         meta.setAttribute(
           "content",
           "width=device-width, initial-scale=1.0, maximum-scale=1.0"
         );
       }
-      console.log("meta after focus", meta)
+      console.log("meta after focus", meta);
     };
 
     const handleBlur = () => {
-        console.log("Input blurred");
-      const meta = document.querySelector('meta[name=viewport]');
-      console.log("meta blur", meta);
+      console.log("Input blurred");
+      const meta = document.querySelector("meta[name=viewport]");
       if (meta) {
-        meta.setAttribute(
-          "content",
-          "width=device-width, initial-scale=1.0"
-        );
+        meta.setAttribute("content", "width=device-width, initial-scale=1.0");
       }
       console.log("meta after blur", meta);
     };
 
-    // MutationObserver to detect inputs dynamically
-    const observer = new MutationObserver(() => {
-      const inputs = document.querySelectorAll("input, textarea");
-      console.log("Observed inputs", inputs);
-      if (inputs.length) {
-        inputs.forEach((input) => {
-            
+    const attachHandlers = (
+      inputs: NodeListOf<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+      inputs.forEach((input) => {
+        if (!(input as any)._zoomHandlerAttached) {
           input.addEventListener("focus", handleFocus);
           input.addEventListener("blur", handleBlur);
-          // ensure the text-[16px] class is applied to prevent zoom on focus
-          if (!input.classList.contains("text-[16px]")) {
-            input.classList.add("text-[16px]");
+          (input as any)._zoomHandlerAttached = true; // mark as handled
+          // add text-[56px] class to the input to prevent zoom on focus
+          input.classList.add("text-[16px]");
+          console.log("Added text-[16px] class to input/textarea", input);
+        }
+      });
+    };
+
+    // Initial attach for inputs already in DOM
+    attachHandlers(document.querySelectorAll("input, textarea"));
+
+    // Observe body for dynamically added inputs
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node instanceof HTMLElement) {
+            const inputs = node.querySelectorAll("input, textarea");
+            //@ts-expect-error bypass
+            if (inputs.length) attachHandlers(inputs);
+            // If the node itself is an input or textarea
+            if (node.tagName === "INPUT" || node.tagName === "TEXTAREA") {
+              //@ts-expect-error bypass
+              attachHandlers([node as HTMLInputElement | HTMLTextAreaElement]);
+              
+            }
           }
-          console.log("Input event listeners added and class ensured", input);
         });
-        observer.disconnect(); // stop observing once inputs are found
-      }
+      });
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
 
-    // Cleanup on unmount
+    // Cleanup
     return () => {
       const inputs = document.querySelectorAll("input, textarea");
       inputs.forEach((input) => {
@@ -62,5 +76,5 @@ export default function InputZoomFix() {
     };
   }, []);
 
-  return null; // This component doesn’t render anything
+  return null; // Nothing rendered
 }
