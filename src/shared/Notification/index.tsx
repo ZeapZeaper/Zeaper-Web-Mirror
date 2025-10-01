@@ -25,10 +25,10 @@ const NotificationProvider: React.FC<{ children: ReactNode }> = ({
   const [registerPushToken] = zeapApiSlice.useRegisterPushTokenMutation();
   
   const listenForMessages = () => {
-    console.log("Listening for messages...");
+   
     try {
       onMessage(messaging, (payload) => {
-        console.log("Message received. ", payload);
+       
         // invalidate redux cache with flag notification
         dispatch(zeapApiSlice.util.invalidateTags(["Notification"]));
 

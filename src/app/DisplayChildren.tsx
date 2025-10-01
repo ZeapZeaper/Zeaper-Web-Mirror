@@ -23,9 +23,14 @@ const DisplayChildren = ({ children }: { children: React.ReactNode }) => {
   // );
 
   useEffect(() => {
+ 
   const inputs = document.querySelectorAll("input, textarea");
+  const metu = document.querySelector('meta[name=viewport]');
+  if (metu) metu.setAttribute("content", "width=device-width, initial-scale=1.0");
+  console.log("metu", metu);
   const handleFocus = () => {
     const meta = document.querySelector('meta[name=viewport]');
+    console.log("meta", meta);
     if (meta) meta.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0");
   };
   const handleBlur = () => {

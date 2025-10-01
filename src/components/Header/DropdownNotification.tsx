@@ -28,7 +28,7 @@ const DropdownNotification = () => {
     { skip: !token || !user?._id }
   );
   const notifications = getNotificationsQuery?.data?.data.notifications;
-  console.log("notifications", notifications);
+
   const [deleteNotification, deleteNotificationStatus] =
     zeapApiSlice.useDeleteNotificationMutation();
   const [deleteAllNotifications, deleteAllNotificationsStatus] =
