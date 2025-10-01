@@ -6,7 +6,7 @@ import { useEffect } from "react";
 export default function InputZoomFixGlobal() {
   useEffect(() => {
     const handleFocus = () => {
-      console.log("Input focused - disabling zoom");
+  
       const meta = document.querySelector("meta[name=viewport]");
       if (meta) {
         meta.setAttribute(
@@ -14,16 +14,16 @@ export default function InputZoomFixGlobal() {
           "width=device-width, initial-scale=1.0, maximum-scale=1.0"
         );
       }
-      console.log("meta after focus", meta);
+
     };
 
     const handleBlur = () => {
-      console.log("Input blurred");
+    
       const meta = document.querySelector("meta[name=viewport]");
       if (meta) {
         meta.setAttribute("content", "width=device-width, initial-scale=1.0");
       }
-      console.log("meta after blur", meta);
+     
     };
 
     const attachHandlers = (
@@ -36,7 +36,7 @@ export default function InputZoomFixGlobal() {
           (input as any)._zoomHandlerAttached = true; // mark as handled
           // add text-[56px] class to the input to prevent zoom on focus
           input.classList.add("text-[16px]");
-          console.log("Added text-[16px] class to input/textarea", input);
+      
         }
       });
     };
