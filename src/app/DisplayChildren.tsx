@@ -6,7 +6,8 @@ import { FaWhatsapp } from "react-icons/fa";
 // import { usePathname } from "next/navigation";
 import en from "javascript-time-ago/locale/en";
 import TimeAgo from "javascript-time-ago";
-import { useEffect } from "react";
+import InputZoomFix from "@/shared/InputZoomFix";
+
 // import MobileNavBar from "@/components/Header/MobileNavBar";
 TimeAgo.addDefaultLocale(en);
 
@@ -22,38 +23,10 @@ const DisplayChildren = ({ children }: { children: React.ReactNode }) => {
   //   [pathname]
   // );
 
-  useEffect(() => {
- 
-  const inputs = document.querySelectorAll("input, textarea");
-  const metu = document.querySelector('meta[name=viewport]');
-  if (metu) metu.setAttribute("content", "width=device-width, initial-scale=1.0");
-  console.log("metu", metu);
-  const handleFocus = () => {
-    const meta = document.querySelector('meta[name=viewport]');
-    console.log("meta", meta);
-    if (meta) meta.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0");
-  };
-  const handleBlur = () => {
-    const meta = document.querySelector('meta[name=viewport]');
-    if (meta) meta.setAttribute("content", "width=device-width, initial-scale=1.0");
-  };
-
-  inputs.forEach((input) => {
-    input.addEventListener("focus", handleFocus);
-    input.addEventListener("blur", handleBlur);
-  });
-
-  return () => {
-    inputs.forEach((input) => {
-      input.removeEventListener("focus", handleFocus);
-      input.removeEventListener("blur", handleBlur);
-    });
-  };
-}, []);
   return (
     <>
       {/* {!isAuthPage && <Header />} */}
-
+      <InputZoomFix />
       <div>{children}</div>
 
       {/* <MobileNavBar isVisable={isSideBarOpen} setIsVisable={toggleSideBar} />
