@@ -293,7 +293,17 @@ export default function AddShopElegant({
         required
         shadow
         color="primary"
+       
+       
       />
+      {/* <input
+        type="text"
+        value={shopName}
+        onChange={(e) => setShopName(e.target.value)}
+        placeholder="Enter your business name"
+        required
+        className="border border-gray-300 rounded-md p-2 w-full text-base"
+      /> */}
     </motion.div>,
 
     <motion.div
