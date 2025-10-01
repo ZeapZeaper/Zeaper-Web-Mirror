@@ -6,7 +6,7 @@ import { FaWhatsapp } from "react-icons/fa";
 // import { usePathname } from "next/navigation";
 import en from "javascript-time-ago/locale/en";
 import TimeAgo from "javascript-time-ago";
-import InputZoomFix from "@/shared/InputZoomFix";
+import InputZoomFix from "@/shared/InputZoomFixGlobal";
 
 // import MobileNavBar from "@/components/Header/MobileNavBar";
 TimeAgo.addDefaultLocale(en);

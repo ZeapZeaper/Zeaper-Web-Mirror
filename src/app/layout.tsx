@@ -65,7 +65,28 @@ export default function RootLayout({
               <meta name="twitter:image" content="/og-image.jpg" />
             </>
           )}
-          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+          />
+
+          <meta name="apple-mobile-web-app-title" content="Zeaper Fashion" />
+           <link
+                      rel="apple-touch-icon"
+                      sizes="180x180"
+                      href="/app_logo-180.png"
+                    />
+                    <link
+                      rel="apple-touch-icon"
+                      sizes="152x152"
+                      href="/app_logo-152.png"
+                    />
+                    <link
+                      rel="apple-touch-icon"
+                      sizes="120x120"
+                      href="/app_logo-120.png"
+                    />
           <link rel="manifest" href="/manifest.json" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
         </head>
