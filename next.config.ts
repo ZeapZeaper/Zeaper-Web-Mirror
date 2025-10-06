@@ -13,6 +13,20 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig: NextConfig = {
+  async headers() {
+    return [
+      {
+        // Cache all videos in /public/videos for 1 year
+        source: "/videos/:file*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      }
+    ];
+  },
   reactStrictMode: true,
   images: {
     domains: [

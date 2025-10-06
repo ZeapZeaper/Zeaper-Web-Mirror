@@ -33,7 +33,8 @@ export default function NewShop() {
             process.
           </p>
           <p className="text-gray-700 dark:text-gray-300">
-            ⏳ To get verified quickly and start selling, please respond to admin requests promptly.
+            ⏳ To get verified quickly and start selling, please respond to
+            admin requests promptly.
           </p>
           <p className="text-gray-700 dark:text-gray-300">
             📞 Kindly contact our team if you do not hear from us after{" "}
@@ -43,12 +44,20 @@ export default function NewShop() {
         </div>
 
         {/* Contact button */}
-        <Link
-          href="/contact"
-          className="inline-block px-6 py-2 bg-primary text-white font-semibold rounded-lg shadow hover:bg-primary/80 transition"
-        >
-          Contact Admin
-        </Link>
+        <div className="flex gap-4 justify-center">
+          <Link
+            href="/contact"
+            className="inline-block px-6 py-2 bg-primary text-white font-semibold rounded-lg shadow hover:bg-primary/80 transition"
+          >
+            Contact Admin
+          </Link>
+          <Link
+            href="/vendor-onboarding"
+            className="inline-block px-6 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg shadow hover:bg-gray-300 transition"
+          >
+            Go to Home
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
+
 import Logo from "@/images/Zeaper_Main_White_horizontal.png";
 
 import {
@@ -29,6 +29,7 @@ import { AuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
 import Loading from "../loading";
 import DropdownNotification from "@/components/Header/DropdownNotification";
+import Image from "next/image";
 
 const drawerTheme = {
   root: {
