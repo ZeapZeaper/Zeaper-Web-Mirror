@@ -507,8 +507,8 @@ export const contactSection = {
       title: "WhatsApp",
       contactLinks: [
         {
-          href: "https://wa.me/2347075374026",
-          title: "+2347075374026",
+          href: "https://wa.me/447518465207",
+          title: "+447518465207",
         },
       ],
     },

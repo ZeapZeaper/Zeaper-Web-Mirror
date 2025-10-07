@@ -34,7 +34,7 @@ const DisplayChildren = ({ children }: { children: React.ReactNode }) => {
       <Footer />
       <ToastContainer /> */}
       <a
-        href="https://wa.me/2347075374026"
+        href="https://wa.me/447518465207"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-2 right-4 bg-green-400 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition duration-300 z-20"
