@@ -40,8 +40,8 @@ const BespokeVariation = ({
   availableColors: string[];
   setAvailableColors: (availableColors: string[]) => void;
   setColorType: (colorType: string) => void;
-  price: number;
-  setPrice: (price: number) => void;
+  price: number | undefined;
+  setPrice: (price: number | undefined) => void;
 }) => {
   const [colors, setColors] = useState<ColInterface[]>([]);
 
@@ -94,9 +94,9 @@ const BespokeVariation = ({
           <Label value="Price" />
           <TextInput
             theme={inputTheme}
-            value={price || 0}
+            value={price}
             type="number"
-            min={0}
+           
             onChange={(e) => {
               setPrice(parseInt(e.target.value));
             }}
@@ -133,7 +133,7 @@ const BespokeVariation = ({
         <div className="flex flex-col gap-2 my-4 border rounded-md p-4">
           <Alert color="info" className="w-fit">
             <span className="block text-sm ">
-              please select all colours you can source their materials on user
+              Please select all colours you can source their materials on user
               request. This option will be available to buyers when they are
               making a purchase.
             </span>

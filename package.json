@@ -14,6 +14,7 @@
     "@reduxjs/toolkit": "^2.6.0",
     "apexcharts": "^4.5.0",
     "autoprefixer": "^10.4.20",
+    "clsx": "^2.1.1",
     "crypto-js": "^4.2.0",
     "cssnano": "^7.0.6",
     "firebase": "^11.4.0",
@@ -44,6 +45,7 @@
     "react-toastify": "^11.0.5",
     "react-use-measure": "^2.1.7",
     "socket.io-client": "^4.8.1",
+    "tailwind-merge": "^3.3.1",
     "typed.js": "^2.1.0"
   },
   "devDependencies": {

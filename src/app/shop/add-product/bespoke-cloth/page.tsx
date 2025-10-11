@@ -62,7 +62,7 @@ const AddBespokeClothPage = () => {
   const [description, setDescription] = useState("");
   const [colorType, setColorType] = useState<string>("");
   const [availableColors, setAvailableColors] = useState<string[]>([]);
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<number | undefined>(undefined);
   const [categories, setCategories] = useState<CategoriesInterface>({
     main: [],
     style: [],
@@ -998,6 +998,7 @@ const AddBespokeClothPage = () => {
                     color={categories.sleeveLength ? "success" : "primary"}
                     size="xs"
                     inline={categories.sleeveLength ? false : true}
+                    className="max-h-[30vw] overflow-auto"
                   >
                     {sleeveLengthEnums?.map((item: string, index: number) => (
                       <Dropdown.Item

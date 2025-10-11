@@ -61,7 +61,7 @@ const AddBespokeShoePage = () => {
   const [description, setDescription] = useState("");
   const [colorType, setColorType] = useState<string>("");
   const [availableColors, setAvailableColors] = useState<string[]>([]);
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<number | undefined>(undefined);
   const [categories, setCategories] = useState<CategoriesInterface>({
     style: [],
     gender: [],
@@ -943,6 +943,7 @@ const AddBespokeShoePage = () => {
                     color={categories.heelHeight ? "success" : "primary"}
                     size="xs"
                     inline={categories.heelHeight ? false : true}
+                    className="max-h-[30vw] overflow-auto"
                   >
                     {heelHeightEnums?.map((item: string, index: number) => (
                       <Dropdown.Item
@@ -973,6 +974,7 @@ const AddBespokeShoePage = () => {
                     color={categories.heelType ? "success" : "primary"}
                     size="xs"
                     inline={categories.heelType ? false : true}
+                    className="max-h-[30vw] overflow-auto"
                   >
                     {heelTypeEnums?.map((item: string, index: number) => (
                       <Dropdown.Item

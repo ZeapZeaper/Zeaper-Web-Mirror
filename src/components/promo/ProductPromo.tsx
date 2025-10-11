@@ -7,7 +7,13 @@ import Loading from "../loading/Loading";
 import JoinPromoModal from "./JoinPromoModal";
 import LeavePromoModal from "./LeavePromoModal";
 
-const ProductPromo = ({ productId }: { productId: string }) => {
+const ProductPromo = ({
+  productId,
+  hideProductPromoStatus = false,
+}: {
+  productId: string;
+  hideProductPromoStatus?: boolean;
+}) => {
   const token = useSelector(globalSelectors.selectAuthToken);
   const [openJoinPromoModal, setOpenJoinPromoModal] = useState(false);
   const [openLeavePromoModal, setOpenLeavePromoModal] = useState(false);
@@ -26,7 +32,9 @@ const ProductPromo = ({ productId }: { productId: string }) => {
       {!promo && promoProductsQuery.status === "fulfilled" && (
         <Alert color="info">
           <div className="flex  flex-col gap-2">
-            <span>This product is not part of any promo </span>
+            {!hideProductPromoStatus && (
+              <span>This product is not part of any promo </span>
+            )}
             <Button
               size="xs"
               color="success"

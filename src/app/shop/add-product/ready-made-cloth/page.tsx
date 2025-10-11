@@ -755,6 +755,7 @@ const AddReadyMadeClothPage = () => {
                         color={categories.age?.ageGroup ? "success" : "primary"}
                         size="xs"
                         inline={categories.age?.ageGroup ? false : true}
+                        className="max-h-[30vw] overflow-auto"
                       >
                         {ageGroupEnums?.map((item: string, index: number) => (
                           <Dropdown.Item
@@ -952,6 +953,7 @@ const AddReadyMadeClothPage = () => {
                     color={categories.sleeveLength ? "success" : "primary"}
                     size="xs"
                     inline={categories.sleeveLength ? false : true}
+                    className="max-h-[30vw] overflow-auto"
                   >
                     {sleeveLengthEnums?.map((item: string, index: number) => (
                       <Dropdown.Item

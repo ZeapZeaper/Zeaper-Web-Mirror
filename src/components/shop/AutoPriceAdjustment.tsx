@@ -222,7 +222,6 @@ const AutoPriceAdjustment = ({
               rightIcon={() => <span>%</span>}
               addon="+-"
               type="number"
-              min={0}
               max={100}
               onChange={(e) => setAdjustmentPercentage(Number(e.target.value))}
             />

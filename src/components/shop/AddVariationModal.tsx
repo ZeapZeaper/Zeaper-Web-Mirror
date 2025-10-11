@@ -55,9 +55,9 @@ const AddVariationModal = ({
   const [error, setError] = useState<string | null>(null);
   const [color, setColor] = useState<string>('');
   const [size, setSize] = useState<string>('');
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<number | undefined>(undefined);
 
-  const [quantity, setQuantity] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number | undefined>(undefined);
 
   const [addVariation, addVariationStatus] =
     zeapApiSlice.useAddProductVariationMutation();
@@ -103,8 +103,16 @@ const AddVariationModal = ({
       setError('Please enter a price');
       return false;
     }
+    if (price < 0) {
+      setError('Price cannot be less than 0');
+      return false;
+    }
     if (!quantity) {
       setError('Please enter a quantity');
+      return false;
+    }
+    if (quantity < 0) {
+      setError('Quantity cannot be less than 0');
       return false;
     }
     return true;
@@ -206,9 +214,9 @@ const AddVariationModal = ({
             <Label value="Price" />
             <TextInput
               theme={inputTheme}
-              value={price || 0}
+              value={price}
               type="number"
-              min={0}
+           
               onChange={(e) => {
                 setPrice(parseInt(e.target.value));
               }}
@@ -220,9 +228,9 @@ const AddVariationModal = ({
             <Label value="Quantity" />
             <TextInput
               theme={inputTheme}
-              value={quantity || 0}
+              value={quantity}
               type="number"
-              min={0}
+              
               onChange={(e) => {
                 setQuantity(parseInt(e.target.value));
               }}

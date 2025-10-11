@@ -26,7 +26,6 @@ interface ColInterface {
 }
 const VendorProduct = ({ id }: { id: string }) => {
   const token = useSelector(globalSelectors.selectAuthToken);
-
   const searchParams = useSearchParams();
   const color = searchParams.get("color");
   const urlParams = new URLSearchParams(searchParams.toString());

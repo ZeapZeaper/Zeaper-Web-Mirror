@@ -740,6 +740,7 @@ const AccessoriesPage = () => {
                     color={categories.accessoryType ? "success" : "primary"}
                     size="xs"
                     inline={categories.accessoryType ? false : true}
+                    className="max-h-60 overflow-auto"
                   >
                     {accessoryTypeEnums?.map((item: string, index: number) => (
                       <Dropdown.Item
@@ -768,6 +769,7 @@ const AccessoriesPage = () => {
                   color={categories.brand ? "success" : "primary"}
                   size="xs"
                   inline={categories.brand ? false : true}
+                  className="max-h-[30vw] overflow-auto"
                 >
                   {brandEnums?.map((item: string, index: number) => (
                     <Dropdown.Item
@@ -776,6 +778,7 @@ const AccessoriesPage = () => {
                       onClick={() =>
                         setCategories({ ...categories, brand: item })
                       }
+                      
                     >
                       {item}
                     </Dropdown.Item>
