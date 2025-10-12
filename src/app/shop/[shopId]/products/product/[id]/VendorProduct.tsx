@@ -35,7 +35,8 @@ const VendorProduct = ({ id }: { id: string }) => {
   const searchParams = useSearchParams();
   const color = searchParams.get("color");
   const urlParams = new URLSearchParams(searchParams.toString());
-
+  const [showRejectionReasonsModal, setShowRejectionReasonsModal] =
+    useState(false);
   const [openManageVariation, setOpenManageVariation] =
     useState<boolean>(false);
   const [openManageAutoPrice, setOpenManageAutoPrice] =
@@ -45,9 +46,7 @@ const VendorProduct = ({ id }: { id: string }) => {
     { skip: !token }
   );
   const product = productQuery?.data?.data;
-  const [showRejectionReasonsModal, setShowRejectionReasonsModal] = useState(
-    product?.rejectionReasons && product?.rejectionReasons.length > 0
-  );
+
   const categories = product?.categories;
   const productOptionsQuery = zeapApiSlice.useGetProductsOptionsQuery(
     {},
@@ -82,6 +81,7 @@ const VendorProduct = ({ id }: { id: string }) => {
   }, [product, color]);
   useEffect(() => {
     if (product) {
+      setShowRejectionReasonsModal(product?.rejectionReasons?.length > 0);
       const color = product.colors.find(
         (color: ColorInterface) => color.value === searchParams.get("color")
       );
