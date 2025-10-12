@@ -63,18 +63,23 @@ const AddproductSuccessModal = ({
           </p>
 
           {/* ✅ Encouragement for Promo */}
-          <Alert color="success" className="mt-8 w-full text-center">
-            <p className="text-gray-800 font-medium">
-              🚀 Want to boost your new product’s visibility?
-            </p>
-            <p className="text-gray-600 text-sm">
-              Join our latest promotional campaign to reach more customers and
-              drive early sales!
-            </p>
-            <div className="mt-4 flex justify-center">
-              <ProductPromo productId={product?.productId} hideProductPromoStatus/>
-            </div>
-          </Alert>
+          {!product?.promo?.promoId && (
+            <Alert color="success" className="mt-8 w-full text-center">
+              <p className="text-gray-800 font-medium">
+                🚀 Want to boost your new product’s visibility?
+              </p>
+              <p className="text-gray-600 text-sm">
+                Join our latest promotional campaign to reach more customers and
+                drive early sales!
+              </p>
+              <div className="mt-4 flex justify-center">
+                <ProductPromo
+                  productId={product?.productId}
+                  hideProductPromoStatus
+                />
+              </div>
+            </Alert>
+          )}
 
           {/* ✅ Action Buttons */}
           <div className="flex flex-col md:flex-row justify-center mt-8 gap-3 w-full">
@@ -82,7 +87,9 @@ const AddproductSuccessModal = ({
               onClick={() => {
                 handleClose();
                 router.push(
-                  `/shop/${product?.shopId}/products/product/${product?.productId.replaceAll("/", "-")}`
+                  `/shop/${
+                    product?.shopId
+                  }/products/product/${product?.productId.replaceAll("/", "-")}`
                 );
               }}
               className="w-full rounded-lg h-[3rem]"

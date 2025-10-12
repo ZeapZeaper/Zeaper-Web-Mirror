@@ -10,7 +10,11 @@ import { ColorInterface, VariationInterface } from "@/interface/interface";
 import Loading from "@/app/loading";
 import ProductImage from "@/app/products/[product]/ProductImage";
 import ProductReview from "@/app/products/[product]/ProductReview";
-import { getStatusColor, numberWithCommas } from "@/utils/helpers";
+import {
+  getCurrencySmallSymbol,
+  getStatusColor,
+  numberWithCommas,
+} from "@/utils/helpers";
 import ProductPromo from "@/components/promo/ProductPromo";
 import ShopProductTimeline from "@/components/shop/ShopProductTimeline";
 import ProductActions from "@/components/shop/ProductActions";
@@ -18,6 +22,8 @@ import { useSearchParams } from "next/navigation";
 import ProductDescription from "@/app/products/[product]/ProductDescription";
 import { ManageVariationDrawer } from "@/components/shop/ManageVariationDrawer";
 import { ManageAutoPriceDrawer } from "@/components/shop/ManageAutoPriceDrawer";
+import RejectionReasonDisplay from "@/components/shop/RejectionReasonDisplay";
+import RejectionReasonsModal from "@/components/shop/RejectionReasonsModal";
 
 interface ColInterface {
   name: string;
@@ -29,7 +35,7 @@ const VendorProduct = ({ id }: { id: string }) => {
   const searchParams = useSearchParams();
   const color = searchParams.get("color");
   const urlParams = new URLSearchParams(searchParams.toString());
-  const currency = useSelector(globalSelectors.selectCurrency);
+
   const [openManageVariation, setOpenManageVariation] =
     useState<boolean>(false);
   const [openManageAutoPrice, setOpenManageAutoPrice] =
@@ -39,6 +45,9 @@ const VendorProduct = ({ id }: { id: string }) => {
     { skip: !token }
   );
   const product = productQuery?.data?.data;
+  const [showRejectionReasonsModal, setShowRejectionReasonsModal] = useState(
+    product?.rejectionReasons && product?.rejectionReasons.length > 0
+  );
   const categories = product?.categories;
   const productOptionsQuery = zeapApiSlice.useGetProductsOptionsQuery(
     {},
@@ -109,10 +118,13 @@ const VendorProduct = ({ id }: { id: string }) => {
               </div>
             )}
             <div className="hidden md:block mt-4">
-              <div className="text-darkGold text-lg mt-4">Reviews</div>
-              <div>
-                <ProductReview product={product} />
-              </div>
+              <RejectionReasonDisplay reasons={product?.rejectionReasons} />
+              <>
+                <div className="text-darkGold text-lg mt-4">Reviews</div>
+                <div>
+                  <ProductReview product={product} />
+                </div>
+              </>
             </div>
           </div>
           <div className=" flex flex-col">
@@ -181,7 +193,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                       key={index}
                       className="p-2 border rounded-md cursor-pointer"
                     >
-                      {currency?.symbol}
+                      {getCurrencySmallSymbol(variation?.currency)}
                       {numberWithCommas(variation?.price)}
                     </div>
                   )
@@ -491,14 +503,14 @@ const VendorProduct = ({ id }: { id: string }) => {
                               {variation.size}
                             </Table.Cell>
                             <Table.Cell>
-                              {currency?.symbol}
+                              {getCurrencySmallSymbol(variation?.currency)}
                               {numberWithCommas(variation.price)}
                             </Table.Cell>
                             <Table.Cell>
                               {variation.discount
-                                ? `${currency?.symbol}${numberWithCommas(
-                                    variation.discount
-                                  )}`
+                                ? `${getCurrencySmallSymbol(
+                                    variation?.currency
+                                  )}${numberWithCommas(variation.discount)}`
                                 : "N/A"}
                             </Table.Cell>
                             <Table.Cell>{variation.quantity}</Table.Cell>
@@ -635,7 +647,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                           <p className="text-sm font-semibold">
                             Price:{" "}
                             <span className="font-normal text-slate-400">
-                              {currency?.symbol}
+                              {getCurrencySmallSymbol(variation?.currency)}
                               {numberWithCommas(variation.price)}
                             </span>
                           </p>
@@ -643,9 +655,9 @@ const VendorProduct = ({ id }: { id: string }) => {
                             Discount:{" "}
                             <span className="font-normal text-slate-400">
                               {variation.discount
-                                ? `${currency?.symbol}${numberWithCommas(
-                                    variation.discount
-                                  )}`
+                                ? `${getCurrencySmallSymbol(
+                                    variation?.currency
+                                  )}${numberWithCommas(variation.discount)}`
                                 : "N/A"}
                             </span>
                           </p>
@@ -721,10 +733,13 @@ const VendorProduct = ({ id }: { id: string }) => {
                 </div>
               </div>
               <div className="md:hidden ">
-                <div className="text-darkGold text-lg mt-4">Reviews</div>
-                <div>
-                  <ProductReview product={product} />
-                </div>
+                <RejectionReasonDisplay reasons={product?.rejectionReasons} />
+                <>
+                  <div className="text-darkGold text-lg mt-4">Reviews</div>
+                  <div>
+                    <ProductReview product={product} />
+                  </div>
+                </>
               </div>
             </div>
           </div>
@@ -732,6 +747,13 @@ const VendorProduct = ({ id }: { id: string }) => {
         </div>
       )}
       {product && <ProductActions product={product} />}
+      {showRejectionReasonsModal && (
+        <RejectionReasonsModal
+          showRejectionReasonsModal={showRejectionReasonsModal}
+          setShowRejectionReasonsModal={setShowRejectionReasonsModal}
+          reasons={product?.rejectionReasons}
+        />
+      )}
     </div>
   );
 };

@@ -10,10 +10,11 @@ import {
   TextInput,
   ToggleSwitch,
 } from "flowbite-react";
-import {  useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import Loading from "../loading/Loading";
 import { ThemeContext } from "@/contexts/themeContext";
+import { validIntegerInput } from "@/utils/helpers";
 
 const ModalTheme = {
   root: {
@@ -59,7 +60,9 @@ const AutoPriceAdjustment = ({
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isAdjustable, setIsAdjustable] = useState(false);
-  const [adjustmentPercentage, setAdjustmentPercentage] = useState(0);
+  const [adjustmentPercentage, setAdjustmentPercentage] = useState<
+    string | number
+  >();
   const [updateAutoPriceAdjustment] =
     zeapApiSlice.useUpdateAutoPriceAdjustmentMutation();
   useEffect(() => {
@@ -221,9 +224,16 @@ const AutoPriceAdjustment = ({
               color="success"
               rightIcon={() => <span>%</span>}
               addon="+-"
-              type="number"
-              max={100}
-              onChange={(e) => setAdjustmentPercentage(Number(e.target.value))}
+              type="text"
+              maxLength={3}
+              inputMode="numeric"
+              onChange={(e) => {
+                const value = e.target.value;
+                // allow only numbers + optional decimal
+                if (validIntegerInput(value)) {
+                  setAdjustmentPercentage(value);
+                }
+              }}
             />
           </div>
         </Modal.Body>

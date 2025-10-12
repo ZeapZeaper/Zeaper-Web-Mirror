@@ -18,6 +18,7 @@ import Link from "next/link";
 import NotificationProvider from "@/shared/Notification";
 import DropdownNotification from "@/components/Header/DropdownNotification";
 
+
 const getBodoniFont = Bodoni_Moda({
   variable: "--font-bodoni",
   weight: ["900", "900"],
@@ -46,7 +47,7 @@ export default function ShopLayout({
                 <html lang="en">
                   <head>
                     <link rel="icon" href="/favicon.ico" />
-                     <meta
+                    <meta
                       name="viewport"
                       content="width=device-width, initial-scale=1.0"
                     />
@@ -86,13 +87,20 @@ export default function ShopLayout({
                               />
                             </Link>
                             <div className="flex items-center gap-4 ">
-                            {/* User Menu Bar */}
-                            <span className="inline-block mt-3">
-                              <DropdownNotification />
-                            </span>
-                          
+                              <Link
+                                href="/shop"
 
-                            <UserMenuBar />
+                                className="p-2 text-xs md:text-sm md:px-6 md:py-3 rounded-full bg-[#D5B07B] text-[#133522] font-bold shadow-2xl hover:bg-[#e6c28c] transition cursor-pointer"
+                              >
+                                My Shop
+                              </Link>
+
+                              {/* User Menu Bar */}
+                              <span className="inline-block mt-3">
+                                <DropdownNotification />
+                              </span>
+
+                              <UserMenuBar />
                             </div>
                           </div>
                         </div>

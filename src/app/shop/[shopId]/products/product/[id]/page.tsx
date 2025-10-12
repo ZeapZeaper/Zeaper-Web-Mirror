@@ -10,7 +10,7 @@ const VendorProductPage = async ({
   const { id } = await params;
 
   return (
-    <div className="p-4 py-6 lg:pb-28 bg-neutral-100">
+    <div className="p-4 py-6 lg:pb-28 container">
       {id && <VendorProduct id={id.replaceAll("-", "/")} />}
     </div>
   );

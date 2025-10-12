@@ -385,7 +385,7 @@ const AddReadyMadeClothPage = () => {
 
   return (
     <div className="container py-6 lg:pb-28">
-      <span className="text-xl md:text-2xl font-bold ">Ready Made Cloth</span>
+      <span className="text-xl md:text-2xl font-bold ">Ready To Wear Cloth</span>
       <ol className="flex items-center w-full mb-4 sm:mb-5">
         <li className={`${getClass(1)} md:after:content-['Basic_Details']`}>
           <div
@@ -574,7 +574,7 @@ const AddReadyMadeClothPage = () => {
                 </div>
 
                 <Editor
-                  placeholder={"Description of the product"}
+                  placeholder={description ? "" : "Description of the product"}
                   value={description}
                   onChange={(value) => setDescription(value)}
                   refresh={refresh}

@@ -620,7 +620,7 @@ const AddBespokeClothPage = () => {
                 </div>
 
                 <Editor
-                  placeholder={"Description of the product"}
+                  placeholder={description ? "" : "Description of the product"}
                   value={description}
                   onChange={(value) => setDescription(value)}
                   refresh={refresh}

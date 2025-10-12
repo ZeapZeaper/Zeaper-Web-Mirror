@@ -268,3 +268,16 @@ export const correctULTagFromQuill = (str: string) => {
   }
   return str;
 };
+
+export const validIntegerInput = (value: string) => {
+  const regex = /^\d*$/;
+  return regex.test(value);
+}
+export const validDecimalInput = (value: string) => {
+  const regex = /^\d*\.?\d*$/;
+  return regex.test(value);
+}
+export const validNumberInput = (value: string) => {
+  const regex = /^-?\d*\.?\d*$/;
+  return regex.test(value);
+}

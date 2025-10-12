@@ -152,11 +152,11 @@ export const menuLinks = [
     image: bespokeShoeImage,
   },
   {
-    link: "Ready Made Cloth",
+    link: "Ready To Wear Cloth",
     image: readyMadeClothImage,
   },
   {
-    link: "Ready Made Shoe",
+    link: "Ready To Wear Shoe",
     image: readyMadeShoeImage,
   },
 
@@ -661,12 +661,12 @@ export const productsCollection = {
 
 export const productTypeOptions = [
   {
-    name: "Ready Made Cloth",
+    name: "Ready To Wear Cloth",
     value: "readyMadeCloth",
     slug: "ready-made-cloth",
   },
   {
-    name: "Ready Made Shoe",
+    name: "Ready To Wear Shoe",
     value: "readyMadeShoe",
     slug: "ready-made-footwear",
   },

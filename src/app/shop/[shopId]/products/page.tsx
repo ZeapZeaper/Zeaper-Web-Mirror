@@ -7,7 +7,6 @@ import { AuthContext } from "@/contexts/authContext";
 import { ProductInterface } from "@/interface/interface";
 import { globalSelectors } from "@/redux/services/global.slice";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
-import { toCamelCaseWithoutSpaces } from "@/utils/helpers";
 import { Alert, Pagination } from "flowbite-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -24,6 +23,7 @@ const ShopProductsPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const status = searchParams.get("status") || "live";
+  console.log("status", status);
   const pageNumber = searchParams.get("page") || "1";
   const token = useSelector(globalSelectors.selectAuthToken);
   const { user } = useContext(AuthContext);
@@ -35,7 +35,7 @@ const ShopProductsPage = () => {
   const productsQuery = zeapApiSlice.useGetShopProductsQuery(
     {
       limit,
-      status: toCamelCaseWithoutSpaces(status),
+      status,
       pageNumber,
       currency: "NGN",
     },
@@ -173,14 +173,13 @@ const ShopProductsPage = () => {
           </Alert>
         </div>
       )}
- {products?.length > 0 && filteredProduct?.length === 0 && (
+      {products?.length > 0 && filteredProduct?.length === 0 && (
         <div className="w-full flex items-center justify-center my-16">
           <Alert className="w-100 " color="info">
             No product found for your search or filter criteria.
           </Alert>
         </div>
-      )}      
-
+      )}
       <div className="hidden md:grid grid-cols-3 lg:grid-cols-4 w-full  gap-4 cursor-pointer  justify-center">
         {filteredProduct?.length > 0 &&
           filteredProduct?.map((product: ProductInterface) => (

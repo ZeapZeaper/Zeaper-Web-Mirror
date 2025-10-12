@@ -252,7 +252,7 @@ const ReadyMadeSizeGuideModal = ({
       position="top-center"
     >
       <ModalHeader>
-        <span className="font-bold">Ready made size guide</span>
+        <span className="font-bold">Ready to wear size guide</span>
       </ModalHeader>
       <div className="w-full h-full flex flex-col gap-4 md:p-4">
         <div className="flex flex-col">
