@@ -1,13 +1,6 @@
 "use client";
-import {
-  Alert,
-  Button,
-  Dropdown,
-  Label,
-  Radio,
-  TextInput,
-} from "flowbite-react";
-import { useContext, useEffect, useState } from "react";
+import { Alert, Button, Dropdown, Label, Radio } from "flowbite-react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import Multiselect from "multiselect-react-dropdown";
@@ -20,10 +13,9 @@ import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import Loading from "@/app/loading";
 import AutoPriceAdjustment from "@/components/shop/AutoPriceAdjustment";
 import SubmitProductModal from "@/components/shop/SubmitProductModal";
-import Editor from "@/components/editor/EditorWithUseQuill";
-import { sortNaturally } from "@/utils/helpers";
 import ImagesAndColor from "@/components/shop/ImagesAndColor";
 import Variations from "@/components/shop/Variations";
+import ProductBasicDetailsForm from "@/components/shop/ProductBasicDetailsForm";
 
 // import ProductHeader from '../components/ProductHeader'
 
@@ -50,6 +42,8 @@ interface CategoriesInterface {
 type OptionType = { value: string; id: number };
 
 const AddReadyMadeClothPage = () => {
+  const topDivRef = useRef<HTMLDivElement>(null);
+
   const { setDimBackground } = useContext(ThemeContext);
   const token = useSelector(globalSelectors.selectAuthToken);
   const { user } = useContext(AuthContext);
@@ -65,6 +59,7 @@ const AddReadyMadeClothPage = () => {
   const [description, setDescription] = useState("");
   const [sizes, setSizes] = useState<string[]>([]);
   const [sizeStandard, setSizeStandard] = useState("");
+
   const [categories, setCategories] = useState<CategoriesInterface>({
     main: [],
     style: [],
@@ -87,6 +82,7 @@ const AddReadyMadeClothPage = () => {
     age: "",
     size: "",
   });
+
   const [serverError, setServerError] = useState("");
   const [createProduct, creteProductStatus] =
     zeapApiSlice.useCreateProductMutation();
@@ -102,6 +98,12 @@ const AddReadyMadeClothPage = () => {
     .sort((a: OptionType, b: OptionType) => a.value.localeCompare(b.value));
 
   const styleOptions = options?.readyMadeClothes?.clothStyleEnums
+    ?.map((str: string, index: number) => ({ value: str, id: index + 1 }))
+    .sort((a: OptionType, b: OptionType) => a.value.localeCompare(b.value));
+  const femaleStyleOptions = options?.readyMadeClothes?.femaleClothStyleEnums
+    ?.map((str: string, index: number) => ({ value: str, id: index + 1 }))
+    .sort((a: OptionType, b: OptionType) => a.value.localeCompare(b.value));
+  const maleStyleOptions = options?.readyMadeClothes?.maleClothStyleEnums
     ?.map((str: string, index: number) => ({ value: str, id: index + 1 }))
     .sort((a: OptionType, b: OptionType) => a.value.localeCompare(b.value));
   const genderOptions = options?.readyMadeClothes?.genderEnums
@@ -124,9 +126,13 @@ const AddReadyMadeClothPage = () => {
   const fitOptionEnums = options?.readyMadeClothes?.fitEnums
     ?.map((str: string, index: number) => ({ value: str, id: index + 1 }))
     .sort((a: OptionType, b: OptionType) => a.value.localeCompare(b.value));
-  const sizeOptionEnums = options?.readyMadeClothes?.clothSizeEnums
-    ?.map((str: string, index: number) => ({ value: str, id: index + 1 }))
-    .sort((a: OptionType, b: OptionType) => a.value.localeCompare(b.value));
+  const sizeOptionEnums = options?.readyMadeClothes?.clothSizeEnums?.map(
+    (str: string, index: number) => ({ value: str, id: index + 1 })
+  );
+
+  const sizeByRegionOptionEnums: { [key: string]: string[] } =
+    options?.readyMadeClothes?.clothSizeEnumsByRegion;
+
   const sizeStandardEnums: string[] =
     options?.readyMadeShoes?.sizeStandardEnums;
   const productQuery = zeapApiSlice.useGetProductQuery(
@@ -167,6 +173,12 @@ const AddReadyMadeClothPage = () => {
     }
   }, [product]);
 
+  useEffect(() => {
+    if (serverError) {
+      topDivRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [serverError]);
+
   const getClass = (step: number) => {
     if (step === stage) {
       return "flex w-full items-center text-darkGold   after:w-full after:h-1 after:border-b after:border-darkGold after:border-4 after:inline-block";
@@ -200,43 +212,50 @@ const AddReadyMadeClothPage = () => {
       return "Review";
     }
   };
-  const getColor = (value: string | undefined, isError: string) => {
-    if (value) {
-      return "success";
-    }
-    if (isError) {
-      return "failure";
-    }
-  };
+
   const handleValidation = () => {
     if (stage === 1) {
       if (!title) {
         setError({ ...error, title: "Title is required" });
-        console.log("error", error);
+       
         return false;
       }
+
+      // check if description is less than 20 characters
       if (!description) {
         setError({ ...error, description: "Description is required" });
 
         return false;
       }
+      if (description.length < 20) {
+        setError({
+          ...error,
+          description: "Description must be at least 20 characters",
+        });
+        return false;
+      }
       return true;
     }
     if (stage === 2) {
-      if (categories.main.length === 0) {
-        setError({ ...error, main: "Select at least one main category" });
-        return false;
-      }
-      if (categories.style.length === 0) {
-        setError({ ...error, style: "Select at least one style category" });
-        return false;
-      }
-      if (categories.gender.length === 0) {
+      if (categories.gender?.length === 0) {
         setError({ ...error, gender: "Select at least one gender" });
+        setServerError("Select at least one gender");
         return false;
       }
+      if (categories.main?.length === 0 || categories.main === undefined) {
+        setError({ ...error, main: "Select at least one main category" });
+        setServerError("Select at least one main category");
+        return false;
+      }
+      if (categories.style?.length === 0 || categories.style === undefined) {
+        setError({ ...error, style: "Select at least one style category" });
+        setServerError("Select at least one style category");
+        return false;
+      }
+
       if (categories?.age?.ageGroup === "") {
         setError({ ...error, age: "Select at least one age group" });
+        setServerError("Select at least one age group");
         return false;
       }
       if (
@@ -244,17 +263,18 @@ const AddReadyMadeClothPage = () => {
         categories?.age?.ageRange === ""
       ) {
         setError({ ...error, age: "Select at least one age range" });
+        setServerError("Select at least one age range");
         return false;
       }
       return true;
     }
     if (stage === 3) {
-      if (!sizes) {
-        setError({ ...error, size: "Size is required" });
-        return false;
-      }
       if (!sizeStandard) {
         setError({ ...error, size: "Size standard is required" });
+        return false;
+      }
+      if (sizes.length === 0 || !sizes) {
+        setError({ ...error, size: "Size is required" });
         return false;
       }
       return true;
@@ -283,17 +303,10 @@ const AddReadyMadeClothPage = () => {
   };
 
   const handleCreateProduct = async (payload: PayloadInterface) => {
-    // const payload = {
-    //     title,
-    //     subtitle,
-    //     description,
-    //     shopId,
-    //     productType: "readyMadeCloth"
-    // }
     createProduct({ payload })
       .unwrap()
       .then((res) => {
-        console.log("res", res);
+       
         setProductId(res.data.productId);
 
         setStage(stage + 1);
@@ -306,7 +319,7 @@ const AddReadyMadeClothPage = () => {
     updateProduct({ payload })
       .unwrap()
       .then((res) => {
-        console.log("res", res);
+     
         setProductId(res.data.productId);
 
         setStage(stage + 1);
@@ -333,7 +346,7 @@ const AddReadyMadeClothPage = () => {
     if (!handleValidation()) {
       setTimeout(() => {
         setServerError("");
-      }, 1000);
+      }, 10000);
       return;
     }
     if (stage === 6) {
@@ -345,7 +358,7 @@ const AddReadyMadeClothPage = () => {
     let payload = {};
     if (stage === 1) {
       payload = {
-        title,
+          title,
         subtitle,
         description,
         shopId,
@@ -382,10 +395,42 @@ const AddReadyMadeClothPage = () => {
     clearError();
     setStage(stage - 1);
   };
+  const getStyleOptions = () => {
+    if (!categories?.gender) return styleOptions;
+    if (
+      categories.gender.includes("Male") &&
+      categories.gender.includes("Female")
+    ) {
+      return styleOptions;
+    }
 
+    if (categories.gender.includes("Male")) {
+      return maleStyleOptions;
+    }
+    if (categories.gender.includes("Female")) {
+      return femaleStyleOptions;
+    }
+    return styleOptions || [];
+  };
+  const getSizeOptions = () => {
+   
+    const regionSizeExist =
+      sizeByRegionOptionEnums[sizeStandard]?.map(
+        (str: string, index: number) => ({ value: str, id: index + 1 })
+      ) || [];
+
+    if (regionSizeExist?.length > 0) {
+      return regionSizeExist;
+    }
+    return sizeOptionEnums;
+  };
   return (
     <div className="container py-6 lg:pb-28">
-      <span className="text-xl md:text-2xl font-bold ">Ready To Wear Cloth</span>
+      <div ref={topDivRef} />
+      <span className="text-xl md:text-2xl font-bold ">
+        Ready To Wear Cloth
+      </span>
+
       <ol className="flex items-center w-full mb-4 sm:mb-5">
         <li className={`${getClass(1)} md:after:content-['Basic_Details']`}>
           <div
@@ -527,171 +572,33 @@ const AddReadyMadeClothPage = () => {
         </h3>
         <div className="flex flex-col gap-4 min-h-[57vh] overflow-auto">
           {isLoading && <Loading />}
+
           {serverError && (
             <Alert color="failure" icon={HiInformationCircle} className="my-4">
               {serverError}
             </Alert>
           )}
-          {stage === 1 && (
-            <>
-              <div>
-                <div className="mb-2 block">
-                  <Label value="Title" />
-                </div>
-                <TextInput
-                  type="text"
-                  placeholder="Title / Name of the product"
-                  required
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  color={getColor(title, error.title)}
-                  helperText={
-                    error.title && !title ? (
-                      <>
-                        <span className="text-xs">{error?.title}</span>
-                      </>
-                    ) : (
-                      ""
-                    )
-                  }
-                />
-              </div>
-              <div>
-                <div className="mb-2 block">
-                  <Label value="Subtitle" />
-                </div>
-                <TextInput
-                  type="text"
-                  placeholder="Subtitle if any..."
-                  value={subtitle || ""}
-                  onChange={(e) => setSubtitle(e.target.value)}
-                  color={subtitle ? "success" : ""}
-                />
-              </div>
-              <div>
-                <div className="mb-2 block">
-                  <Label value="Description" />
-                </div>
 
-                <Editor
-                  placeholder={description ? "" : "Description of the product"}
-                  value={description}
-                  onChange={(value) => setDescription(value)}
-                  refresh={refresh}
-                />
-              </div>
-            </>
+          {stage === 1 && (
+            <ProductBasicDetailsForm
+              title={title}
+              setTitle={setTitle}
+              subtitle={subtitle}
+              setSubtitle={setSubtitle}
+              description={description}
+              setDescription={setDescription}
+              error={error}
+              refresh={refresh}
+            />
           )}
           {stage === 2 && (
             <div className="flex flex-col gap-6">
               <div className="border rounded p-2">
                 <div className="mb-2 block">
-                  <Label value="Main Category" />
-                  <div className="text-xs text-slate-500 mb-2">
-                    Select at least one main category
-                  </div>
-
-                  {mainOptions?.length > 0 && (
-                    <div>
-                      <Multiselect
-                        options={mainOptions}
-                        displayValue="value"
-                        onSelect={(selectedList) => {
-                          setCategories({
-                            ...categories,
-                            main: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          });
-                        }}
-                        onRemove={(selectedList) =>
-                          setCategories({
-                            ...categories,
-                            main: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          })
-                        }
-                        selectedValues={mainOptions.filter((item: OptionType) =>
-                          categories.main.includes(item.value)
-                        )}
-                        placeholder="Select main categories"
-                        style={{
-                          chips: {
-                            background: "#219653",
-                          },
-
-                          searchBox: {
-                            border: "none",
-                            borderBottom: "1px solid #a17f1a",
-                            borderRadius: "0px",
-                          },
-                        }}
-                      />
-                    </div>
-                  )}
-                  {error.main && categories?.main?.length === 0 && (
-                    <span className="text-xs text-danger">{error.main}</span>
-                  )}
-                </div>
-              </div>
-              <div className="border rounded p-2">
-                <div className="mb-2 block">
-                  <Label value="Style" />
-                  <div className="text-xs text-slate-500 mb-2">
-                    Select at least one style
-                  </div>
-                  {styleOptions?.length > 0 && (
-                    <div>
-                      <Multiselect
-                        options={styleOptions}
-                        displayValue="value"
-                        onSelect={(selectedList) => {
-                          setCategories({
-                            ...categories,
-                            style: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          });
-                        }}
-                        onRemove={(selectedList) =>
-                          setCategories({
-                            ...categories,
-                            style: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          })
-                        }
-                        selectedValues={styleOptions.filter(
-                          (item: OptionType) =>
-                            categories.style.includes(item.value)
-                        )}
-                        placeholder="Select style categories"
-                        style={{
-                          chips: {
-                            background: "#219653",
-                          },
-
-                          searchBox: {
-                            border: "none",
-                            borderBottom: "1px solid #a17f1a",
-                            borderRadius: "0px",
-                          },
-                        }}
-                      />
-                    </div>
-                  )}
-                  {error.style && categories?.style?.length === 0 && (
-                    <span className="text-xs text-danger">{error.style}</span>
-                  )}
-                </div>
-              </div>
-
-              <div className="border rounded p-2">
-                <div className="mb-2 block">
                   <Label value="Gender" />
                   <div className="text-xs text-slate-500 mb-2">
-                    Select at least one gender
+                    Select at least one gender. Select both male and female if
+                    your product is unisex
                   </div>
 
                   {genderOptions?.length > 0 && (
@@ -741,331 +648,468 @@ const AddReadyMadeClothPage = () => {
 
                 <div></div>
               </div>
-
-              <div className="border rounded p-2">
-                <div className="mb-2 block">
-                  <Label value="Age" />
-                  <div className="flex flex-col-gap-2">
-                    <div>
+              {categories?.gender?.length > 0 && (
+                <>
+                  <div className="border rounded p-2">
+                    <div className="mb-2 block">
+                      <Label value="Main Category" />
                       <div className="text-xs text-slate-500 mb-2">
-                        Select one age group
+                        Select at least one main category
+                      </div>
+
+                      {mainOptions?.length > 0 && (
+                        <div>
+                          <Multiselect
+                            options={mainOptions}
+                            displayValue="value"
+                            onSelect={(selectedList) => {
+                              setCategories({
+                                ...categories,
+                                main: selectedList.map(
+                                  (item: OptionType) => item.value
+                                ),
+                              });
+                            }}
+                            onRemove={(selectedList) =>
+                              setCategories({
+                                ...categories,
+                                main: selectedList.map(
+                                  (item: OptionType) => item.value
+                                ),
+                              })
+                            }
+                            selectedValues={mainOptions.filter(
+                              (item: OptionType) =>
+                                categories?.main?.includes(item.value)
+                            )}
+                            placeholder="Select main categories"
+                            style={{
+                              chips: {
+                                background: "#219653",
+                              },
+
+                              searchBox: {
+                                border: "none",
+                                borderBottom: "1px solid #a17f1a",
+                                borderRadius: "0px",
+                              },
+                            }}
+                          />
+                        </div>
+                      )}
+                      {error.main &&
+                        (categories.main?.length === 0 ||
+                          categories.main === undefined) && (
+                          <span className="text-xs text-danger">
+                            {error.main}
+                          </span>
+                        )}
+                    </div>
+                  </div>
+                  <div className="border rounded p-2">
+                    <div className="mb-2 block">
+                      <Label value="Style" />
+                      <div className="text-xs text-slate-500 mb-2">
+                        Select at least one style
+                      </div>
+                      {styleOptions?.length > 0 && (
+                        <div>
+                          <Multiselect
+                            options={getStyleOptions()}
+                            displayValue="value"
+                            onSelect={(selectedList) => {
+                              setCategories({
+                                ...categories,
+                                style: selectedList.map(
+                                  (item: OptionType) => item.value
+                                ),
+                              });
+                            }}
+                            onRemove={(selectedList) =>
+                              setCategories({
+                                ...categories,
+                                style: selectedList.map(
+                                  (item: OptionType) => item.value
+                                ),
+                              })
+                            }
+                            selectedValues={styleOptions.filter(
+                              (item: OptionType) =>
+                                categories?.style?.includes(item.value)
+                            )}
+                            placeholder="Select style categories"
+                            style={{
+                              chips: {
+                                background: "#219653",
+                              },
+
+                              searchBox: {
+                                border: "none",
+                                borderBottom: "1px solid #a17f1a",
+                                borderRadius: "0px",
+                              },
+                            }}
+                          />
+                        </div>
+                      )}
+                      {error.style &&
+                        (categories.style?.length === 0 ||
+                          categories.style === undefined) && (
+                          <span className="text-xs text-danger">
+                            {error.style}
+                          </span>
+                        )}
+                    </div>
+                  </div>
+
+                  <div className="border rounded p-2">
+                    <div className="mb-2 block">
+                      <Label value="Age" />
+                      <div className="flex flex-col-gap-2">
+                        <div>
+                          <div className="text-xs text-slate-500 mb-2">
+                            Select one age group
+                          </div>
+                          <Dropdown
+                            label={
+                              categories?.age?.ageGroup || "Select Age Group"
+                            }
+                            color={
+                              categories.age?.ageGroup ? "success" : "primary"
+                            }
+                            size="xs"
+                            inline={categories.age?.ageGroup ? false : true}
+                            className="max-h-[30vw] overflow-auto"
+                          >
+                            {ageGroupEnums?.map(
+                              (item: string, index: number) => (
+                                <Dropdown.Item
+                                  className="text-black"
+                                  key={index}
+                                  onClick={() => {
+                                    if (item === "Adults") {
+                                      setCategories({
+                                        ...categories,
+                                        age: { ageGroup: item },
+                                      });
+                                    } else {
+                                      setCategories({
+                                        ...categories,
+                                        age: { ageGroup: item, ageRange: "" },
+                                      });
+                                    }
+                                  }}
+                                >
+                                  {item}
+                                </Dropdown.Item>
+                              )
+                            )}
+                          </Dropdown>
+                        </div>
+                        {categories?.age?.ageGroup === "Kids" && (
+                          <div>
+                            <div className="text-xs text-slate-500 mb-2">
+                              Select one age range
+                            </div>
+                            <Dropdown
+                              label={
+                                categories.age?.ageRange || "Select Age Range"
+                              }
+                              color={
+                                categories.age?.ageRange ? "success" : "primary"
+                              }
+                              size="xs"
+                              inline={categories.age?.ageRange ? false : true}
+                            >
+                              {ageRangeEnums?.map(
+                                (item: string, index: number) => (
+                                  <Dropdown.Item
+                                    className="text-black"
+                                    key={index}
+                                    onClick={() =>
+                                      setCategories({
+                                        ...categories,
+                                        age: {
+                                          ageGroup: "Kids",
+                                          ageRange: item,
+                                        },
+                                      })
+                                    }
+                                  >
+                                    {item}
+                                  </Dropdown.Item>
+                                )
+                              )}
+                            </Dropdown>
+                          </div>
+                        )}
+                      </div>
+                      {error.age &&
+                        (!categories?.age?.ageGroup ||
+                          (categories?.age?.ageGroup === "Kids" &&
+                            !categories?.age?.ageRange)) && (
+                          <span className="text-xs text-danger">
+                            {error.age}
+                          </span>
+                        )}
+                    </div>
+                  </div>
+
+                  <div className="border rounded p-2">
+                    <div className="mb-2 block">
+                      <Label value="Brand" />
+                    </div>
+                    <Dropdown
+                      label={categories?.brand || "Select Brand"}
+                      color={categories.brand ? "success" : "primary"}
+                      size="xs"
+                      inline={categories.brand ? false : true}
+                      className="max-h-[30vw] overflow-auto"
+                    >
+                      {brandEnums?.map((item: string, index: number) => (
+                        <Dropdown.Item
+                          className="text-black"
+                          key={index}
+                          onClick={() =>
+                            setCategories({ ...categories, brand: item })
+                          }
+                        >
+                          {item}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown>
+                  </div>
+                  <div className="border rounded p-2">
+                    <div className="mb-2 block">
+                      <Label value="Design" />
+                      <div className="text-xs text-slate-500 mb-2">
+                        Select as many designs as possible that apply
+                      </div>
+                      {designOptionEnums?.length > 0 && (
+                        <div>
+                          <Multiselect
+                            options={designOptionEnums}
+                            displayValue="value"
+                            onSelect={(selectedList) => {
+                              setCategories({
+                                ...categories,
+                                design: selectedList.map(
+                                  (item: OptionType) => item.value
+                                ),
+                              });
+                            }}
+                            onRemove={(selectedList) =>
+                              setCategories({
+                                ...categories,
+                                design: selectedList.map(
+                                  (item: OptionType) => item.value
+                                ),
+                              })
+                            }
+                            selectedValues={designOptionEnums.filter(
+                              (item: OptionType) =>
+                                categories?.design?.includes(item.value)
+                            )}
+                            placeholder="Select design categories"
+                            style={{
+                              chips: {
+                                background: "#219653",
+                              },
+
+                              searchBox: {
+                                border: "none",
+                                borderBottom: "1px solid #a17f1a",
+                                borderRadius: "0px",
+                              },
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="border rounded p-2">
+                    <div className="mb-2 block">
+                      <Label value="Occasion" />
+                      <div className="text-xs text-slate-500 mb-2">
+                        Select as many occasions as possible that apply
+                      </div>
+                      {occasionOptionEnums?.length > 0 && (
+                        <div>
+                          <Multiselect
+                            options={occasionOptionEnums}
+                            displayValue="value"
+                            onSelect={(selectedList) => {
+                              setCategories({
+                                ...categories,
+                                occasion: selectedList.map(
+                                  (item: OptionType) => item.value
+                                ),
+                              });
+                            }}
+                            onRemove={(selectedList) =>
+                              setCategories({
+                                ...categories,
+                                occasion: selectedList.map(
+                                  (item: OptionType) => item.value
+                                ),
+                              })
+                            }
+                            selectedValues={occasionOptionEnums.filter(
+                              (item: OptionType) =>
+                                categories?.occasion?.includes(item.value)
+                            )}
+                            placeholder="Select occasion categories"
+                            style={{
+                              chips: {
+                                background: "#219653",
+                              },
+
+                              searchBox: {
+                                border: "none",
+                                borderBottom: "1px solid #a17f1a",
+                                borderRadius: "0px",
+                              },
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="border rounded p-2">
+                    <div className="mb-2 block">
+                      <Label value="Sleeve Length" />
+                      <div className="text-xs text-slate-500 mb-2">
+                        Select the sleeve length
                       </div>
                       <Dropdown
-                        label={categories?.age?.ageGroup || "Select Age Group"}
-                        color={categories.age?.ageGroup ? "success" : "primary"}
+                        label={
+                          categories?.sleeveLength || "Select Sleeve Length"
+                        }
+                        color={categories.sleeveLength ? "success" : "primary"}
                         size="xs"
-                        inline={categories.age?.ageGroup ? false : true}
+                        inline={categories.sleeveLength ? false : true}
                         className="max-h-[30vw] overflow-auto"
                       >
-                        {ageGroupEnums?.map((item: string, index: number) => (
-                          <Dropdown.Item
-                            className="text-black"
-                            key={index}
-                            onClick={() => {
-                              if (item === "Adults") {
-                                setCategories({
-                                  ...categories,
-                                  age: { ageGroup: item },
-                                });
-                              } else {
-                                setCategories({
-                                  ...categories,
-                                  age: { ageGroup: item, ageRange: "" },
-                                });
-                              }
-                            }}
-                          >
-                            {item}
-                          </Dropdown.Item>
-                        ))}
-                      </Dropdown>
-                    </div>
-                    {categories?.age?.ageGroup === "Kids" && (
-                      <div>
-                        <div className="text-xs text-slate-500 mb-2">
-                          Select one age range
-                        </div>
-                        <Dropdown
-                          label={categories.age?.ageRange || "Select Age Range"}
-                          color={
-                            categories.age?.ageRange ? "success" : "primary"
-                          }
-                          size="xs"
-                          inline={categories.age?.ageRange ? false : true}
-                        >
-                          {ageRangeEnums?.map((item: string, index: number) => (
+                        {sleeveLengthEnums?.map(
+                          (item: string, index: number) => (
                             <Dropdown.Item
-                              className="text-black"
                               key={index}
                               onClick={() =>
                                 setCategories({
                                   ...categories,
-                                  age: { ageGroup: "Kids", ageRange: item },
+                                  sleeveLength: item,
                                 })
                               }
                             >
                               {item}
                             </Dropdown.Item>
-                          ))}
-                        </Dropdown>
+                          )
+                        )}
+                      </Dropdown>
+                    </div>
+                  </div>
+
+                  <div className="border rounded p-2">
+                    <div className="mb-2 block">
+                      <Label value="Fastening" />
+                      <div className="text-xs text-slate-500 mb-2">
+                        Select the fastening
                       </div>
-                    )}
-                  </div>
-                  {error.age &&
-                    (!categories?.age?.ageGroup ||
-                      (categories?.age?.ageGroup === "Kids" &&
-                        !categories?.age?.ageRange)) && (
-                      <span className="text-xs text-danger">{error.age}</span>
-                    )}
-                </div>
-              </div>
+                      {fasteningOptionEnums?.length > 0 && (
+                        <div>
+                          <Multiselect
+                            options={fasteningOptionEnums}
+                            displayValue="value"
+                            onSelect={(selectedList) => {
+                              setCategories({
+                                ...categories,
+                                fastening: selectedList.map(
+                                  (item: OptionType) => item.value
+                                ),
+                              });
+                            }}
+                            onRemove={(selectedList) =>
+                              setCategories({
+                                ...categories,
+                                fastening: selectedList.map(
+                                  (item: OptionType) => item.value
+                                ),
+                              })
+                            }
+                            selectedValues={fasteningOptionEnums.filter(
+                              (item: OptionType) =>
+                                categories?.fastening?.includes(item.value)
+                            )}
+                            placeholder="Select fastening categories"
+                            style={{
+                              chips: {
+                                background: "#219653",
+                              },
 
-              <div className="border rounded p-2">
-                <div className="mb-2 block">
-                  <Label value="Brand" />
-                </div>
-                <Dropdown
-                  label={categories?.brand || "Select Brand"}
-                  color={categories.brand ? "success" : "primary"}
-                  size="xs"
-                  inline={categories.brand ? false : true}
-                  className="max-h-[30vw] overflow-auto"
-                >
-                  {brandEnums?.map((item: string, index: number) => (
-                    <Dropdown.Item
-                      className="text-black"
-                      key={index}
-                      onClick={() =>
-                        setCategories({ ...categories, brand: item })
-                      }
-                    >
-                      {item}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown>
-              </div>
-              <div className="border rounded p-2">
-                <div className="mb-2 block">
-                  <Label value="Design" />
-                  <div className="text-xs text-slate-500 mb-2">
-                    Select as many designs as possible that apply
-                  </div>
-                  {designOptionEnums?.length > 0 && (
-                    <div>
-                      <Multiselect
-                        options={designOptionEnums}
-                        displayValue="value"
-                        onSelect={(selectedList) => {
-                          setCategories({
-                            ...categories,
-                            design: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          });
-                        }}
-                        onRemove={(selectedList) =>
-                          setCategories({
-                            ...categories,
-                            design: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          })
-                        }
-                        selectedValues={designOptionEnums.filter(
-                          (item: OptionType) =>
-                            categories.design.includes(item.value)
-                        )}
-                        placeholder="Select design categories"
-                        style={{
-                          chips: {
-                            background: "#219653",
-                          },
-
-                          searchBox: {
-                            border: "none",
-                            borderBottom: "1px solid #a17f1a",
-                            borderRadius: "0px",
-                          },
-                        }}
-                      />
+                              searchBox: {
+                                border: "none",
+                                borderBottom: "1px solid #a17f1a",
+                                borderRadius: "0px",
+                              },
+                            }}
+                          />
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="border rounded p-2">
-                <div className="mb-2 block">
-                  <Label value="Occasion" />
-                  <div className="text-xs text-slate-500 mb-2">
-                    Select as many occasions as possible that apply
                   </div>
-                  {occasionOptionEnums?.length > 0 && (
-                    <div>
-                      <Multiselect
-                        options={occasionOptionEnums}
-                        displayValue="value"
-                        onSelect={(selectedList) => {
-                          setCategories({
-                            ...categories,
-                            occasion: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          });
-                        }}
-                        onRemove={(selectedList) =>
-                          setCategories({
-                            ...categories,
-                            occasion: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          })
-                        }
-                        selectedValues={occasionOptionEnums.filter(
-                          (item: OptionType) =>
-                            categories.occasion.includes(item.value)
-                        )}
-                        placeholder="Select occasion categories"
-                        style={{
-                          chips: {
-                            background: "#219653",
-                          },
 
-                          searchBox: {
-                            border: "none",
-                            borderBottom: "1px solid #a17f1a",
-                            borderRadius: "0px",
-                          },
-                        }}
-                      />
+                  <div className="border rounded p-2">
+                    <div className="mb-2 block">
+                      <Label value="Fit" />
+                      <div className="text-xs text-slate-500 mb-2">
+                        Select the fit
+                      </div>
+                      {fitOptionEnums?.length > 0 && (
+                        <div>
+                          <Multiselect
+                            options={fitOptionEnums}
+                            displayValue="value"
+                            onSelect={(selectedList) => {
+                              setCategories({
+                                ...categories,
+                                fit: selectedList.map(
+                                  (item: OptionType) => item.value
+                                ),
+                              });
+                            }}
+                            onRemove={(selectedList) =>
+                              setCategories({
+                                ...categories,
+                                fit: selectedList.map(
+                                  (item: OptionType) => item.value
+                                ),
+                              })
+                            }
+                            selectedValues={fitOptionEnums.filter(
+                              (item: OptionType) =>
+                                categories?.fit?.includes(item.value)
+                            )}
+                            placeholder="Select fit categories"
+                            style={{
+                              chips: {
+                                background: "#219653",
+                              },
+
+                              searchBox: {
+                                border: "none",
+                                borderBottom: "1px solid #a17f1a",
+                                borderRadius: "0px",
+                              },
+                            }}
+                          />
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="border rounded p-2">
-                <div className="mb-2 block">
-                  <Label value="Sleeve Length" />
-                  <div className="text-xs text-slate-500 mb-2">
-                    Select the sleeve length
                   </div>
-                  <Dropdown
-                    label={categories?.sleeveLength || "Select Sleeve Length"}
-                    color={categories.sleeveLength ? "success" : "primary"}
-                    size="xs"
-                    inline={categories.sleeveLength ? false : true}
-                    className="max-h-[30vw] overflow-auto"
-                  >
-                    {sleeveLengthEnums?.map((item: string, index: number) => (
-                      <Dropdown.Item
-                        key={index}
-                        onClick={() =>
-                          setCategories({ ...categories, sleeveLength: item })
-                        }
-                      >
-                        {item}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown>
-                </div>
-              </div>
-
-              <div className="border rounded p-2">
-                <div className="mb-2 block">
-                  <Label value="Fastening" />
-                  <div className="text-xs text-slate-500 mb-2">
-                    Select the fastening
-                  </div>
-                  {fasteningOptionEnums?.length > 0 && (
-                    <div>
-                      <Multiselect
-                        options={fasteningOptionEnums}
-                        displayValue="value"
-                        onSelect={(selectedList) => {
-                          setCategories({
-                            ...categories,
-                            fastening: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          });
-                        }}
-                        onRemove={(selectedList) =>
-                          setCategories({
-                            ...categories,
-                            fastening: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          })
-                        }
-                        selectedValues={fasteningOptionEnums.filter(
-                          (item: OptionType) =>
-                            categories.fastening.includes(item.value)
-                        )}
-                        placeholder="Select fastening categories"
-                        style={{
-                          chips: {
-                            background: "#219653",
-                          },
-
-                          searchBox: {
-                            border: "none",
-                            borderBottom: "1px solid #a17f1a",
-                            borderRadius: "0px",
-                          },
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="border rounded p-2">
-                <div className="mb-2 block">
-                  <Label value="Fit" />
-                  <div className="text-xs text-slate-500 mb-2">
-                    Select the fit
-                  </div>
-                  {fitOptionEnums?.length > 0 && (
-                    <div>
-                      <Multiselect
-                        options={fitOptionEnums}
-                        displayValue="value"
-                        onSelect={(selectedList) => {
-                          setCategories({
-                            ...categories,
-                            fit: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          });
-                        }}
-                        onRemove={(selectedList) =>
-                          setCategories({
-                            ...categories,
-                            fit: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          })
-                        }
-                        selectedValues={fitOptionEnums.filter(
-                          (item: OptionType) =>
-                            categories.fit.includes(item.value)
-                        )}
-                        placeholder="Select fit categories"
-                        style={{
-                          chips: {
-                            background: "#219653",
-                          },
-
-                          searchBox: {
-                            border: "none",
-                            borderBottom: "1px solid #a17f1a",
-                            borderRadius: "0px",
-                          },
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
+                </>
+              )}
             </div>
           )}
 
@@ -1084,6 +1128,7 @@ const AddReadyMadeClothPage = () => {
                         value={item}
                         onChange={(e) => {
                           setSizeStandard(e.target.value);
+                          setSizes([]);
                         }}
                         checked={sizeStandard === item}
                         //   label={item}
@@ -1100,10 +1145,10 @@ const AddReadyMadeClothPage = () => {
                 <div className="text-xs text-slate-500 mb-2">
                   Select the sizes available
                 </div>
-                {sizeOptionEnums?.length > 0 && (
+                {sizeOptionEnums?.length > 0 && sizeStandard && (
                   <div>
                     <Multiselect
-                      options={sortNaturally(sizeOptionEnums, "value")}
+                      options={getSizeOptions()}
                       displayValue="value"
                       onSelect={(selectedList) => {
                         setSizes(
@@ -1115,8 +1160,8 @@ const AddReadyMadeClothPage = () => {
                           selectedList.map((item: OptionType) => item.value)
                         )
                       }
-                      selectedValues={sizeOptionEnums.filter(
-                        (item: OptionType) => sizes.includes(item.value)
+                      selectedValues={getSizeOptions().filter(
+                        (item: OptionType) => sizes?.includes(item.value)
                       )}
                       placeholder="Select sizes"
                       style={{
@@ -1150,13 +1195,11 @@ const AddReadyMadeClothPage = () => {
           )}
           {stage === 6 && (
             <AutoPriceAdjustment
-          
               setServerError={(error: string | null) =>
                 setServerError(error || "")
               }
               serverError={serverError}
               product={product}
-           
             />
           )}
         </div>

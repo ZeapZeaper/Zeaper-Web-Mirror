@@ -1,13 +1,6 @@
 "use client";
-import {
-  Alert,
-  Button,
-  Dropdown,
-  Label,
-  Radio,
-  TextInput,
-} from "flowbite-react";
-import { useContext, useEffect, useState } from "react";
+import { Alert, Button, Dropdown, Label, Radio } from "flowbite-react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ThemeContext } from "@/contexts/themeContext";
 import { globalSelectors } from "@/redux/services/global.slice";
 import { AuthContext } from "@/contexts/authContext";
@@ -17,12 +10,11 @@ import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import Loading from "@/app/loading";
 import AutoPriceAdjustment from "@/components/shop/AutoPriceAdjustment";
 import SubmitProductModal from "@/components/shop/SubmitProductModal";
-import Editor from "@/components/editor/EditorWithUseQuill";
-import { sortNaturally } from "@/utils/helpers";
 import ImagesAndColor from "@/components/shop/ImagesAndColor";
 import Variations from "@/components/shop/Variations";
 import { useSelector } from "react-redux";
 import Multiselect from "multiselect-react-dropdown";
+import ProductBasicDetailsForm from "@/components/shop/ProductBasicDetailsForm";
 
 // import ProductHeader from '../components/ProductHeader'
 
@@ -49,6 +41,7 @@ interface CategoriesInterface {
 type OptionType = { value: string; id: number };
 
 const AddReadyMadeShoePage = () => {
+  const topDivRef = useRef<HTMLDivElement>(null);
   const { setDimBackground } = useContext(ThemeContext);
   const token = useSelector(globalSelectors.selectAuthToken);
   const { user } = useContext(AuthContext);
@@ -118,11 +111,15 @@ const AddReadyMadeShoePage = () => {
   const fasteningOptionEnums = options?.readyMadeShoes?.fasteningEnums
     ?.map((str: string, index: number) => ({ value: str, id: index + 1 }))
     .sort((a: OptionType, b: OptionType) => a.value.localeCompare(b.value));
-  const sizeOptionEnums = options?.readyMadeShoes?.shoeSizeEnums
-    ?.map((str: string, index: number) => ({ value: str, id: index + 1 }))
-    .sort((a: OptionType, b: OptionType) => a.value.localeCompare(b.value));
+  const sizeOptionEnums = options?.readyMadeShoes?.shoeSizeEnums?.map(
+    (str: string, index: number) => ({ value: str, id: index + 1 })
+  );
+
   const sizeStandardEnums: string[] =
     options?.readyMadeShoes?.sizeStandardEnums;
+
+  const sizeByRegionOptionEnums: { [key: string]: string[] } =
+    options?.readyMadeShoes?.shoeSizeEnumsByRegion;
 
   const productQuery = zeapApiSlice.useGetProductQuery(
     { productId: id || productId, currency: "NGN" },
@@ -161,6 +158,12 @@ const AddReadyMadeShoePage = () => {
     }
   }, [product]);
 
+  useEffect(() => {
+    if (serverError) {
+      topDivRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [serverError]);
+
   const getClass = (step: number) => {
     if (step === stage) {
       return "flex w-full items-center text-darkGold   after:w-full after:h-1 after:border-b after:border-darkGold after:border-4 after:inline-block";
@@ -194,14 +197,7 @@ const AddReadyMadeShoePage = () => {
       return "Review";
     }
   };
-  const getColor = (value: string | undefined, isError: string) => {
-    if (value) {
-      return "success";
-    }
-    if (isError) {
-      return "failure";
-    }
-  };
+
   const handleValidation = () => {
     if (stage === 1) {
       if (!title) {
@@ -209,24 +205,36 @@ const AddReadyMadeShoePage = () => {
         console.log("error", error);
         return false;
       }
+
       if (!description) {
         setError({ ...error, description: "Description is required" });
 
         return false;
       }
+      if (description.length < 20) {
+        setError({
+          ...error,
+          description: "Description must be at least 20 characters",
+        });
+        return false;
+      }
       return true;
     }
     if (stage === 2) {
-      if (categories.style.length === 0) {
-        setError({ ...error, style: "Select at least one style category" });
-        return false;
-      }
       if (categories.gender.length === 0) {
         setError({ ...error, gender: "Select at least one gender" });
+        setServerError("Select at least one gender");
         return false;
       }
+      if (categories.style.length === 0) {
+        setError({ ...error, style: "Select at least one style category" });
+        setServerError("Select at least one style category");
+        return false;
+      }
+
       if (categories?.age?.ageGroup === "") {
         setError({ ...error, age: "Select at least one age group" });
+        setServerError("Select at least one age group");
         return false;
       }
       if (
@@ -234,14 +242,17 @@ const AddReadyMadeShoePage = () => {
         categories?.age?.ageRange === ""
       ) {
         setError({ ...error, age: "Select at least one age range" });
+        setServerError("Select at least one age range");
         return false;
       }
       if (!categories?.heelHeight) {
         setError({ ...error, heelHeight: "Heel height is required" });
+        setServerError("Heel height is required");
         return false;
       }
       if (!categories?.heelType) {
         setError({ ...error, heelType: "Heel type is required" });
+        setServerError("Heel type is required");
         return false;
       }
       return true;
@@ -316,7 +327,6 @@ const AddReadyMadeShoePage = () => {
       size: "",
       heelHeight: "",
       heelType: "",
-      
     });
     setServerError("");
   };
@@ -326,7 +336,7 @@ const AddReadyMadeShoePage = () => {
     if (!handleValidation()) {
       setTimeout(() => {
         setServerError("");
-      }, 1000);
+      }, 10000);
       return;
     }
     if (stage === 6) {
@@ -374,9 +384,22 @@ const AddReadyMadeShoePage = () => {
     clearError();
     setStage(stage - 1);
   };
+  const getSizeOptions = () => {
+    // if (!sizeStandard || !sizeByRegionOptionEnums) return sizeOptionEnums;
+    const regionSizeExist =
+      sizeByRegionOptionEnums[sizeStandard]?.map(
+        (str: string, index: number) => ({ value: str, id: index + 1 })
+      ) || [];
+
+    if (regionSizeExist?.length > 0) {
+      return regionSizeExist;
+    }
+    return sizeOptionEnums;
+  };
 
   return (
     <div className="container py-6 lg:pb-28">
+      <div ref={topDivRef} />
       <span className="text-xl md:text-2xl font-bold ">
         Ready To Wear Footwear
       </span>
@@ -527,114 +550,25 @@ const AddReadyMadeShoePage = () => {
             </Alert>
           )}
           {stage === 1 && (
-            <>
-              <div>
-                <div className="mb-2 block">
-                  <Label value="Title" />
-                </div>
-                <TextInput
-                  type="text"
-                  placeholder="Title / Name of the product"
-                  required
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  color={getColor(title, error.title)}
-                  helperText={
-                    error.title && !title ? (
-                      <>
-                        <span className="text-xs">{error?.title}</span>
-                      </>
-                    ) : (
-                      ""
-                    )
-                  }
-                />
-              </div>
-              <div>
-                <div className="mb-2 block">
-                  <Label value="Subtitle" />
-                </div>
-                <TextInput
-                  type="text"
-                  placeholder="Subtitle if any..."
-                  value={subtitle || ""}
-                  onChange={(e) => setSubtitle(e.target.value)}
-                  color={subtitle ? "success" : ""}
-                />
-              </div>
-              <div>
-                <div className="mb-2 block">
-                  <Label value="Description" />
-                </div>
-
-                <Editor
-                 placeholder={description ? "" : "Description of the product"}
-                  value={description}
-                  onChange={(value) => setDescription(value)}
-                  refresh={refresh}
-                />
-              </div>
-            </>
+            <ProductBasicDetailsForm
+              title={title}
+              setTitle={setTitle}
+              subtitle={subtitle}
+              setSubtitle={setSubtitle}
+              description={description}
+              setDescription={setDescription}
+              error={error}
+              refresh={refresh}
+            />
           )}
           {stage === 2 && (
             <div className="flex flex-col gap-6">
               <div className="border rounded p-2">
                 <div className="mb-2 block">
-                  <Label value="Style" />
-                  <div className="text-xs text-slate-500 mb-2">
-                    Select at least one style
-                  </div>
-                  {styleOptions?.length > 0 && (
-                    <div>
-                      <Multiselect
-                        options={styleOptions}
-                        displayValue="value"
-                        onSelect={(selectedList) => {
-                          setCategories({
-                            ...categories,
-                            style: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          });
-                        }}
-                        onRemove={(selectedList) =>
-                          setCategories({
-                            ...categories,
-                            style: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          })
-                        }
-                        selectedValues={styleOptions.filter(
-                          (item: OptionType) =>
-                            categories.style.includes(item.value)
-                        )}
-                        placeholder="Select style categories"
-                        style={{
-                          chips: {
-                            background: "#219653",
-                          },
-
-                          searchBox: {
-                            border: "none",
-                            borderBottom: "1px solid #a17f1a",
-                            borderRadius: "0px",
-                          },
-                        }}
-                      />
-                    </div>
-                  )}
-                  {error.style && categories?.style?.length === 0 && (
-                    <span className="text-xs text-danger">{error.style}</span>
-                  )}
-                </div>
-              </div>
-
-              <div className="border rounded p-2">
-                <div className="mb-2 block">
                   <Label value="Gender" />
                   <div className="text-xs text-slate-500 mb-2">
-                    Select at least one gender
+                    Select at least one gender. Select both male and female if
+                    your product is unisex
                   </div>
 
                   {genderOptions?.length > 0 && (
@@ -683,6 +617,57 @@ const AddReadyMadeShoePage = () => {
                 </div>
 
                 <div></div>
+              </div>
+              <div className="border rounded p-2">
+                <div className="mb-2 block">
+                  <Label value="Style" />
+                  <div className="text-xs text-slate-500 mb-2">
+                    Select at least one style
+                  </div>
+                  {styleOptions?.length > 0 && (
+                    <div>
+                      <Multiselect
+                        options={styleOptions}
+                        displayValue="value"
+                        onSelect={(selectedList) => {
+                          setCategories({
+                            ...categories,
+                            style: selectedList.map(
+                              (item: OptionType) => item.value
+                            ),
+                          });
+                        }}
+                        onRemove={(selectedList) =>
+                          setCategories({
+                            ...categories,
+                            style: selectedList.map(
+                              (item: OptionType) => item.value
+                            ),
+                          })
+                        }
+                        selectedValues={styleOptions.filter(
+                          (item: OptionType) =>
+                            categories?.style?.includes(item.value)
+                        )}
+                        placeholder="Select style categories"
+                        style={{
+                          chips: {
+                            background: "#219653",
+                          },
+
+                          searchBox: {
+                            border: "none",
+                            borderBottom: "1px solid #a17f1a",
+                            borderRadius: "0px",
+                          },
+                        }}
+                      />
+                    </div>
+                  )}
+                  {error.style && categories?.style?.length === 0 && (
+                    <span className="text-xs text-danger">{error.style}</span>
+                  )}
+                </div>
               </div>
 
               <div className="border rounded p-2">
@@ -815,7 +800,7 @@ const AddReadyMadeShoePage = () => {
                         }
                         selectedValues={designOptionEnums.filter(
                           (item: OptionType) =>
-                            categories.design.includes(item.value)
+                            categories?.design?.includes(item.value)
                         )}
                         placeholder="Select design categories"
                         style={{
@@ -864,7 +849,7 @@ const AddReadyMadeShoePage = () => {
                         }
                         selectedValues={occasionOptionEnums.filter(
                           (item: OptionType) =>
-                            categories.occasion.includes(item.value)
+                            categories?.occasion?.includes(item.value)
                         )}
                         placeholder="Select occasion categories"
                         style={{
@@ -972,7 +957,7 @@ const AddReadyMadeShoePage = () => {
                         }
                         selectedValues={fasteningOptionEnums.filter(
                           (item: OptionType) =>
-                            categories.fastening.includes(item.value)
+                            categories?.fastening?.includes(item.value)
                         )}
                         placeholder="Select fastening categories"
                         style={{
@@ -1025,10 +1010,10 @@ const AddReadyMadeShoePage = () => {
                 <div className="text-xs text-slate-500 mb-2">
                   Select the sizes available
                 </div>
-                {sizeOptionEnums?.length > 0 && (
+                {getSizeOptions()?.length > 0 && sizeStandard && (
                   <div>
                     <Multiselect
-                      options={sortNaturally(sizeOptionEnums, "value")}
+                      options={getSizeOptions()}
                       displayValue="value"
                       onSelect={(selectedList) => {
                         setSizes(
@@ -1040,8 +1025,8 @@ const AddReadyMadeShoePage = () => {
                           selectedList.map((item: OptionType) => item.value)
                         )
                       }
-                      selectedValues={sizeOptionEnums.filter(
-                        (item: OptionType) => sizes.includes(item.value)
+                      selectedValues={getSizeOptions().filter(
+                        (item: OptionType) => sizes?.includes(item.value)
                       )}
                       placeholder="Select sizes"
                       style={{
@@ -1075,12 +1060,10 @@ const AddReadyMadeShoePage = () => {
           )}
           {stage === 6 && (
             <AutoPriceAdjustment
-              
               setServerError={(error: string | null) =>
                 setServerError(error || "")
               }
               product={product}
-            
               serverError={serverError}
             />
           )}

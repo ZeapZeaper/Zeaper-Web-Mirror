@@ -46,7 +46,7 @@ const ShopSuccessModal = ({
           <h2 className="text-2xl font-semibold text-center">Hurrah!!!</h2>
           <p className="text-center mt-4">
             Welcome to Zeaper! Your sublime vendor platform for all bespoke and
-            ready-made wears.
+            ready to wears.
           </p>
           <p className="text-center mt-4">
             We’re excited to have you on board. Your registration has been

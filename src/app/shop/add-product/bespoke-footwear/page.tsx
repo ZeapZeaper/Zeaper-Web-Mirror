@@ -1,6 +1,6 @@
 "use client";
-import { Alert, Button, Dropdown, Label, TextInput } from "flowbite-react";
-import { useContext, useEffect, useState } from "react";
+import { Alert, Button, Dropdown, Label } from "flowbite-react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { HiInformationCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
@@ -20,7 +20,8 @@ import BespokeImages from "@/components/shop/BespokeImages";
 import BespokeVariation from "@/components/shop/BespokeVariation";
 import AutoPriceAdjustment from "@/components/shop/AutoPriceAdjustment";
 import SubmitProductModal from "@/components/shop/SubmitProductModal";
-import Editor from "@/components/editor/EditorWithUseQuill";
+
+import ProductBasicDetailsForm from "@/components/shop/ProductBasicDetailsForm";
 
 // import ProductHeader from '../components/ProductHeader'
 
@@ -32,6 +33,9 @@ interface PayloadInterface {
   productType?: string;
   productId?: string;
 }
+
+type OptionType = { value: string; id: number };
+
 interface CategoriesInterface {
   style: string[];
   gender: string[];
@@ -43,9 +47,9 @@ interface CategoriesInterface {
   heelHeight: string;
   heelType: string;
 }
-type OptionType = { value: string; id: number };
 
 const AddBespokeShoePage = () => {
+  const topDivRef = useRef<HTMLDivElement>(null);
   const { setDimBackground } = useContext(ThemeContext);
   const token = useSelector(globalSelectors.selectAuthToken);
   const { user } = useContext(AuthContext);
@@ -160,6 +164,12 @@ const AddBespokeShoePage = () => {
     }
   }, [product]);
 
+  useEffect(() => {
+    if (serverError) {
+      topDivRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [serverError]);
+
   const getClass = (step: number) => {
     if (step === stage) {
       return "flex w-full items-center text-darkGold   after:w-full after:h-1 after:border-b after:border-darkGold after:border-4 after:inline-block";
@@ -194,39 +204,44 @@ const AddBespokeShoePage = () => {
       return "Review";
     }
   };
-  const getColor = (value: string | undefined, isError: string) => {
-    if (value) {
-      return "success";
-    }
-    if (isError) {
-      return "failure";
-    }
-  };
+
   const handleValidation = () => {
     if (stage === 1) {
       if (!title) {
         setError({ ...error, title: "Title is required" });
-        console.log("error", error);
+   
         return false;
       }
+      
       if (!description) {
         setError({ ...error, description: "Description is required" });
 
         return false;
       }
+       if (description.length < 20) {
+        setError({
+          ...error,
+          description: "Description must be at least 20 characters",
+        });
+        return false;
+      }
       return true;
     }
     if (stage === 2) {
-      if (categories.style.length === 0) {
-        setError({ ...error, style: "Select at least one style category" });
-        return false;
-      }
       if (categories.gender.length === 0) {
         setError({ ...error, gender: "Select at least one gender" });
+        setServerError("Select at least one gender");
         return false;
       }
+      if (categories.style.length === 0) {
+        setError({ ...error, style: "Select at least one style category" });
+        setServerError("Select at least one style category");
+        return false;
+      }
+
       if (categories?.age?.ageGroup === "") {
         setError({ ...error, age: "Select at least one age group" });
+        setServerError("Select at least one age group");
         return false;
       }
       if (
@@ -234,14 +249,17 @@ const AddBespokeShoePage = () => {
         categories?.age?.ageRange === ""
       ) {
         setError({ ...error, age: "Select at least one age range" });
+        setServerError("Select at least one age range");
         return false;
       }
       if (!categories?.heelHeight) {
         setError({ ...error, heelHeight: "Heel height is required" });
+        setServerError("Heel height is required");
         return false;
       }
       if (!categories?.heelType) {
         setError({ ...error, heelType: "Heel type is required" });
+        setServerError("Heel type is required");
         return false;
       }
       return true;
@@ -287,7 +305,7 @@ const AddBespokeShoePage = () => {
     createProduct({ payload })
       .unwrap()
       .then((res) => {
-        console.log("res", res);
+ 
         setProductId(res.data.productId);
 
         setStage(stage + 1);
@@ -300,7 +318,7 @@ const AddBespokeShoePage = () => {
     updateProduct({ payload })
       .unwrap()
       .then((res) => {
-        console.log("res", res);
+     
         setProductId(res.data.productId);
         setStage(stage + 1);
       })
@@ -377,7 +395,7 @@ const AddBespokeShoePage = () => {
     if (!handleValidation()) {
       setTimeout(() => {
         setServerError("");
-      }, 1000);
+      }, 10000);
       return;
     }
     if (stage === 6) {
@@ -426,7 +444,8 @@ const AddBespokeShoePage = () => {
 
   return (
     <div className="container py-6 lg:pb-28">
-      <span className="text-xl md:text-2xl font-bold ">Bespoke Cloth</span>
+      <div ref={topDivRef} />
+      <span className="text-xl md:text-2xl font-bold ">Bespoke Footwear</span>
       <ol className="flex items-center w-full mb-4 sm:mb-5">
         <li className={`${getClass(1)} md:after:content-['Basic_Details']`}>
           <div
@@ -575,57 +594,75 @@ const AddBespokeShoePage = () => {
             </Alert>
           )}
           {stage === 1 && (
-            <>
-              <div>
-                <div className="mb-2 block">
-                  <Label value="Title" />
-                </div>
-                <TextInput
-                  type="text"
-                  placeholder="Title / Name of the product"
-                  required
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  color={getColor(title, error.title)}
-                  helperText={
-                    error.title && !title ? (
-                      <>
-                        <span className="text-xs">{error?.title}</span>
-                      </>
-                    ) : (
-                      ""
-                    )
-                  }
-                />
-              </div>
-              <div>
-                <div className="mb-2 block">
-                  <Label value="Subtitle" />
-                </div>
-                <TextInput
-                  type="text"
-                  placeholder="Subtitle if any..."
-                  value={subtitle}
-                  onChange={(e) => setSubtitle(e.target.value)}
-                  color={subtitle ? "success" : ""}
-                />
-              </div>
-              <div>
-                <div className="mb-2 block">
-                  <Label value="Description" />
-                </div>
-
-                <Editor
-                  placeholder={description ? "" : "Description of the product"}
-                  value={description}
-                  onChange={(value) => setDescription(value)}
-                  refresh={refresh}
-                />
-              </div>
-            </>
+            <ProductBasicDetailsForm
+              title={title}
+              setTitle={setTitle}
+              subtitle={subtitle}
+              setSubtitle={setSubtitle}
+              description={description}
+              setDescription={setDescription}
+              error={error}
+              refresh={refresh}
+            />
           )}
           {stage === 2 && (
             <div className="flex flex-col gap-6">
+              <div className="border rounded p-2">
+                <div className="mb-2 block">
+                  <Label value="Gender" />
+                  <div className="text-xs text-slate-500 mb-2">
+                    Select at least one gender. Select both male and female if
+                    your product is unisex
+                  </div>
+
+                  {genderOptions?.length > 0 && (
+                    <div>
+                      <Multiselect
+                        options={genderOptions}
+                        displayValue="value"
+                        onSelect={(selectedList) => {
+                          setCategories({
+                            ...categories,
+                            gender: selectedList.map(
+                              (item: OptionType) => item.value
+                            ),
+                          });
+                        }}
+                        onRemove={(selectedList) =>
+                          setCategories({
+                            ...categories,
+                            gender: selectedList.map(
+                              (item: OptionType) => item.value
+                            ),
+                          })
+                        }
+                        selectedValues={genderOptions.filter(
+                          (item: OptionType) =>
+                            categories.gender.includes(item.value)
+                        )}
+                        placeholder="Select gender"
+                        style={{
+                          chips: {
+                            background: "#219653",
+                          },
+
+                          searchBox: {
+                            border: "none",
+                            borderBottom: "1px solid #a17f1a",
+                            borderRadius: "0px",
+                          },
+                        }}
+                      />
+                    </div>
+                  )}
+                  {error.gender && categories?.gender?.length === 0 && (
+                    <span className="text-xs text-danger">{error.gender}</span>
+                  )}
+                </div>
+
+                <div></div>
+              </div>
+              
               <div className="border rounded p-2">
                 <div className="mb-2 block">
                   <Label value="Style" />
@@ -676,61 +713,6 @@ const AddBespokeShoePage = () => {
                     <span className="text-xs text-danger">{error.style}</span>
                   )}
                 </div>
-              </div>
-
-              <div className="border rounded p-2">
-                <div className="mb-2 block">
-                  <Label value="Gender" />
-                  <div className="text-xs text-slate-500 mb-2">
-                    Select at least one gender
-                  </div>
-
-                  {genderOptions?.length > 0 && (
-                    <div>
-                      <Multiselect
-                        options={genderOptions}
-                        displayValue="value"
-                        onSelect={(selectedList) => {
-                          setCategories({
-                            ...categories,
-                            gender: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          });
-                        }}
-                        onRemove={(selectedList) =>
-                          setCategories({
-                            ...categories,
-                            gender: selectedList.map(
-                              (item: OptionType) => item.value
-                            ),
-                          })
-                        }
-                        selectedValues={genderOptions.filter(
-                          (item: OptionType) =>
-                            categories.gender.includes(item.value)
-                        )}
-                        placeholder="Select gender"
-                        style={{
-                          chips: {
-                            background: "#219653",
-                          },
-
-                          searchBox: {
-                            border: "none",
-                            borderBottom: "1px solid #a17f1a",
-                            borderRadius: "0px",
-                          },
-                        }}
-                      />
-                    </div>
-                  )}
-                  {error.gender && categories?.gender?.length === 0 && (
-                    <span className="text-xs text-danger">{error.gender}</span>
-                  )}
-                </div>
-
-                <div></div>
               </div>
 
               <div className="border rounded p-2">

@@ -1154,6 +1154,27 @@ export default createApi({
         );
       },
     }),
+    absoluteDeleteProduct: builder.mutation({
+      query: (arg) => {
+        const { payload } = arg;
+        return {
+          url: `product/delete/absolute`,
+          method: "PUT",
+          body: payload,
+        };
+      },
+      invalidatesTags: ["Products", "Product"],
+      onQueryStarted: async ({ successHandler, errorHandler }, queryArgs) => {
+        responseHandler(
+          {
+            success: "Product Successfully Deleted",
+            successHandler,
+            errorHandler,
+          },
+          queryArgs
+        );
+      },
+    }),
     enableProduct: builder.mutation({
       query: (arg) => {
         const { payload } = arg;

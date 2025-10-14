@@ -143,7 +143,7 @@ export default function ComingSoon(): React.JSX.Element {
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source
-          src="https://firebasestorage.googleapis.com/v0/b/zeap-7de3d.appspot.com/o/video%2FrtwHome.mov?alt=media&token=73c9fa7b-a5cf-4059-b552-cf67f390b578"
+          src="/video/rtwHome.mov"
           type="video/mp4"
         />
       </video>

@@ -4,7 +4,7 @@ import { Button } from "flowbite-react";
 import Link from "next/link";
 
 const cardClass =
-  "flex flex-col bg-neutral-100 p-4 border border-white rounded-lg cursor-pointer hover:bg-neutral-100 h-[112px]";
+  "flex flex-col bg-neutral-100 p-4 border border-white rounded-lg cursor-pointer hover:bg-neutral-100 h-[112px] hover:shadow-md hover:border-grey7 transition-all";
 
 const AddNewProductOptions = () => {
   return (
@@ -15,10 +15,7 @@ const AddNewProductOptions = () => {
       </div>
       <span className="mb-4">Select the product type you want to add</span>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Link
-          className={`${cardClass}`}
-          href={`add-product/bespoke-cloth/`}
-        >
+        <Link className={`${cardClass}`} href={`add-product/bespoke-cloth/`}>
           <div className="flex justify-between">
             <div className="flex flex-col">
               <div className="bg-grey7 p-2 rounded-lg w-12 h-12 flex items-center justify-center">
@@ -64,10 +61,7 @@ const AddNewProductOptions = () => {
             </Button>
           </div>
         </Link>
-        <Link
-          className={`${cardClass}`}
-          href={`add-product/bespoke-footwear/`}
-        >
+        <Link className={`${cardClass}`} href={`add-product/bespoke-footwear/`}>
           <div className="flex justify-between">
             <div className="flex flex-col">
               <div className="bg-grey7 p-2 rounded-lg w-12 h-12 flex items-center justify-center">
@@ -163,7 +157,9 @@ const AddNewProductOptions = () => {
                   />
                 </svg>
               </div>
-              <span className="text-sm font-semibold">Ready-Made Footwears</span>
+              <span className="text-sm font-semibold">
+                Ready To Wear Footwears
+              </span>
             </div>
             <Button size="sm" color="primary" className="h-fit ">
               {" "}
@@ -171,10 +167,7 @@ const AddNewProductOptions = () => {
             </Button>
           </div>
         </Link>
-        <Link
-          className={`${cardClass}`}
-          href={`add-product/ready-made-cloth/`}
-        >
+        <Link className={`${cardClass}`} href={`add-product/ready-made-cloth/`}>
           <div className="flex justify-between">
             <div className="flex flex-col">
               <div className="bg-grey7 p-2 rounded-lg w-12 h-12 flex items-center justify-center">
@@ -209,7 +202,9 @@ const AddNewProductOptions = () => {
                   />
                 </svg>
               </div>
-              <span className="text-sm font-semibold">Ready-Made Clothes</span>
+              <span className="text-sm font-semibold">
+                Ready To Wear Clothes
+              </span>
             </div>
             <Button size="sm" color="primary" className="h-fit ">
               {" "}

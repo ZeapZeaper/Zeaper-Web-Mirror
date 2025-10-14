@@ -126,7 +126,7 @@ interface AgeInterface {
 }
 interface ProductCategoryInterface {
   gender: string[];
-  age: AgeInterface[];
+  age: AgeInterface;
   style: string[];
   main: string[];
   sleeveLength?: string;
