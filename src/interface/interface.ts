@@ -162,7 +162,7 @@ interface BespokeInterface {
   availableColors: string[];
 }
 interface ProductInterface {
-  productType: "readyMadeCloth" | "readyMadeShoe";
+  productType: "readyMadeCloth" | "readyMadeShoe" | "accessory" | "bespokeCloth" | "bespokeShoe";
   productId: string;
   disabled: boolean;
   shopId: string;

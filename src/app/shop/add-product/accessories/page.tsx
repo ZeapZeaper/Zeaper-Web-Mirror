@@ -161,7 +161,7 @@ const AccessoriesPage = () => {
 
   const getClass = (step: number) => {
     if (step === stage) {
-      return "flex w-full items-center text-darkGold   after:w-full after:h-1 after:border-b after:border-darkGold after:border-4 after:inline-block";
+      return "flex w-full items-center text-secondary   after:w-full after:h-1 after:border-b after:border-secondary after:border-4 after:inline-block";
     }
     if (step < stage) {
       return "flex w-full items-center text-success  after:content-[''] after:w-full after:h-1 after:border-b after:border-success after:border-4 after:inline-block ";
@@ -197,7 +197,7 @@ const AccessoriesPage = () => {
     if (stage === 1) {
       if (!title) {
         setError({ ...error, title: "Title is required" });
-       
+
         return false;
       }
 
@@ -206,7 +206,7 @@ const AccessoriesPage = () => {
 
         return false;
       }
-       if (description.length < 20) {
+      if (description.length < 20) {
         setError({
           ...error,
           description: "Description must be at least 20 characters",
@@ -216,13 +216,12 @@ const AccessoriesPage = () => {
       return true;
     }
     if (stage === 2) {
-     
-      if (categories.gender.length === 0 ) {
+      if (categories.gender.length === 0) {
         setError({ ...error, gender: "Select at least one gender" });
         setServerError("Select at least one gender");
         return false;
       }
-      if (categories.style.length === 0 ) {
+      if (categories.style.length === 0) {
         setError({ ...error, style: "Select at least one style category" });
         setServerError("Select at least one style category");
         return false;
@@ -527,7 +526,7 @@ const AccessoriesPage = () => {
         </li>
       </ol>
       <div>
-        <h3 className="md:hidden mb-4 text-lg font-medium leading-none text-darkGold">
+        <h3 className="md:hidden mb-4 text-lg font-medium leading-none text-secondary">
           {getLabel()}
         </h3>
         <div className="flex flex-col gap-4 min-h-[57vh] overflow-auto">

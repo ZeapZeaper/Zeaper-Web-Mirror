@@ -1,22 +1,9 @@
-"use client"
-import { ProductInterface } from '@/interface/interface';
-import { getTextColor } from '@/utils/helpers';
-import { Alert, Checkbox, Dropdown, Label, TextInput } from 'flowbite-react';
-import { useEffect, useState } from 'react';
-
-
-// import Multiselect from 'multipleselect-react-dropdown';
-
-const inputTheme = {
-  field: {
-    input: {
-      colors: {
-        primary:
-          'border-darkGold  text-dark placeholder-darkGold focus:border-darkGold focus:ring-darkGold dark:bg-darkGold dark:border-darkGold dark:focus:border-darkGold dark:focus:ring-darkGold',
-      },
-    },
-  },
-};
+"use client";
+import { ProductInterface } from "@/interface/interface";
+import NumberInput from "@/shared/Input/NumberInput";
+import { getCurrencySmallSymbol, getTextColor } from "@/utils/helpers";
+import { Alert, Checkbox, Dropdown, Label } from "flowbite-react";
+import { useEffect, useState } from "react";
 
 interface ColInterface {
   name: string;
@@ -40,19 +27,19 @@ const BespokeVariation = ({
   availableColors: string[];
   setAvailableColors: (availableColors: string[]) => void;
   setColorType: (colorType: string) => void;
-  price: number | undefined;
-  setPrice: (price: number | undefined) => void;
+  price: number | undefined | string;
+  setPrice: (price: number | undefined | string) => void;
 }) => {
   const [colors, setColors] = useState<ColInterface[]>([]);
-
+  const currency = product?.variations[0]?.currency || "NGN";
   useEffect(() => {
-    if (colorType === 'single') {
+    if (colorType === "single") {
       const bespoke = product?.variations[0]?.bespoke;
 
       if (bespoke?.availableColors) {
         setAvailableColors(bespoke?.availableColors);
         const removables = allColors.filter(
-          (color) => !bespoke?.availableColors.includes(color.name),
+          (color) => !bespoke?.availableColors.includes(color.name)
         );
         setColors(removables);
       } else {
@@ -68,7 +55,7 @@ const BespokeVariation = ({
   useEffect(() => {
     if (product) {
       const bespoke = product?.variations.find(
-        (variation) => variation.bespoke,
+        (variation) => variation.bespoke
       );
       if (bespoke) {
         setPrice(bespoke.price);
@@ -92,15 +79,12 @@ const BespokeVariation = ({
       <div>
         <div className="mb-2 flex flex-col gap-1 w-fit">
           <Label value="Price" />
-          <TextInput
-            theme={inputTheme}
+          <NumberInput
             value={price}
-            type="number"
-           
-            onChange={(e) => {
-              setPrice(parseInt(e.target.value));
-            }}
-            addon={product?.currency?.symbol || '₦'}
+            onChange={(value) => setPrice(value)}
+            allowDecimals
+            prefix={getCurrencySmallSymbol(currency )}
+            placeholder={`Enter price in ${currency}`}
           />
         </div>
       </div>
@@ -112,24 +96,24 @@ const BespokeVariation = ({
           <div className="flex gap-2">
             <Label value="Plain Single Colour" />
             <Checkbox
-              checked={colorType === 'single'}
+              checked={colorType === "single"}
               onChange={() => {
-                setColorType('single');
+                setColorType("single");
               }}
             />
           </div>
           <div className="flex gap-2">
             <Label value="Multi-colour Design" />
             <Checkbox
-              checked={colorType === 'multiple'}
+              checked={colorType === "multiple"}
               onChange={() => {
-                setColorType('multiple');
+                setColorType("multiple");
               }}
             />
           </div>
         </div>
       </div>
-      {colorType === 'single' && (
+      {colorType === "single" && (
         <div className="flex flex-col gap-2 my-4 border rounded-md p-4">
           <Alert color="info" className="w-fit">
             <span className="block text-sm ">
@@ -148,23 +132,25 @@ const BespokeVariation = ({
                 style={{
                   background: getAvailableColorBg(color),
                 }}
-                className={`min-w-20 h-6 rounded-md items-center  flex justify-between py-4 p-1 ${getTextColor(getAvailableColorBg(color) as string)}`}
+                className={`min-w-20 h-6 rounded-md items-center  flex justify-between py-4 p-1 ${getTextColor(
+                  getAvailableColorBg(color) as string
+                )}`}
               >
                 <span className="text-sm w-full">{color}</span>
                 <span
                   className="cursor-pointer text-sm  bg-danger text-white rounded-full p-1 h-4 w-4 flex items-center justify-center"
                   onClick={() => {
                     const removedColor = allColors.find(
-                      (col) => col.name === color,
+                      (col) => col.name === color
                     );
                     if (removedColor) {
                       const sortedColors = [...colors, removedColor].sort(
-                        (a, b) => a.name.localeCompare(b.name),
+                        (a, b) => a.name.localeCompare(b.name)
                       );
                       setColors(sortedColors);
                     }
                     setAvailableColors(
-                      availableColors.filter((col) => col !== color),
+                      availableColors.filter((col) => col !== color)
                     );
                   }}
                 >
@@ -177,10 +163,10 @@ const BespokeVariation = ({
             <Dropdown
               label={
                 availableColors?.length > 0
-                  ? 'Select more colours a buyer can choose from'
-                  : 'Select all colours a buyer can choose from'
+                  ? "Select more colours"
+                  : "Select all colours"
               }
-              color={'primary'}
+              color={"primary"}
               className=" h-80 overflow-scroll"
             >
               {colors?.map((color) => (
@@ -197,7 +183,9 @@ const BespokeVariation = ({
                     style={{
                       background: color?.hex || color?.background,
                     }}
-                    className={`w-20 h-6 rounded-md items-center justify-center flex ${getTextColor(color?.hex || color?.background || '')}`}
+                    className={`w-20 h-6 rounded-md items-center justify-center flex ${getTextColor(
+                      color?.hex || color?.background || ""
+                    )}`}
                   >
                     {color?.name}
                   </div>

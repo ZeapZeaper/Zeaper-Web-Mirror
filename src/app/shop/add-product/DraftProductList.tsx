@@ -129,7 +129,7 @@ const DraftProductList = ({
                         {getProductTypeLabel(product?.productType)}
                       </p>
                     </div>
-                    <HiChevronRight className="text-darkGold text-2xl" />
+                    <HiChevronRight className="text-secondary text-2xl" />
                   </div>
 
                   <div className="absolute -top-3 left-2 px-2 py-1 text-xs font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-white">

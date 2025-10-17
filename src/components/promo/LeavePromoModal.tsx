@@ -1,11 +1,10 @@
 import { ThemeContext } from "@/contexts/themeContext";
 import { PromoInterface } from "@/interface/interface";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
-import { Alert,  Button, Modal, } from "flowbite-react";
+import { Alert, Button, Modal } from "flowbite-react";
 import { useContext, useEffect, useState } from "react";
 import Loading from "../loading/Loading";
-import { HiInformationCircle } from 'react-icons/hi';
-
+import { HiInformationCircle } from "react-icons/hi";
 
 const LeavePromoModal = ({
   promo,
@@ -36,7 +35,7 @@ const LeavePromoModal = ({
         setOpenModal(false);
       })
       .catch((err) => {
-        console.log('err', err);
+        console.log("err", err);
         setErrorMsg(err.data.error);
       });
   };
@@ -51,7 +50,7 @@ const LeavePromoModal = ({
       }}
       popup
     >
-      <Modal.Header className="text-darkGold">Leave Promo</Modal.Header>
+      <Modal.Header className="text-secondary">Leave Promo</Modal.Header>
       <Modal.Body>
         {isLoading && <Loading />}
         <div className="text-center">

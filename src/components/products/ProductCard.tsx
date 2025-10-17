@@ -336,7 +336,7 @@ const ProductCard = ({
                     product?.status
                   )} text-center  font-semibold py-1 right-[-35px] top-[32px] w-[170px]`}
                 >
-                  {product?.status}
+                  {capitalizeFirstLetter(product?.status)}
                 </div>
               </div>
             )}

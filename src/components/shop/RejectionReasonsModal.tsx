@@ -1,11 +1,10 @@
-'use client';
+"use client";
 
-import { Modal, Button } from 'flowbite-react';
-import { useContext, useEffect } from 'react';
+import { Modal, Button } from "flowbite-react";
+import { useContext, useEffect } from "react";
 
-import RejectionReasonDisplay from './RejectionReasonDisplay';
-import { ThemeContext } from '@/contexts/themeContext';
-
+import RejectionReasonDisplay from "./RejectionReasonDisplay";
+import { ThemeContext } from "@/contexts/themeContext";
 
 interface RejectionReasonsModalProps {
   showRejectionReasonsModal: boolean;
@@ -35,7 +34,7 @@ const RejectionReasonsModal = ({
         setDimBackground(false);
       }}
     >
-      <Modal.Header className="text-darkGold">
+      <Modal.Header className="text-secondary">
         Product Rejection Details
       </Modal.Header>
       <Modal.Body>

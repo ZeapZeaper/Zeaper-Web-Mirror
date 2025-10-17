@@ -1,22 +1,22 @@
-import { MeasurementInterface } from '@/interface/interface';
-import { Accordion, Badge, ToggleSwitch } from 'flowbite-react';
-
+import { MeasurementInterface } from "@/interface/interface";
+import { capitalizeWords } from "@/utils/helpers";
+import { Accordion, Badge, ToggleSwitch } from "flowbite-react";
 
 const toggleTheme = {
   root: {
-    base: 'group flex rounded-lg focus:outline-none',
+    base: "group flex rounded-lg focus:outline-none",
     active: {
-      on: 'cursor-pointer',
-      off: 'cursor-not-allowed opacity-50',
+      on: "cursor-pointer",
+      off: "cursor-not-allowed opacity-50",
     },
     label:
-      'ms-3 mt-0.5 text-start text-sm font-medium text-gray-900 dark:text-gray-300',
+      "ms-3 mt-0.5 text-start text-sm font-medium text-gray-900 dark:text-gray-300",
   },
   toggle: {
-    base: 'relative rounded-full border after:absolute after:rounded-full after:bg-white after:transition-all group-focus:ring-4 group-focus:ring-cyan-500/25',
+    base: "relative rounded-full border after:absolute after:rounded-full after:bg-white after:transition-all group-focus:ring-4 group-focus:ring-cyan-500/25",
     checked: {
-      on: 'after:translate-x-full after:border-white rtl:after:-translate-x-full',
-      off: 'border-gray-200 bg-slate-700 dark:border-gray-600 dark:bg-gray-700',
+      on: "after:translate-x-full after:border-white rtl:after:-translate-x-full",
+      off: "border-gray-200 bg-slate-700 dark:border-gray-600 dark:bg-gray-700",
     },
   },
 };
@@ -70,8 +70,8 @@ const BespokeBodyMeasurementEnumsList = ({
           <Accordion>
             <Accordion.Panel>
               <Accordion.Title>
-                <span className="text-lg  text-darkGold">
-                  {bodyMeasurementEnum.name}
+                <span className="text-lg  text-secondary">
+                  {capitalizeWords(bodyMeasurementEnum.name)}
                 </span>
                 <span className=" flex gap-2 flex-wrap">
                   {measurements
@@ -92,7 +92,7 @@ const BespokeBodyMeasurementEnumsList = ({
                       className="cursor-pointer"
                       onClick={() => {
                         const found = measurements?.find(
-                          (item) => item.name === bodyMeasurementEnum.name,
+                          (item) => item.name === bodyMeasurementEnum.name
                         );
                         if (found) {
                           const updatedMeasurement = measurements?.map(
@@ -104,7 +104,7 @@ const BespokeBodyMeasurementEnumsList = ({
                                 };
                               }
                               return item;
-                            },
+                            }
                           );
                           setMeasurements(updatedMeasurement);
                         } else {
@@ -126,7 +126,7 @@ const BespokeBodyMeasurementEnumsList = ({
                       size="sm"
                       onClick={() => {
                         const found = measurements?.find(
-                          (item) => item.name === bodyMeasurementEnum.name,
+                          (item) => item.name === bodyMeasurementEnum.name
                         );
                         if (found) {
                           const updatedMeasurement = measurements?.map(
@@ -138,7 +138,7 @@ const BespokeBodyMeasurementEnumsList = ({
                                 };
                               }
                               return item;
-                            },
+                            }
                           );
                           setMeasurements(updatedMeasurement);
                         }

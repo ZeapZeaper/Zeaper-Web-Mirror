@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { FaExclamationCircle } from 'react-icons/fa';
-import { Alert } from 'flowbite-react';
+import { FaExclamationCircle } from "react-icons/fa";
+import { Alert } from "flowbite-react";
 
 interface RejectionReasonDisplayProps {
   reasons: string[];
@@ -10,7 +10,7 @@ interface RejectionReasonDisplayProps {
 
 const RejectionReasonDisplay = ({
   reasons,
-  title = 'Product Rejected',
+  title = "Product Rejected",
 }: RejectionReasonDisplayProps) => {
   if (!reasons || reasons.length === 0) return null;
 
@@ -24,9 +24,13 @@ const RejectionReasonDisplay = ({
 
       {/* Summary Text */}
       <p className="text-gray-700 text-sm mb-3">
-        Unfortunately, your product submission didn’t meet our review
-        requirements. Please review the reasons below and make the necessary
-        corrections before resubmitting.
+        Unfortunately, your product did not meet all of the required guidelines
+        Please review the reasons below and make necessary corrections before
+        resubmitting
+      </p>
+      <p className="text-gray-700 text-sm mb-3">
+        Once you have addressed the {reasons.length === 1 ? "issue" : "issues"},
+        you can resubmit your product again for review.
       </p>
 
       {/* List of Reasons */}

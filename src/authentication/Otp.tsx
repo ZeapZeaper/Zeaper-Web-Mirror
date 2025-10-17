@@ -79,7 +79,7 @@
 //               <div className="flex justify-end mb-8">
 //                 <button
 //                   onClick={() => close()}
-//                   className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full px-5 text-sm font-medium tracking-wide  text-danger transition duration-300 bg-slate-200 hover:bg-darkGold hover:text-emerald-600 focus:bg-baseGold focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:text-emerald-300 disabled:shadow-none disabled:hover:bg-transparent"
+//                   className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full px-5 text-sm font-medium tracking-wide  text-danger transition duration-300 bg-slate-200 hover:bg-secondary hover:text-emerald-600 focus:bg-baseGold focus:text-white focus-visible:outline-none disabled:cursor-not-allowed disabled:text-emerald-300 disabled:shadow-none disabled:hover:bg-transparent"
 //                   aria-label="close dialog"
 //                 >
 //                   <span className="relative only:-mx-5">
@@ -174,7 +174,7 @@
 //                         e.preventDefault();
 //                         handleSubmit();
 //                       }}
-//                       className="w-full inline-flex justify-center whitespace-nowrap rounded-lg bg-darkGold px-3.5 py-2.5 text-sm font-medium text-white shadow-sm shadow-indigo-950/10 hover:bg-success focus:outline-none focus:ring focus:ring-indigo-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 disabled:bg-slate-400"
+//                       className="w-full inline-flex justify-center whitespace-nowrap rounded-lg bg-secondary px-3.5 py-2.5 text-sm font-medium text-white shadow-sm shadow-indigo-950/10 hover:bg-success focus:outline-none focus:ring focus:ring-indigo-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150 disabled:bg-slate-400"
 //                     >
 //                       Verify Phone Number
 //                     </button>

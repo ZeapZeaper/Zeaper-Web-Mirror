@@ -8,7 +8,7 @@ import Image from "next/image";
 
 const ModalTheme = {
   root: {
-    base: "fixed inset-x-0 top-0 z-99999 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full opacity-100",
+    base: "fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full opacity-100",
 
     sizes: {
       sm: "max-w-sm",

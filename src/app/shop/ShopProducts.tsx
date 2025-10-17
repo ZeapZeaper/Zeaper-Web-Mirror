@@ -48,7 +48,7 @@ const ShopProducts = ({ shopId }: { shopId: string }) => {
         <div className="flex flex-col gap-8 w-full">
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
-              <h5 className="text-xl font-bold text-darkGold">Products</h5>
+              <h5 className="text-xl font-bold text-secondary">Products</h5>
               {products?.length > 0 && (
                 <Button
                   color="primary"
@@ -78,15 +78,21 @@ const ShopProducts = ({ shopId }: { shopId: string }) => {
                     key={product?.productId}
                     className="flex flex-col items-center justify-center mb-6"
                   >
-                   <ProductCard
-                    product={product}
-                    showStatus
-                    colorOptions={colorOptions}
-                    // disableLink
-                    href = {`/shop/${shopId}/products/product/${product?.productId.replaceAll("/", "-")}`}
-                  />
+                    <ProductCard
+                      product={product}
+                      showStatus
+                      colorOptions={colorOptions}
+                      // disableLink
+                      href={`/shop/${shopId}/products/product/${product?.productId.replaceAll(
+                        "/",
+                        "-"
+                      )}`}
+                    />
                     <Link
-                      href={`/shop/${shopId}/products/product/${product?.productId.replaceAll("/", "-")}`}
+                      href={`/shop/${shopId}/products/product/${product?.productId.replaceAll(
+                        "/",
+                        "-"
+                      )}`}
                       className="text-center text-xs text-white bg-primary cursor-pointer p-2 rounded-full"
                     >
                       Manage Product
@@ -108,10 +114,16 @@ const ShopProducts = ({ shopId }: { shopId: string }) => {
                     showStatus
                     colorOptions={colorOptions}
                     // disableLink
-                    href = {`/shop/${shopId}/products/product/${product?.productId.replaceAll("/", "-")}`}
+                    href={`/shop/${shopId}/products/product/${product?.productId.replaceAll(
+                      "/",
+                      "-"
+                    )}`}
                   />
                   <Link
-                    href={`/shop/${shopId}/products/product/${product?.productId.replaceAll("/", "-")}`}
+                    href={`/shop/${shopId}/products/product/${product?.productId.replaceAll(
+                      "/",
+                      "-"
+                    )}`}
                     className="text-center text-xs text-white bg-primary cursor-pointer p-2 rounded-full"
                   >
                     Manage Product

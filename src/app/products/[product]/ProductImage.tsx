@@ -23,7 +23,7 @@ const ProductImage = ({ images }: { images: string[] }) => {
             src={image}
             alt="product"
             className={`w-30 h-30 object-contain cursor-pointer ${
-              selectedImage === image ? "border-2 border-darkGold" : ""
+              selectedImage === image ? "border-2 border-secondary" : ""
             }`}
             onClick={() => setSelectedImage(image)}
             onMouseOver={() => setHooveredImage(image)}

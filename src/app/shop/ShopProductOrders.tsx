@@ -32,7 +32,7 @@ const ShopProductOrders = ({ shop_id }: { shop_id: string }) => {
 
       <div className="flex flex-col  md:gap-4 w-full mt-4 bg-grey8 dark:bg-grey2 p-4">
         <div className="flex justify-between items-center">
-          <h5 className="text-xl font-bold text-darkGold">Orders</h5>
+          <h5 className="text-xl font-bold text-secondary">Orders</h5>
           {productOrders?.length > 0 && (
             <Button
               color="primary"

@@ -7,7 +7,7 @@ import LoadingDots from "@/components/loading/LoadingDots";
 
 const modalTheme = {
   root: {
-    base: "fixed inset-x-0 top-0 z-999999 w-screen h-screen overflow-y-auto overflow-x-auto ",
+    base: "fixed inset-x-0 top-0 z-50 w-screen h-screen overflow-y-auto overflow-x-auto ",
   },
 };
 

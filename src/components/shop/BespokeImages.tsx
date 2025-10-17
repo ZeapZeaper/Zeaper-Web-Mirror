@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { ThemeContext } from "@/contexts/themeContext";
 import { ProductInterface } from "@/interface/interface";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
@@ -14,7 +14,7 @@ const BadgeThem = {
     base: "flex h-fit w-fit items-center gap-1 font-semibold cursor-pointer",
     color: {
       primary:
-        "border border-darkGold text-black dark:text-white  hover:bg-gold hover:text-black ",
+        "border border-secondary text-black dark:text-white  hover:bg-gold hover:text-black ",
     },
 
     size: {

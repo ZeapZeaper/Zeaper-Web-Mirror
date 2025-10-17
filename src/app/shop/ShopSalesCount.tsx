@@ -124,7 +124,7 @@ const ShopSalesCount = ({
         <div className="flex items-center text-center gap-1 text-sm flex-wrap">
           <div className="w-[16px] h-[16px] bg-baseGreen rounded-md"></div>
           <div>
-            Ready To Wear = <strong>{productGroupsCount['Ready-Made']}</strong>
+            Ready-To-Wear = <strong>{productGroupsCount['Ready-Made']}</strong>
           </div>
         </div>
         <div className="flex items-center text-center gap-1 text-sm flex-wrap">
@@ -137,7 +137,7 @@ const ShopSalesCount = ({
       <div className="flex justify-center">
         <SalesCountChart
           fillColors={['#D5B07B', '#133522']}
-          labels={['Bespoke', 'Ready To Wear']}
+          labels={['Bespoke', 'Ready-To-Wear']}
           data={[
             productGroupsCount['Bespoke'],
             productGroupsCount['Ready-Made'],

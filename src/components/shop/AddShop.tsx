@@ -21,7 +21,7 @@ const inputTheme = {
     input: {
       colors: {
         primary:
-          "border-darkGold  text-dark placeholder-darkGold focus:border-darkGold focus:ring-darkGold dark:bg-darkGold dark:border-darkGold dark:focus:border-darkGold dark:focus:ring-darkGold",
+          "border-secondary  text-dark placeholder-secondary focus:border-secondary focus:ring-secondary dark:bg-secondary dark:border-secondary dark:focus:border-secondary dark:focus:ring-secondary",
       },
     },
   },
@@ -31,7 +31,7 @@ const checkBoxTheme = {
     base: "h-4 w-4 rounded border border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700",
     color: {
       primary:
-        "text-darkGold focus:ring-darkGold dark:ring-offset-darkGold dark:focus:ring-darkGold border-darkGold",
+        "text-secondary focus:ring-secondary dark:ring-offset-secondary dark:focus:ring-secondary border-secondary",
     },
   },
 };
@@ -309,7 +309,7 @@ export function AddShop({
                   onChange={(value) => setPhoneNumber(value || "")}
                   numberInputProps={{
                     className:
-                      "w-full h-12 border border-darkGold rounded-md p-2",
+                      "w-full h-12 border border-secondary rounded-md p-2",
                   }}
                   international
                   placeholder="Enter phone number"

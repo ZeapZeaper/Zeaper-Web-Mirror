@@ -100,7 +100,7 @@ const ProductDetails: FC<SectionProductHeaderProps> = ({
           <h5 className="mb-0 font-semibold">
             {title}-{capitalizeFirstLetter(selectedProductColor || "")}
           </h5>
-          <div className="text-[10px] font-medium text-gray-500 dark:text-gray-400 bg-lightGold dark:bg-darkGold p-1 rounded-md w-fit">
+          <div className="text-[10px] font-medium text-gray-500 dark:text-gray-400 bg-lightGold dark:bg-secondary p-1 rounded-md w-fit">
             {convertCamelToNormal(productType).toUpperCase()}
           </div>
         </div>
@@ -135,12 +135,14 @@ const ProductDetails: FC<SectionProductHeaderProps> = ({
                 <div
                   onClick={() => {
                     setImages(color?.images.map((image) => image.link));
-                    
+
                     router.push(
                       `/products/${title
                         .replace(/ /g, "-")
                         .replace(/&/g, "and")
-                        .replace(/\//g, "-")}-${color?.value}?productId=${searchParams.get("productId") || ""}&color=${color?.value}`
+                        .replace(/\//g, "-")}-${color?.value}?productId=${
+                        searchParams.get("productId") || ""
+                      }&color=${color?.value}`
                     );
                   }}
                   key={index}

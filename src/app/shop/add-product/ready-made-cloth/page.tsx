@@ -16,6 +16,7 @@ import SubmitProductModal from "@/components/shop/SubmitProductModal";
 import ImagesAndColor from "@/components/shop/ImagesAndColor";
 import Variations from "@/components/shop/Variations";
 import ProductBasicDetailsForm from "@/components/shop/ProductBasicDetailsForm";
+import ReadyMadeSizeGuideModal from "@/components/products/ReadyMadeSizeGuideModal";
 
 // import ProductHeader from '../components/ProductHeader'
 
@@ -84,6 +85,8 @@ const AddReadyMadeClothPage = () => {
   });
 
   const [serverError, setServerError] = useState("");
+  const [openReadyMadeSizeGuideModal, setOpenReadyMadeSizeGuideModal] =
+    useState(false);
   const [createProduct, creteProductStatus] =
     zeapApiSlice.useCreateProductMutation();
   const [updateProduct, updateProductStatus] =
@@ -181,7 +184,7 @@ const AddReadyMadeClothPage = () => {
 
   const getClass = (step: number) => {
     if (step === stage) {
-      return "flex w-full items-center text-darkGold   after:w-full after:h-1 after:border-b after:border-darkGold after:border-4 after:inline-block";
+      return "flex w-full items-center text-secondary   after:w-full after:h-1 after:border-b after:border-secondary after:border-4 after:inline-block";
     }
     if (step < stage) {
       return "flex w-full items-center text-success  after:content-[''] after:w-full after:h-1 after:border-b after:border-success after:border-4 after:inline-block ";
@@ -217,7 +220,7 @@ const AddReadyMadeClothPage = () => {
     if (stage === 1) {
       if (!title) {
         setError({ ...error, title: "Title is required" });
-       
+
         return false;
       }
 
@@ -306,7 +309,6 @@ const AddReadyMadeClothPage = () => {
     createProduct({ payload })
       .unwrap()
       .then((res) => {
-       
         setProductId(res.data.productId);
 
         setStage(stage + 1);
@@ -319,7 +321,6 @@ const AddReadyMadeClothPage = () => {
     updateProduct({ payload })
       .unwrap()
       .then((res) => {
-     
         setProductId(res.data.productId);
 
         setStage(stage + 1);
@@ -358,7 +359,7 @@ const AddReadyMadeClothPage = () => {
     let payload = {};
     if (stage === 1) {
       payload = {
-          title,
+        title,
         subtitle,
         description,
         shopId,
@@ -413,7 +414,6 @@ const AddReadyMadeClothPage = () => {
     return styleOptions || [];
   };
   const getSizeOptions = () => {
-   
     const regionSizeExist =
       sizeByRegionOptionEnums[sizeStandard]?.map(
         (str: string, index: number) => ({ value: str, id: index + 1 })
@@ -428,7 +428,7 @@ const AddReadyMadeClothPage = () => {
     <div className="container py-6 lg:pb-28">
       <div ref={topDivRef} />
       <span className="text-xl md:text-2xl font-bold ">
-        Ready To Wear Cloth
+        Ready-To-Wear Clothe
       </span>
 
       <ol className="flex items-center w-full mb-4 sm:mb-5">
@@ -567,7 +567,7 @@ const AddReadyMadeClothPage = () => {
         </li>
       </ol>
       <div>
-        <h3 className="md:hidden mb-4 text-lg font-medium leading-none text-darkGold">
+        <h3 className="md:hidden mb-4 text-lg font-medium leading-none text-secondary">
           {getLabel()}
         </h3>
         <div className="flex flex-col gap-4 min-h-[57vh] overflow-auto">
@@ -1119,7 +1119,13 @@ const AddReadyMadeClothPage = () => {
                 <div className="text-sm text-slate-500 mb-2">
                   Which size standard is used for this product?
                 </div>
-                <div className="flex flex-col gap-2">
+                <span
+                  className="underline cursor-pointer "
+                  onClick={() => setOpenReadyMadeSizeGuideModal(true)}
+                >
+                  View Size guide
+                </span>
+                <div className="flex flex-col gap-2 mt-2">
                   {sizeStandardEnums?.map((item: string, index: number) => (
                     <div key={index} className="flex items-center gap-2">
                       <Radio
@@ -1183,6 +1189,13 @@ const AddReadyMadeClothPage = () => {
                   <span className="text-xs text-danger">{error.size}</span>
                 )}
               </div>
+              {openReadyMadeSizeGuideModal && (
+                <ReadyMadeSizeGuideModal
+                  openModal={openReadyMadeSizeGuideModal}
+                  setOpenModal={setOpenReadyMadeSizeGuideModal}
+                  defaultGender={categories.gender[0]}
+                />
+              )}
             </>
           )}
           {stage === 4 && (

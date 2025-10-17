@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import { useEffect, useState } from "react";
 
-import { Accordion, Alert, Badge, Button, Table } from "flowbite-react";
+import {  Alert, Badge, Button, Table } from "flowbite-react";
 import { globalSelectors } from "@/redux/services/global.slice";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import { ColorInterface, VariationInterface } from "@/interface/interface";
@@ -11,6 +11,7 @@ import Loading from "@/app/loading";
 import ProductImage from "@/app/products/[product]/ProductImage";
 import ProductReview from "@/app/products/[product]/ProductReview";
 import {
+  capitalizeFirstLetter,
   getCurrencySmallSymbol,
   getStatusColor,
   numberWithCommas,
@@ -24,6 +25,7 @@ import { ManageVariationDrawer } from "@/components/shop/ManageVariationDrawer";
 import { ManageAutoPriceDrawer } from "@/components/shop/ManageAutoPriceDrawer";
 import RejectionReasonDisplay from "@/components/shop/RejectionReasonDisplay";
 import RejectionReasonsModal from "@/components/shop/RejectionReasonsModal";
+import ProductAccordion from "@/components/shop/ProductAccordion";
 
 interface ColInterface {
   name: string;
@@ -60,6 +62,7 @@ const VendorProduct = ({ id }: { id: string }) => {
   const bespokeVariation = variations?.find(
     (variation: VariationInterface) => variation.colorValue === "Bespoke"
   )?.bespoke;
+  
   const [images, setImages] = useState<string[]>([]);
   const [numberOfShownVariations, setNumberOfShownVariations] =
     useState<number>(5);
@@ -120,7 +123,7 @@ const VendorProduct = ({ id }: { id: string }) => {
             <div className="hidden md:block mt-4">
               <RejectionReasonDisplay reasons={product?.rejectionReasons} />
               <>
-                <div className="text-darkGold text-lg mt-4">Reviews</div>
+                <div className="text-secondary text-lg mt-4">Reviews</div>
                 <div>
                   <ProductReview product={product} />
                 </div>
@@ -134,7 +137,7 @@ const VendorProduct = ({ id }: { id: string }) => {
             </div>
 
             <div>
-              <div className="text-darkGold text-lg mt-4 font-semibold">
+              <div className="text-secondary text-lg mt-4 font-semibold">
                 Status
               </div>
               <Badge
@@ -142,11 +145,11 @@ const VendorProduct = ({ id }: { id: string }) => {
                 color={getStatusColor(product?.status)}
                 className="w-fit"
               >
-                {product?.status}
+                {capitalizeFirstLetter(product?.status)}
               </Badge>
             </div>
             <div>
-              <div className="text-darkGold text-lg mt-4 font-semibold">
+              <div className="text-secondary text-lg mt-4 font-semibold">
                 Colors
               </div>
               <p>{color}</p>
@@ -168,7 +171,7 @@ const VendorProduct = ({ id }: { id: string }) => {
             </div>
 
             <div>
-              <div className="text-darkGold text-lg mt-4 font-semibold mb-1">
+              <div className="text-secondary text-lg mt-4 font-semibold mb-1">
                 Sizes {product?.sizeStandard && `(${product?.sizeStandard})`}
               </div>
               <div className="flex gap-2">
@@ -183,7 +186,7 @@ const VendorProduct = ({ id }: { id: string }) => {
               </div>
             </div>
             <div>
-              <div className="text-darkGold text-lg mt-4 font-semibold">
+              <div className="text-secondary text-lg mt-4 font-semibold">
                 Prices
               </div>
               <div className="flex gap-2 flex-wrap">
@@ -204,233 +207,16 @@ const VendorProduct = ({ id }: { id: string }) => {
               <ProductDescription description={product?.description} />
             </div>
             <div className="w-full ">
-              <div className="text-darkGold text-lg mt-4 font-semibold">
+              <div className="text-secondary text-lg mt-4 font-semibold">
                 Categories
               </div>
               <div className="flex gap-2">
-                <Accordion className="w-full">
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Product ID
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2 flex-wrap">
-                        {product?.productId}
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      ID
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2 flex-wrap">
-                        {product?.productId.substring(12)}
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Main
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2 flex-wrap">
-                        {categories?.main?.map(
-                          (category: string, index: number) => (
-                            <Badge key={index} color="info">
-                              {category}
-                            </Badge>
-                          )
-                        )}
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Designs
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2 flex-wrap flex-wrap">
-                        {categories?.design?.map(
-                          (category: string, index: number) => (
-                            <Badge key={index} color="info">
-                              {category}
-                            </Badge>
-                          )
-                        )}
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Fit
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2 flex-wrap">
-                        {categories?.fit?.map(
-                          (category: string, index: number) => (
-                            <Badge key={index} color="info">
-                              {category}
-                            </Badge>
-                          )
-                        )}
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Style
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2 flex-wrap">
-                        {categories?.style?.map(
-                          (category: string, index: number) => (
-                            <Badge key={index} color="info">
-                              {category}
-                            </Badge>
-                          )
-                        )}
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Occasion
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2 flex-wrap flex-wrap">
-                        {categories?.occasion?.map(
-                          (category: string, index: number) => (
-                            <Badge key={index} color="info">
-                              {category}
-                            </Badge>
-                          )
-                        )}
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Fastening
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2 flex-wrap">
-                        {categories?.fastening?.map(
-                          (category: string, index: number) => (
-                            <Badge key={index} color="info">
-                              {category}
-                            </Badge>
-                          )
-                        )}
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Gender
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2 flex-wrap">
-                        {categories?.gender?.map(
-                          (category: string, index: number) => (
-                            <Badge key={index} color="info">
-                              {category}
-                            </Badge>
-                          )
-                        )}
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Sleeve Length
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2">
-                        <Badge color="info">{categories?.sleeveLength}</Badge>
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Heel Type
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2">
-                        <Badge color="info">{categories?.heelType}</Badge>
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Heel Height
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2">
-                        <Badge color="info">{categories?.heelHeight}</Badge>
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Product Group
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2">
-                        <Badge color="info">{categories?.productGroup}</Badge>
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Accessory Type
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2">
-                        <Badge color="info">{categories?.accessoryType}</Badge>
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className="h-8 text-md rounded-md items-center  flex">
-                      Brand
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2">
-                        <Badge color="info">{categories?.brand}</Badge>
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Age Group
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2">
-                        <Badge color="info">{categories?.age?.ageGroup}</Badge>
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                  <Accordion.Panel>
-                    <Accordion.Title className=" h-8 text-md rounded-md items-center  flex">
-                      Age Range
-                    </Accordion.Title>
-                    <Accordion.Content>
-                      <div className="flex gap-2">
-                        <Badge color="info">
-                          {categories?.age?.ageGroup === "Adults"
-                            ? "N/A"
-                            : categories?.age?.ageRange}
-                        </Badge>
-                      </div>
-                    </Accordion.Content>
-                  </Accordion.Panel>
-                </Accordion>
+                <ProductAccordion product={product} />
               </div>
 
               <div>
                 <div className="flex justify-between mt-4 item-center mb-2">
-                  <span className="text-darkGold text-lg font-semibold ">
+                  <span className="text-secondary text-lg font-semibold ">
                     Variation
                   </span>
                   <div className="flex gap-2">
@@ -473,7 +259,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                   <Table striped>
                     <Table.Head>
                       <Table.HeadCell>SKU</Table.HeadCell>
-                      <Table.HeadCell>Color</Table.HeadCell>
+                      <Table.HeadCell>Colour</Table.HeadCell>
                       <Table.HeadCell>Size</Table.HeadCell>
                       <Table.HeadCell>Price</Table.HeadCell>
                       <Table.HeadCell>Discount</Table.HeadCell>
@@ -499,7 +285,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                                 {variation.colorValue}
                               </span>
                             </Table.Cell>
-                            <Table.Cell className="text-darkGold">
+                            <Table.Cell className="text-secondary">
                               {variation.size}
                             </Table.Cell>
                             <Table.Cell>
@@ -638,7 +424,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                           </p>
                           <p className="text-sm font-semibold">
                             Size:{" "}
-                            <span className="font-normal text-darkGold">
+                            <span className="font-normal text-secondary">
                               {variation.size}
                             </span>
                           </p>
@@ -700,7 +486,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                 </div>
               </div>
               <div>
-                <div className="text-darkGold text-lg mt-4 font-semibold">
+                <div className="text-secondary text-lg mt-4 font-semibold">
                   Promo
                 </div>
                 <div>
@@ -710,7 +496,7 @@ const VendorProduct = ({ id }: { id: string }) => {
 
               <div>
                 <div className="flex justify-between mt-4 item-center mb-2">
-                  <span className="text-darkGold text-lg font-semibold">
+                  <span className="text-secondary text-lg font-semibold">
                     TimeLine
                   </span>
                   <div>
@@ -735,7 +521,7 @@ const VendorProduct = ({ id }: { id: string }) => {
               <div className="md:hidden ">
                 <RejectionReasonDisplay reasons={product?.rejectionReasons} />
                 <>
-                  <div className="text-darkGold text-lg mt-4">Reviews</div>
+                  <div className="text-secondary text-lg mt-4">Reviews</div>
                   <div>
                     <ProductReview product={product} />
                   </div>

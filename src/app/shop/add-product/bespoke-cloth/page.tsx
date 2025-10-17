@@ -47,7 +47,7 @@ interface CategoriesInterface {
 type OptionType = { value: string; id: number };
 
 const AddBespokeClothPage = () => {
-   const topDivRef = useRef<HTMLDivElement>(null);
+  const topDivRef = useRef<HTMLDivElement>(null);
   const { setDimBackground } = useContext(ThemeContext);
   const token = useSelector(globalSelectors.selectAuthToken);
   const { user } = useContext(AuthContext);
@@ -63,7 +63,7 @@ const AddBespokeClothPage = () => {
   const [description, setDescription] = useState("");
   const [colorType, setColorType] = useState<string>("");
   const [availableColors, setAvailableColors] = useState<string[]>([]);
-  const [price, setPrice] = useState<number | undefined>(undefined);
+  const [price, setPrice] = useState<number | undefined | string>(undefined);
   const [categories, setCategories] = useState<CategoriesInterface>({
     main: [],
     style: [],
@@ -174,15 +174,15 @@ const AddBespokeClothPage = () => {
       setRefresh(true);
     }
   }, [product]);
-    useEffect(() => {
-      if (serverError) {
-        topDivRef.current?.scrollIntoView({ behavior: "smooth" });
-      }
-    }, [serverError]);
+  useEffect(() => {
+    if (serverError) {
+      topDivRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [serverError]);
 
   const getClass = (step: number) => {
     if (step === stage) {
-      return "flex w-full items-center text-darkGold   after:w-full after:h-1 after:border-b after:border-darkGold after:border-4 after:inline-block";
+      return "flex w-full items-center text-secondary   after:w-full after:h-1 after:border-b after:border-secondary after:border-4 after:inline-block";
     }
     if (step < stage) {
       return "flex w-full items-center text-success  after:content-[''] after:w-full after:h-1 after:border-b after:border-success after:border-4 after:inline-block ";
@@ -219,7 +219,7 @@ const AddBespokeClothPage = () => {
     if (stage === 1) {
       if (!title) {
         setError({ ...error, title: "Title is required" });
-  
+
         return false;
       }
 
@@ -228,7 +228,7 @@ const AddBespokeClothPage = () => {
 
         return false;
       }
-       if (description.length < 20) {
+      if (description.length < 20) {
         setError({
           ...error,
           description: "Description must be at least 20 characters",
@@ -357,7 +357,9 @@ const AddBespokeClothPage = () => {
       variation: {
         colorType,
         availableColors,
-        price,
+         price: Number(
+          typeof price === "string" ? price.replace(/,/g, "") : price
+        ),
         ...(bespoke && { sku: bespoke.sku }),
       },
     };
@@ -466,7 +468,7 @@ const AddBespokeClothPage = () => {
   return (
     <div className="container py-6 lg:pb-28">
       <div ref={topDivRef} />
-      <span className="text-xl md:text-2xl font-bold ">Bespoke Cloth</span>
+      <span className="text-xl md:text-2xl font-bold ">Bespoke Clothe</span>
       <ol className="flex items-center w-full mb-4 sm:mb-5">
         <li className={`${getClass(1)} md:after:content-['Basic_Details']`}>
           <div
@@ -604,7 +606,7 @@ const AddBespokeClothPage = () => {
         </li>
       </ol>
       <div>
-        <h3 className="md:hidden mb-4 text-lg font-medium leading-none text-darkGold">
+        <h3 className="md:hidden mb-4 text-lg font-medium leading-none text-secondary">
           {getLabel()}
         </h3>
         <div className="flex flex-col gap-4 min-h-[57vh] overflow-auto">

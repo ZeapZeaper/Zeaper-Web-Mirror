@@ -1,38 +1,22 @@
-
-import { useEffect, useState } from 'react';
-import {
-  Alert,
-  Button,
-  Label,
-  Modal,
-  Dropdown,
-  TextInput,
-} from 'flowbite-react';
-import { ProductInterface, VariationInterface } from '@/interface/interface';
-import zeapApiSlice from '@/redux/services/zeapApi.slice';
-import Loading from '../loading/Loading';
-
+import { useEffect, useState } from "react";
+import { Alert, Button, Label, Modal, Dropdown } from "flowbite-react";
+import { ProductInterface, VariationInterface } from "@/interface/interface";
+import zeapApiSlice from "@/redux/services/zeapApi.slice";
+import Loading from "../loading/Loading";
+import NumberInput from "@/shared/Input/NumberInput";
+import { getCurrencySmallSymbol } from "@/utils/helpers";
 
 const ModalTheme = {
   root: {
-    base: 'fixed inset-x-0 top-0 z-99999 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full opacity-100',
+    base: "fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full opacity-100",
   },
   content: {
-    base: 'relative h-full w-full p-4 md:h-auto',
+    base: "relative h-full w-full p-4 md:h-auto",
     inner:
-      'relative flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700',
+      "relative flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700",
   },
 };
-const inputTheme = {
-  field: {
-    input: {
-      colors: {
-        primary:
-          'border-darkGold  text-dark placeholder-darkGold focus:border-darkGold focus:ring-darkGold dark:bg-darkGold dark:border-darkGold dark:focus:border-darkGold dark:focus:ring-darkGold',
-      },
-    },
-  },
-};
+
 interface ColInterface {
   name: string;
   hex?: string;
@@ -53,11 +37,13 @@ const AddVariationModal = ({
   allColors: ColInterface[];
 }) => {
   const [error, setError] = useState<string | null>(null);
-  const [color, setColor] = useState<string>('');
-  const [size, setSize] = useState<string>('');
-  const [price, setPrice] = useState<number | undefined>(undefined);
+  const [color, setColor] = useState<string>("");
+  const [size, setSize] = useState<string>("");
+  const [price, setPrice] = useState<number | undefined | string>(undefined);
 
-  const [quantity, setQuantity] = useState<number | undefined>(undefined);
+  const [quantity, setQuantity] = useState<number | undefined | string>(
+    undefined
+  );
 
   const [addVariation, addVariationStatus] =
     zeapApiSlice.useAddProductVariationMutation();
@@ -73,8 +59,8 @@ const AddVariationModal = ({
     const green = parseInt(hex.substring(3, 5), 16);
     const blue = parseInt(hex.substring(5, 7), 16);
     return red * 0.299 + green * 0.587 + blue * 0.114 > 186
-      ? 'text-black'
-      : 'text-white';
+      ? "text-black"
+      : "text-white";
   };
   const getColorBg = (value: string) => {
     const color = allColors.find((color) => color.name === value);
@@ -83,8 +69,8 @@ const AddVariationModal = ({
 
   useEffect(() => {
     if (currVariation) {
-      setColor(currVariation?.colorValue || '');
-      setSize(currVariation?.size || '');
+      setColor(currVariation?.colorValue || "");
+      setSize(currVariation?.size || "");
       setPrice(currVariation?.price);
       setQuantity(currVariation?.quantity || 0);
     }
@@ -92,47 +78,53 @@ const AddVariationModal = ({
 
   const validate = () => {
     if (!color) {
-      setError('Please select a color');
+      setError("Please select a color");
       return false;
     }
     if (!size) {
-      setError('Please select a size');
+      setError("Please select a size");
       return false;
     }
     if (!price) {
-      setError('Please enter a price');
+      setError("Please enter a price");
       return false;
     }
-    if (price < 0) {
-      setError('Price cannot be less than 0');
+    if (Number(price) < 0) {
+      setError("Price cannot be less than 0");
       return false;
     }
     if (!quantity) {
-      setError('Please enter a quantity');
+      setError("Please enter a quantity");
       return false;
     }
-    if (quantity < 0) {
-      setError('Quantity cannot be less than 0');
+    if (Number(price) < 0) {
+      setError("Quantity cannot be less than 0");
       return false;
     }
     return true;
   };
   const clear = () => {
-    setColor('');
-    setSize('');
+    setColor("");
+    setSize("");
     setPrice(0);
     setQuantity(0);
   };
   const handleAddVariation = () => {
     setError(null);
     if (!validate()) return;
+
     const payload = {
       productId: product?.productId,
       variation: {
         colorValue: color,
         size,
-        price,
-        quantity,
+        // remove commas from price and quantity string and convert to number
+        price: Number(
+          typeof price === "string" ? price.replace(/,/g, "") : price
+        ),
+        quantity: Number(
+          typeof quantity === "string" ? quantity.replace(/,/g, "") : quantity
+        ),
         ...(currVariation && { sku: currVariation.sku }),
       },
     };
@@ -163,7 +155,7 @@ const AddVariationModal = ({
       <Modal.Header>
         {currVariation
           ? `Edit Variation - ${currVariation?.sku}`
-          : 'Add Variation'}
+          : "Add Variation"}
       </Modal.Header>
       <Modal.Body>
         {isLoading && <Loading />}
@@ -174,11 +166,11 @@ const AddVariationModal = ({
         )}
         <div className="flex flex-col md:flex-row md:justify-between gap-4">
           <div className="mb-2 flex flex-col gap-1">
-            <Label value="Color" />
+            <Label value="Colour" />
             <Dropdown
-              label={color || 'Select Color'}
+              label={color || "Select Colour"}
               size="xs"
-              color={color ? 'success' : 'primary'}
+              color={color ? "success" : "primary"}
               inline={color ? false : true}
             >
               {colors?.map((color, index) => (
@@ -187,7 +179,9 @@ const AddVariationModal = ({
                     style={{
                       background: getColorBg(color),
                     }}
-                    className={`w-20 h-6 text-md rounded-md items-center justify-center flex ${getTextColor(getColorBg(color) as string)}`}
+                    className={`w-20 h-6 text-md rounded-md items-center justify-center flex ${getTextColor(
+                      getColorBg(color) as string
+                    )}`}
                   >
                     {color}
                   </div>
@@ -198,9 +192,9 @@ const AddVariationModal = ({
           <div className="mb-2 flex flex-col gap-1">
             <Label value="Size" />
             <Dropdown
-              label={size || 'Select Size'}
+              label={size || "Select Size"}
               size="xs"
-              color={size ? 'success' : 'primary'}
+              color={size ? "success" : "primary"}
               inline={size ? false : true}
             >
               {sizes?.map((size, index) => (
@@ -212,35 +206,59 @@ const AddVariationModal = ({
           </div>
           <div className="mb-2 flex flex-col gap-1 w-fit">
             <Label value="Price" />
-            <TextInput
+            {/* <TextInput
               theme={inputTheme}
               value={price}
-              type="number"
-           
+              type="text"
+              inputMode="numeric"
               onChange={(e) => {
-                setPrice(parseInt(e.target.value));
+                const value = e.target.value;
+                // allow only numbers + optional decimal
+                if (validNumberInput(value)) {
+                  setPrice(Number(value));
+                }
               }}
-              addon={product?.currency?.symbol || '₦'}
+              addon={product?.currency?.symbol || "₦"}
+            /> */}
+            <NumberInput
+              value={price}
+              onChange={(value) => setPrice(value)}
+              allowDecimals
+              prefix={getCurrencySmallSymbol(currVariation?.currency || "NGN")}
+              placeholder={`Enter price in ${currVariation?.currency || "NGN"}`}
             />
           </div>
 
           <div className="mb-2 flex flex-col gap-1 w-fit">
             <Label value="Quantity" />
-            <TextInput
+            {/* <TextInput
               theme={inputTheme}
               value={quantity}
               type="number"
-              
               onChange={(e) => {
                 setQuantity(parseInt(e.target.value));
               }}
+            /> */}
+            <NumberInput
+              value={quantity}
+              onChange={(value) => setQuantity(value ? Number(value) : 0)}
+              allowDecimals={false}
+              showArrows
+              placeholder="Enter quantity"
+              min={0}
             />
+          </div>
+        </div>
+        <div className="mt-4">
+          <div className="text-sm text-gray-500">
+            Note: You can add multiple variations for the same color and size.
+            Each variation will have a unique SKU.
           </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={handleAddVariation} color="primary">
-          {currVariation ? 'Update Variation' : 'Add Variation'}
+          {currVariation ? "Update Variation" : "Add Variation"}
         </Button>
       </Modal.Footer>
     </Modal>

@@ -34,6 +34,7 @@ const ShopProductsPage = () => {
   const [input, setInput] = useState("");
   const productsQuery = zeapApiSlice.useGetShopProductsQuery(
     {
+      noCurrencyConversion: true,
       limit,
       status,
       pageNumber,

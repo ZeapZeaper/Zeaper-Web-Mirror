@@ -37,7 +37,7 @@ const inputTheme = {
     input: {
       colors: {
         primary:
-          "border-darkGold  text-dark placeholder-darkGold focus:border-darkGold focus:ring-darkGold dark:bg-darkGold dark:border-darkGold dark:focus:border-darkGold dark:focus:ring-darkGold",
+          "border-secondary  text-dark placeholder-secondary focus:border-secondary focus:ring-secondary dark:bg-secondary dark:border-secondary dark:focus:border-secondary dark:focus:ring-secondary",
       },
     },
   },
@@ -48,7 +48,7 @@ const checkBoxTheme = {
     base: "h-4 w-4 rounded border border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700",
     color: {
       primary:
-        "text-darkGold focus:ring-darkGold dark:ring-offset-darkGold dark:focus:ring-darkGold border-darkGold",
+        "text-secondary focus:ring-secondary dark:ring-offset-secondary dark:focus:ring-secondary border-secondary",
     },
   },
 };
@@ -293,8 +293,6 @@ export default function AddShopElegant({
         required
         shadow
         color="primary"
-       
-       
       />
       {/* <input
         type="text"
@@ -427,7 +425,7 @@ export default function AddShopElegant({
           value={phoneNumber}
           onChange={(value) => setPhoneNumber(value || "")}
           numberInputProps={{
-            className: "w-full h-12 border border-darkGold rounded-md p-2",
+            className: "w-full h-12 border border-secondary rounded-md p-2",
           }}
           international
           placeholder="Enter phone number"
@@ -447,7 +445,7 @@ export default function AddShopElegant({
         type="text"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-secondary focus:ring-2 focus:ring-secondary transition"
       />
       <CountrySelector
         country={country || ""}
@@ -465,7 +463,9 @@ export default function AddShopElegant({
     >
       <div className="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-2 rounded-lg shadow-sm">
         <p className="text-xs font-medium">
-          Your account name must match your full name or business name as it appears on your profile. Otherwise, your payments will not be processed.
+          Your account name must match your full name or business name as it
+          appears on your profile. Otherwise, your payments will not be
+          processed.
         </p>
       </div>
       <label className="block text-gray-700 font-semibold">Bank Name</label>
@@ -475,7 +475,7 @@ export default function AddShopElegant({
         onChange={(e) =>
           setBankDetails({ ...bankDetails, bankName: e.target.value })
         }
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-secondary focus:ring-2 focus:ring-secondary transition"
       />
       <label className="block text-gray-700 font-semibold">Account Name</label>
       <input
@@ -484,7 +484,7 @@ export default function AddShopElegant({
         onChange={(e) =>
           setBankDetails({ ...bankDetails, accountName: e.target.value })
         }
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-secondary focus:ring-2 focus:ring-secondary transition"
       />
       <label className="block text-gray-700 font-semibold">
         Account Number
@@ -499,7 +499,7 @@ export default function AddShopElegant({
           }
         }}
         accept="numeric"
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-secondary focus:ring-2 focus:ring-secondary transition"
       />
       <label className="block text-gray-700 font-semibold">
         Confirm Account Number
@@ -508,7 +508,7 @@ export default function AddShopElegant({
         type="text"
         value={confirmAccountNumber}
         onChange={(e) => setConfirmAccountNumber(e.target.value)}
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-secondary focus:ring-2 focus:ring-secondary transition"
       />
     </motion.div>,
     <motion.div
@@ -523,42 +523,42 @@ export default function AddShopElegant({
         type="text"
         value={social.website}
         onChange={(e) => setSocial({ ...social, website: e.target.value })}
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-secondary focus:ring-2 focus:ring-secondary transition"
       />
       <label className="block text-gray-700 font-semibold">TikTok</label>
       <input
         type="text"
         value={social.tikTok}
         onChange={(e) => setSocial({ ...social, tikTok: e.target.value })}
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-secondary focus:ring-2 focus:ring-secondary transition"
       />
       <label className="block text-gray-700 font-semibold">Instagram</label>
       <input
         type="text"
         value={social.instagram}
         onChange={(e) => setSocial({ ...social, instagram: e.target.value })}
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-secondary focus:ring-2 focus:ring-secondary transition"
       />
       <label className="block text-gray-700 font-semibold">Facebook</label>
       <input
         type="text"
         value={social.facebook}
         onChange={(e) => setSocial({ ...social, facebook: e.target.value })}
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-secondary focus:ring-2 focus:ring-secondary transition"
       />
       <label className="block text-gray-700 font-semibold">Twitter</label>
       <input
         type="text"
         value={social.twitter}
         onChange={(e) => setSocial({ ...social, twitter: e.target.value })}
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-secondary focus:ring-2 focus:ring-secondary transition"
       />
       <label className="block text-gray-700 font-semibold">LinkedIn</label>
       <input
         type="text"
         value={social.linkedin}
         onChange={(e) => setSocial({ ...social, linkedin: e.target.value })}
-        className="w-full p-3 rounded-lg border border-gray-300 focus:border-darkGold focus:ring-2 focus:ring-darkGold transition"
+        className="w-full p-3 rounded-lg border border-gray-300 focus:border-secondary focus:ring-2 focus:ring-secondary transition"
       />
     </motion.div>,
 
@@ -585,7 +585,7 @@ export default function AddShopElegant({
                   href={policy.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-info underline hover:text-darkGold transition cursor-pointer"
+                  className="text-info underline hover:text-secondary transition cursor-pointer"
                 >
                   {policy.name}
                 </a>
@@ -690,7 +690,7 @@ export default function AddShopElegant({
                         backgroundColor:
                           index <= currentStep
                             ? "rgb(202 138 4)"
-                            : "rgb(209 213 219)", // darkGold / gray-300
+                            : "rgb(209 213 219)", // secondary / gray-300
                         scale: index === currentStep ? 1.4 : 1,
                       }}
                       transition={{ duration: 0.3 }}

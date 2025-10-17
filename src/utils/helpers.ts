@@ -6,6 +6,15 @@ export const capitalizeFirstLetter = (string: string) => {
   return string?.charAt(0).toUpperCase() + string?.slice(1);
 };
 
+// capitalize first letter of each word in a string
+export const capitalizeWords = (string: string) => {
+  return string
+    ?.toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 export const shortenLongString = (string: string, maxLength: number) => {
   return string?.length > maxLength
     ? string?.substring(0, maxLength) + "..."

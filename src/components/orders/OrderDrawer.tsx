@@ -47,7 +47,7 @@ export function OrderDrawer({
       position="right"
       theme={drawerTheme}
     >
-      <Drawer.Header title="Order" className="text-darkGold" />
+      <Drawer.Header title="Order" className="text-secondary" />
       <Drawer.Items>
         {order && (
           <div className="p-4 flex flex-col">

@@ -15,6 +15,7 @@ import Variations from "@/components/shop/Variations";
 import { useSelector } from "react-redux";
 import Multiselect from "multiselect-react-dropdown";
 import ProductBasicDetailsForm from "@/components/shop/ProductBasicDetailsForm";
+import ReadyMadeSizeGuideModal from "@/components/products/ReadyMadeSizeGuideModal";
 
 // import ProductHeader from '../components/ProductHeader'
 
@@ -80,6 +81,8 @@ const AddReadyMadeShoePage = () => {
     heelHeight: "",
     heelType: "",
   });
+    const [openReadyMadeSizeGuideModal, setOpenReadyMadeSizeGuideModal] =
+      useState(false);
   const [serverError, setServerError] = useState("");
   const [createProduct, creteProductStatus] =
     zeapApiSlice.useCreateProductMutation();
@@ -166,7 +169,7 @@ const AddReadyMadeShoePage = () => {
 
   const getClass = (step: number) => {
     if (step === stage) {
-      return "flex w-full items-center text-darkGold   after:w-full after:h-1 after:border-b after:border-darkGold after:border-4 after:inline-block";
+      return "flex w-full items-center text-secondary   after:w-full after:h-1 after:border-b after:border-secondary after:border-4 after:inline-block";
     }
     if (step < stage) {
       return "flex w-full items-center text-success  after:content-[''] after:w-full after:h-1 after:border-b after:border-success after:border-4 after:inline-block ";
@@ -401,7 +404,7 @@ const AddReadyMadeShoePage = () => {
     <div className="container py-6 lg:pb-28">
       <div ref={topDivRef} />
       <span className="text-xl md:text-2xl font-bold ">
-        Ready To Wear Footwear
+        Ready-To-Wear Footwear
       </span>
       <ol className="flex items-center w-full mb-4 sm:mb-5">
         <li className={`${getClass(1)} md:after:content-['Basic_Details']`}>
@@ -539,7 +542,7 @@ const AddReadyMadeShoePage = () => {
         </li>
       </ol>
       <div>
-        <h3 className="md:hidden mb-4 text-lg font-medium leading-none text-darkGold">
+        <h3 className="md:hidden mb-4 text-lg font-medium leading-none text-secondary">
           {getLabel()}
         </h3>
         <div className="flex flex-col gap-4 min-h-[57vh] overflow-auto">
@@ -985,7 +988,13 @@ const AddReadyMadeShoePage = () => {
                 <div className="text-sm text-slate-500 mb-2">
                   Which size standard is used for this product?
                 </div>
-                <div className="flex flex-col gap-2">
+                  <span
+                  className="underline cursor-pointer "
+                  onClick={() => setOpenReadyMadeSizeGuideModal(true)}
+                >
+                  View Size guide
+                </span>
+                <div className="flex flex-col gap-2 mt-2">
                   {sizeStandardEnums?.map((item: string, index: number) => (
                     <div key={index} className="flex items-center gap-2">
                       <Radio
@@ -1048,6 +1057,13 @@ const AddReadyMadeShoePage = () => {
                   <span className="text-xs text-danger">{error.size}</span>
                 )}
               </div>
+                {openReadyMadeSizeGuideModal && (
+                              <ReadyMadeSizeGuideModal
+                                openModal={openReadyMadeSizeGuideModal}
+                                setOpenModal={setOpenReadyMadeSizeGuideModal}
+                                defaultGender={categories.gender[0]}
+                              />
+                            )}
             </>
           )}
           {stage === 4 && (

@@ -18,7 +18,7 @@ import { validIntegerInput } from "@/utils/helpers";
 
 const ModalTheme = {
   root: {
-    base: "fixed inset-x-0 top-0 z-99999 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full opacity-100",
+    base: "fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full opacity-100",
   },
   content: {
     base: "relative h-full w-full p-4 md:h-auto",
@@ -150,7 +150,7 @@ const AutoPriceAdjustment = ({
       )}
       <div className="flex gap-4 flex-col md:flex-row md:justify-between">
         <div className="flex gap-4 flex-col">
-          <Label className="text-darkGold">Auto Price Adjustment</Label>
+          <Label className="text-secondary">Auto Price Adjustment</Label>
           <ToggleSwitch
             theme={toggleTheme}
             name="isAdjustable"
@@ -176,7 +176,7 @@ const AutoPriceAdjustment = ({
         </div>
         {isAdjustable && (
           <div className="flex gap-4 flex-col">
-            <Label className="text-darkGold">Adjustment Percentage</Label>
+            <Label className="text-secondary">Adjustment Percentage</Label>
             <Button
               color="success"
               onClick={() => {

@@ -62,7 +62,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
             !open && "hidden"
           }`}
         >
-          <button 
+          <button
             onClick={() =>
               router.push(
                 `/shop/add-product/${getProductTypeSlug(
@@ -70,9 +70,11 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
                 )}?id=${product?.productId}`
               )
             }
-          type="button" className={buttonClass}>
+            type="button"
+            className={buttonClass}
+          >
             <svg
-              className="w-4 h-4 mx-auto mb-1 text-darkGold"
+              className="w-4 h-4 mx-auto mb-1 text-secondary"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -99,7 +101,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
               className={buttonClass}
             >
               <svg
-                className="w-4 h-4 mx-auto mb-1 text-darkGold"
+                className="w-4 h-4 mx-auto mb-1 text-secondary"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -127,7 +129,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
               className={buttonClass}
             >
               <svg
-                className="w-4 h-4 mx-auto mb-1 text-darkGold"
+                className="w-4 h-4 mx-auto mb-1 text-secondary"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -154,7 +156,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
             type="button"
             className={buttonClass}
           >
-            <FaRegObjectGroup className="w-4 h-4 mx-auto mb-1 text-darkGold" />
+            <FaRegObjectGroup className="w-4 h-4 mx-auto mb-1 text-secondary" />
             <span className="block mb-px text-[9px] font-medium">
               Variations
             </span>
@@ -164,7 +166,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
             type="button"
             className={buttonClass}
           >
-            <MdPayments className="w-4 h-4 mx-auto mb-1 text-darkGold" />
+            <MdPayments className="w-4 h-4 mx-auto mb-1 text-secondary" />
             <span className="block mb-px text-[9px] font-medium">
               Auto Price
             </span>
@@ -180,7 +182,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
               className={buttonClass}
             >
               <svg
-                className="w-4 h-4 mx-auto mb-1 text-darkGold"
+                className="w-4 h-4 mx-auto mb-1 text-secondary"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -210,7 +212,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
               className={buttonClass}
             >
               <svg
-                className="w-4 h-4 mx-auto mb-1 text-darkGold"
+                className="w-4 h-4 mx-auto mb-1 text-secondary"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"

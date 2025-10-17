@@ -1,9 +1,8 @@
-import { ShopAnaliticsInterface } from '@/interface/interface';
-import StatCard2 from '@/shared/Card/StatCard2';
-import { capitalizeFirstLetter } from '@/utils/helpers';
-import ShopSalesCount from './ShopSalesCount';
-import ShopSalesRevenue from './ShopSalesRevenue';
-
+import { ShopAnaliticsInterface } from "@/interface/interface";
+import StatCard2 from "@/shared/Card/StatCard2";
+import { capitalizeFirstLetter } from "@/utils/helpers";
+import ShopSalesCount from "./ShopSalesCount";
+import ShopSalesRevenue from "./ShopSalesRevenue";
 
 const ShopOverview = ({
   shopAnalytics,
@@ -16,7 +15,7 @@ const ShopOverview = ({
   const shopRevenuesByPaymentStatus = shopAnalytics.shopRevenuesByPaymentStatus;
   return (
     <div className="my-4 w-full">
-      <div className="text-darkGold my-2">Overview</div>
+      <div className="text-secondary my-2">Overview</div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard2 title="Product Sold" value={productSold} />
         {Object.keys(ordersCountByStatus).map((key) => (
@@ -35,7 +34,6 @@ const ShopOverview = ({
           />
         </div>
       </div>
-     
     </div>
   );
 };

@@ -136,14 +136,14 @@ const ProductFilters = ({
       {getSearchParamsNumber() > 0 && (
         <div
           onClick={clearAllAppliedFilters}
-          className="flex items-center  mb-2 border rounded-full justify-center w-40 text-md cursor-pointer hover:border-darkGold "
+          className="flex items-center  mb-2 border rounded-full justify-center w-40 text-md cursor-pointer hover:border-secondary "
         >
           Clear all ({getSearchParamsNumber()})
         </div>
       )}
       <div className=" grid grid-cols-1 divide-y divide-gray-200 dark:divide-gray-700">
         <div className="flex justify-between items-center">
-          <span className="text-lg text-darkGold  mb-2 ">Refine by</span>
+          <span className="text-lg text-secondary  mb-2 ">Refine by</span>
           <span className="text-sm text-success  mb-2 ">
             {totalCount} {totalCount > 1 ? "Products" : "Product"}
           </span>
@@ -163,10 +163,10 @@ const ProductFilters = ({
                   }
                 }}
               >
-                <span className="text-sm text-darkGold mt-6 mb-2 ">
+                <span className="text-sm text-secondary mt-6 mb-2 ">
                   {filter?.name}
                 </span>
-                <div className="text-lg text-darkGold mt-6 mb-2 cursor-pointer hover:text-darkGold">
+                <div className="text-lg text-secondary mt-6 mb-2 cursor-pointer hover:text-secondary">
                   {showOptionsList.includes(filter?.name) ? (
                     <HiMinus />
                   ) : (

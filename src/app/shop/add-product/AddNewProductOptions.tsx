@@ -158,7 +158,7 @@ const AddNewProductOptions = () => {
                 </svg>
               </div>
               <span className="text-sm font-semibold">
-                Ready To Wear Footwears
+                Ready-To-Wear Footwears
               </span>
             </div>
             <Button size="sm" color="primary" className="h-fit ">
@@ -203,7 +203,7 @@ const AddNewProductOptions = () => {
                 </svg>
               </div>
               <span className="text-sm font-semibold">
-                Ready To Wear Clothes
+                Ready-To-Wear Clothes
               </span>
             </div>
             <Button size="sm" color="primary" className="h-fit ">

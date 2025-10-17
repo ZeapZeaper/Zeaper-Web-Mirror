@@ -79,7 +79,7 @@ const Page = () => {
             <div className="flex flex-col gap-8  ">
               <ProductCollectionDisplay
                 products={products}
-                title="Newest Ready to Wear Arrivals"
+                title="Newest Ready-To-Wear Arrivals"
                 subMenus={getProductDisplaySubMenus(
                   dynamicFilters,
                   slug,

@@ -5,28 +5,27 @@ import {
   Button,
   Dropdown,
   Label,
-} from 'flowbite-react';
-import { useContext, useEffect, useState } from 'react';
-import AddImageToColor from './AddImageToColor';
-import { ColorInterface, ProductInterface } from '@/interface/interface';
-import { ThemeContext } from '@/contexts/themeContext';
-import zeapApiSlice from '@/redux/services/zeapApi.slice';
-import { getTextColor } from '@/utils/helpers';
-import Image from 'next/image';
-import DeleteProductColor from './DeleteProductColor';
-import Loading from '../loading/Loading';
-
+} from "flowbite-react";
+import { useContext, useEffect, useState } from "react";
+import AddImageToColor from "./AddImageToColor";
+import { ColorInterface, ProductInterface } from "@/interface/interface";
+import { ThemeContext } from "@/contexts/themeContext";
+import zeapApiSlice from "@/redux/services/zeapApi.slice";
+import { getTextColor } from "@/utils/helpers";
+import Image from "next/image";
+import DeleteProductColor from "./DeleteProductColor";
+import Loading from "../loading/Loading";
 
 const BadgeThem = {
   root: {
-    base: 'flex h-fit w-fit items-center gap-1 font-semibold cursor-pointer',
+    base: "flex h-fit w-fit items-center gap-1 font-semibold cursor-pointer",
     color: {
       primary:
-        'border border-darkGold text-black dark:text-white  hover:bg-gold hover:text-black ',
+        "border border-secondary text-black dark:text-white  hover:bg-gold hover:text-black ",
     },
 
     size: {
-      xxs: 'p-1 text-[0.6rem]',
+      xxs: "p-1 text-[0.6rem]",
     },
   },
 };
@@ -45,8 +44,8 @@ const ImagesAndColor = ({
   const { setDimBackground } = useContext(ThemeContext);
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [newColor, setNewColor] = useState('');
-  const [error, setError] = useState('');
+  const [newColor, setNewColor] = useState("");
+  const [error, setError] = useState("");
   const [currColor, setCurrColor] = useState<ColorInterface>();
 
   const [setAsDefault, setAsDefaultStatus] =
@@ -60,12 +59,12 @@ const ImagesAndColor = ({
       setDimBackground(openModal);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [openModal],
+    [openModal]
   );
   useEffect(() => {
     if (error) {
       setTimeout(() => {
-        setError('');
+        setError("");
       }, 3000);
     }
   }, [error]);
@@ -92,12 +91,14 @@ const ImagesAndColor = ({
           {product?.colors?.map((color, index) => (
             <Accordion.Panel key={index}>
               <Accordion.Title>
-                {' '}
+                {" "}
                 <span
                   style={{
                     background: getAccordionBg(color?.value),
                   }}
-                  className={`w-24 h-8 text-md rounded-md items-center justify-center flex ${getTextColor(getAccordionBg(color?.value) as string)}`}
+                  className={`w-24 h-8 text-md rounded-md items-center justify-center flex ${getTextColor(
+                    getAccordionBg(color?.value) as string
+                  )}`}
                 >
                   {color?.value}
                 </span>
@@ -105,12 +106,14 @@ const ImagesAndColor = ({
               <Accordion.Content>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5  gap-2">
                   {color?.images?.map((image, index) => (
-                    <div key={index} className="flex flex-col gap-2 items-center justify-center">
-                      <div  className="relative   my-2 p-2">
+                    <div
+                      key={index}
+                      className="flex flex-col gap-2 items-center justify-center"
+                    >
+                      <div className="relative   my-2 p-2">
                         <Image
                           width={100}
                           height={100}
-    
                           src={image?.link}
                           alt={color?.value}
                           className="w-full h-50 object-contain"
@@ -166,10 +169,10 @@ const ImagesAndColor = ({
                                   });
                               }
                         }
-                        color={image?.isDefault ? 'success' : 'primary'}
+                        color={image?.isDefault ? "success" : "primary"}
                         size="xxs"
                       >
-                        {image?.isDefault ? 'Default' : 'Set Default'}
+                        {image?.isDefault ? "Default" : "Set Default"}
                       </Badge>
                     </div>
                   ))}
@@ -184,8 +187,8 @@ const ImagesAndColor = ({
                     }}
                   >
                     {color?.images?.length > 0
-                      ? 'Add More Images'
-                      : 'Add Image'}
+                      ? "Add More Images"
+                      : "Add Image"}
                   </Button>
                   <Button
                     size="xs"
@@ -196,7 +199,7 @@ const ImagesAndColor = ({
                       setOpenDeleteModal(true);
                     }}
                   >
-                    Delete Color
+                    Delete Colour
                   </Button>
                 </div>
               </Accordion.Content>
@@ -206,9 +209,9 @@ const ImagesAndColor = ({
       </div>
       <div className="flex my-4">
         <Dropdown
-          label={newColor ? newColor : 'Add Color'}
-          color={newColor ? 'success' : 'primary'}
-          className='max-h-[20rem] overflow-y-auto'
+          label={newColor ? newColor : "Add Colour"}
+          color={newColor ? "success" : "primary"}
+          className="max-h-[20rem] overflow-y-auto"
         >
           {colors?.map((color) => (
             <Dropdown.Item
@@ -225,7 +228,9 @@ const ImagesAndColor = ({
                 style={{
                   background: color?.hex || color?.background,
                 }}
-                className={`w-20 h-6 rounded-md items-center justify-center flex ${getTextColor(color?.hex || '')}`}
+                className={`w-20 h-6 rounded-md items-center justify-center flex ${getTextColor(
+                  color?.hex || ""
+                )}`}
               >
                 {color?.name}
               </div>
@@ -236,10 +241,10 @@ const ImagesAndColor = ({
       {openModal && (
         <AddImageToColor
           openModal={openModal}
-          productId={product ? product?.productId : ''}
+          productId={product ? product?.productId : ""}
           close={() => {
             setOpenModal(false);
-            setNewColor('');
+            setNewColor("");
           }}
           color={currColor?.value || newColor}
           currColor={currColor}
@@ -248,7 +253,7 @@ const ImagesAndColor = ({
       {openDeleteModal && (
         <DeleteProductColor
           open={openDeleteModal}
-          productId={product ? product?.productId : ''}
+          productId={product ? product?.productId : ""}
           close={() => {
             setCurrColor(undefined);
             setDimBackground(false);

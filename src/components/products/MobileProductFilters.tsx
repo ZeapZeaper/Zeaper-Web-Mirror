@@ -124,10 +124,10 @@ export function MobileProductFilters({
       "productGroupPage",
       "subProductGroupPage",
       "collectionTitle",
-      "superTitle"
+      "superTitle",
     ];
     const allsearchParamsKey = Array.from(searchParams.keys());
-   
+
     return allsearchParamsKey.filter((key) => !excludeKeys.includes(key))
       .length;
   };
@@ -143,7 +143,7 @@ export function MobileProductFilters({
     const allsearchParamsKey = Array.from(searchParams.keys()).filter(
       (key) => !excludeKeys.includes(key)
     );
-  
+
     const params = new URLSearchParams(searchParams.toString());
     allsearchParamsKey.forEach((key) => {
       params.delete(key);
@@ -197,7 +197,7 @@ export function MobileProductFilters({
           titleIcon={HiAdjustments}
           closeIcon={IoMdClose}
           onClick={() => setIsOpen(!isOpen)}
-          className="cursor-pointer text-darkGold px-4 pt-4 hover:bg-gray-50 dark:hover:bg-gray-700"
+          className="cursor-pointer text-secondary px-4 pt-4 hover:bg-gray-50 dark:hover:bg-gray-700"
         />
 
         <Drawer.Items>
@@ -205,7 +205,7 @@ export function MobileProductFilters({
             <div className="grid grid-cols-1 divide-y divide-gray-200 dark:divide-gray-700">
               <div className="flex justify-between items-center">
                 <span
-                  className="text-xs border border-darkGold rounded-full cursor-pointer p-1 mt-6 mb-2 "
+                  className="text-xs border border-secondary rounded-full cursor-pointer p-1 mt-6 mb-2 "
                   onClick={() => {
                     clearAllAppliedFilters();
                   }}
@@ -236,10 +236,10 @@ export function MobileProductFilters({
                         }
                       }}
                     >
-                      <span className="text-sm text-darkGold mt-6 mb-2 ">
+                      <span className="text-sm text-secondary mt-6 mb-2 ">
                         {filter?.name}
                       </span>
-                      <div className="text-lg text-darkGold mt-6 mb-2 cursor-pointer hover:text-darkGold">
+                      <div className="text-lg text-secondary mt-6 mb-2 cursor-pointer hover:text-secondary">
                         {showOptionsList.includes(filter?.name) ? (
                           <HiMinus />
                         ) : (

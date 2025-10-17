@@ -93,7 +93,7 @@ const JoinPromoModal = ({
       }}
       popup
     >
-      <Modal.Header className="text-darkGold font-semibold">
+      <Modal.Header className="text-secondary font-semibold">
         Join a Promo
       </Modal.Header>
 

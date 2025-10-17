@@ -65,7 +65,7 @@ const AddBespokeShoePage = () => {
   const [description, setDescription] = useState("");
   const [colorType, setColorType] = useState<string>("");
   const [availableColors, setAvailableColors] = useState<string[]>([]);
-  const [price, setPrice] = useState<number | undefined>(undefined);
+  const [price, setPrice] = useState<number | undefined | string>(undefined);
   const [categories, setCategories] = useState<CategoriesInterface>({
     style: [],
     gender: [],
@@ -172,7 +172,7 @@ const AddBespokeShoePage = () => {
 
   const getClass = (step: number) => {
     if (step === stage) {
-      return "flex w-full items-center text-darkGold   after:w-full after:h-1 after:border-b after:border-darkGold after:border-4 after:inline-block";
+      return "flex w-full items-center text-secondary   after:w-full after:h-1 after:border-b after:border-secondary after:border-4 after:inline-block";
     }
     if (step < stage) {
       return "flex w-full items-center text-success  after:content-[''] after:w-full after:h-1 after:border-b after:border-success after:border-4 after:inline-block ";
@@ -209,16 +209,16 @@ const AddBespokeShoePage = () => {
     if (stage === 1) {
       if (!title) {
         setError({ ...error, title: "Title is required" });
-   
+
         return false;
       }
-      
+
       if (!description) {
         setError({ ...error, description: "Description is required" });
 
         return false;
       }
-       if (description.length < 20) {
+      if (description.length < 20) {
         setError({
           ...error,
           description: "Description must be at least 20 characters",
@@ -305,7 +305,6 @@ const AddBespokeShoePage = () => {
     createProduct({ payload })
       .unwrap()
       .then((res) => {
- 
         setProductId(res.data.productId);
 
         setStage(stage + 1);
@@ -318,7 +317,6 @@ const AddBespokeShoePage = () => {
     updateProduct({ payload })
       .unwrap()
       .then((res) => {
-     
         setProductId(res.data.productId);
         setStage(stage + 1);
       })
@@ -352,7 +350,9 @@ const AddBespokeShoePage = () => {
       variation: {
         colorType,
         availableColors,
-        price,
+        price: Number(
+          typeof price === "string" ? price.replace(/,/g, "") : price
+        ),
         ...(bespoke && { sku: bespoke.sku }),
       },
     };
@@ -583,7 +583,7 @@ const AddBespokeShoePage = () => {
         </li>
       </ol>
       <div>
-        <h3 className="md:hidden mb-4 text-lg font-medium leading-none text-darkGold">
+        <h3 className="md:hidden mb-4 text-lg font-medium leading-none text-secondary">
           {getLabel()}
         </h3>
         <div className="flex flex-col gap-4 min-h-[57vh] overflow-auto">
@@ -662,7 +662,7 @@ const AddBespokeShoePage = () => {
 
                 <div></div>
               </div>
-              
+
               <div className="border rounded p-2">
                 <div className="mb-2 block">
                   <Label value="Style" />

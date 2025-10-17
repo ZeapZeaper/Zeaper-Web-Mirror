@@ -10,9 +10,11 @@ import LeavePromoModal from "./LeavePromoModal";
 const ProductPromo = ({
   productId,
   hideProductPromoStatus = false,
+  buttonSize = "xs",
 }: {
   productId: string;
   hideProductPromoStatus?: boolean;
+  buttonSize?: string;
 }) => {
   const token = useSelector(globalSelectors.selectAuthToken);
   const [openJoinPromoModal, setOpenJoinPromoModal] = useState(false);
@@ -36,7 +38,7 @@ const ProductPromo = ({
               <span>This product is not part of any promo </span>
             )}
             <Button
-              size="xs"
+              size={buttonSize}
               color="success"
               onClick={() => setOpenJoinPromoModal(true)}
             >
@@ -63,7 +65,7 @@ const ProductPromo = ({
             </span>
             <div className="flex justify-end gap-2">
               <Button
-                size="xs"
+                size={buttonSize}
                 color="failure"
                 onClick={() => setOpenLeavePromoModal(true)}
               >

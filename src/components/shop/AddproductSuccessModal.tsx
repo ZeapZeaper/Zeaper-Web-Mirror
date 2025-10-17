@@ -76,6 +76,7 @@ const AddproductSuccessModal = ({
                 <ProductPromo
                   productId={product?.productId}
                   hideProductPromoStatus
+                  buttonSize="lg"
                 />
               </div>
             </Alert>
