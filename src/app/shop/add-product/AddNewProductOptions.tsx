@@ -52,7 +52,7 @@ const AddNewProductOptions = () => {
               </div>
               <span className="text-sm font-semibold">Bespoke Clothes</span>
               <span className="text-[10px] md:text-[12px] text-danger">
-                seller must be a tailor
+                Seller must be a tailor
               </span>
             </div>
             <Button size="sm" color="primary" className="h-fit ">
@@ -104,7 +104,7 @@ const AddNewProductOptions = () => {
               </div>
               <span className="text-sm font-semibold">Bespoke Footwears</span>
               <span className="text-[10px] md:text-[12px] text-danger">
-                seller must be a shoemaker
+                Seller must be a shoemaker
               </span>
             </div>
             <Button size="sm" color="primary" className="h-fit ">

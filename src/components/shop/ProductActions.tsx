@@ -23,7 +23,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
   const token = useSelector(globalSelectors.selectAuthToken);
   const [open, setOpen] = useState(false);
   const [openDisable, setOpenDisable] = useState(false);
-  const [openEnable, setOpenEnable] = useState(false);
+  // const [openEnable, setOpenEnable] = useState(false);
   const [openJoinPromoModal, setOpenJoinPromoModal] = useState(false);
   const [openLeavePromoModal, setOpenLeavePromoModal] = useState(false);
   const [openManageVariation, setOpenManageVariation] =
@@ -171,7 +171,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
               Auto Price
             </span>
           </button>
-
+{/* 
           {product?.disabled && (
             <button
               onClick={() => {
@@ -201,7 +201,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
 
               <span className="block mb-px text-xs font-medium">Enable</span>
             </button>
-          )}
+          )} */}
           {!product?.disabled && (
             <button
               onClick={() => {
@@ -230,7 +230,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
               </svg>
 
               <span className="block mb-px text-[9px] font-medium">
-                Disable
+                Delete
               </span>
             </button>
           )}
@@ -273,7 +273,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
         />
       )}
 
-      {openEnable && (
+      {/* {openEnable && (
         <ProductDeleteRestore
           close={() => {
             setDimBackground(false);
@@ -283,7 +283,7 @@ const ProductActions = ({ product }: { product: ProductInterface }) => {
           product={product}
           open={openEnable}
         />
-      )}
+      )} */}
 
       {openJoinPromoModal && (
         <JoinPromoModal

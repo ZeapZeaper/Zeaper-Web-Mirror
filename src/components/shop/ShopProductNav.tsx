@@ -7,7 +7,7 @@ const ShopProductNav = ({
   status: string;
   shopId: string;
 }) => {
-  const listOfStatus = ["Live", "Draft", "Under Review", "Rejected", "Deleted"];
+  const listOfStatus = ["Live", "Draft", "Under Review", "Rejected"];
   return (
     <div className="inline-flex overflow-scroll rounded w-full">
       {listOfStatus.map((item) => (

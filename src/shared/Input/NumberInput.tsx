@@ -1,6 +1,7 @@
-import React, { useState, useRef, ChangeEvent, FocusEvent } from "react";
+import React, { useState, useRef, ChangeEvent, FocusEvent, useEffect } from "react";
 
 interface NumberInputProps {
+  id?: string;
   value?: string | number;
   onChange?: (value: string) => void;
   placeholder?: string;
@@ -13,9 +14,11 @@ interface NumberInputProps {
   className?: string;
   min?: number;
   max?: number;
+  disabled?: boolean;
 }
 
 const NumberInput: React.FC<NumberInputProps> = ({
+  id,
   value = "",
   onChange,
   placeholder = "",
@@ -28,6 +31,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   className = "",
   min,
   max,
+  disabled = false,
 }) => {
   const formatNumber = (val: string): string => {
     if (!val) return "";
@@ -46,6 +50,17 @@ const NumberInput: React.FC<NumberInputProps> = ({
   );
   const inputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    if (value === undefined || value === null || value === "") {
+      setInternalValue("");
+    } else {
+      const formatted = formatNumber(
+        typeof value === "number" ? value.toString() : value
+      );
+      setInternalValue(formatted);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
   const parseNumber = (val: string): number => {
     return Number(val.replace(/,/g, ""));
   };
@@ -72,7 +87,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
       }
     }, 0);
   };
- const enforceLimits = (num: number): number => {
+  const enforceLimits = (num: number): number => {
     if (min !== undefined && num < min) return min;
     if (max !== undefined && num > max) return max;
     return num;
@@ -99,9 +114,13 @@ const NumberInput: React.FC<NumberInputProps> = ({
     if (onChange) onChange(formatted);
   };
 
-
   return (
-    <div className={`w-full max-w-xs mx-auto ${className}`}>
+    <div
+      id={id}
+      className={`w-full max-w-xs mx-auto ${className} ${
+        disabled ? "opacity-50 pointer-events-none" : ""
+      }`}
+    >
       <div className="relative flex border border-secondary rounded overflow-hidden focus-within:ring-1 focus-within:ring-secondary h-12">
         {prefix && (
           <span className="bg-gray-800 text-secondary px-3 py-2 flex items-center select-none">
@@ -130,14 +149,30 @@ const NumberInput: React.FC<NumberInputProps> = ({
             <button
               type="button"
               onClick={() => changeByStep("up")}
-              className="flex-1 px-2 hover:bg-gray-700 text-secondary flex items-center justify-center"
+              disabled={
+                disabled ||
+                (max !== undefined && parseNumber(internalValue) >= max)
+              }
+              className={`flex-1 px-2 hover:bg-gray-700 text-secondary flex items-center justify-center ${
+                (disabled ||
+                  (max !== undefined && parseNumber(internalValue) >= max)) &&
+                "cursor-not-allowed opacity-50"
+              }`}
             >
               ▲
             </button>
             <button
               type="button"
               onClick={() => changeByStep("down")}
-              className="flex-1 px-2 hover:bg-gray-700 text-secondary flex items-center justify-center"
+              disabled={
+                disabled ||
+                (min !== undefined && parseNumber(internalValue) <= min)
+              }
+              className={`flex-1 px-2 hover:bg-gray-700 text-secondary flex items-center justify-center ${
+                (disabled ||
+                  (min !== undefined && parseNumber(internalValue) <= min)) &&
+                "cursor-not-allowed opacity-50"
+              }`}
             >
               ▼
             </button>

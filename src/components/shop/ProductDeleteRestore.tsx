@@ -1,22 +1,22 @@
-import { useState } from 'react';
-import { Alert, Button, Modal } from 'flowbite-react';
+import { useState } from "react";
+import { Alert, Button, Modal } from "flowbite-react";
 import {
   HiInformationCircle,
   HiOutlineExclamationCircle,
-} from 'react-icons/hi';
-import { ProductInterface } from '@/interface/interface';
-import zeapApiSlice from '@/redux/services/zeapApi.slice';
-import Loading from '../loading/Loading';
+} from "react-icons/hi";
+import { ProductInterface } from "@/interface/interface";
+import zeapApiSlice from "@/redux/services/zeapApi.slice";
+import Loading from "../loading/Loading";
 
 const ProductDeleteRestore = ({
   close,
   open,
-  mode = 'disable',
+  mode = "disable",
   product,
 }: {
   close: (open: boolean) => void;
   open: boolean;
-  mode?: 'disable' | 'enable';
+  mode?: "disable" | "enable";
   product: ProductInterface;
 }) => {
   const [disableProduct, diableProductStatus] =
@@ -38,7 +38,7 @@ const ProductDeleteRestore = ({
         close(false);
       })
       .catch((err) => {
-        console.log('err', err);
+        console.log("err", err);
         setError(err.data.error);
       });
   };
@@ -54,7 +54,7 @@ const ProductDeleteRestore = ({
         close(false);
       })
       .catch((err) => {
-        console.log('err', err);
+        console.log("err", err);
         setError(err.data.error);
       });
   };
@@ -75,17 +75,26 @@ const ProductDeleteRestore = ({
                 {error}
               </Alert>
             )}
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-red-400 " />
 
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              {mode === 'disable'
-                ? `Are you sure you want to disable ${product.title}`
-                : `Are you sure you want to enable ${product.title}`}
-            </h3>
+            {mode === "disable" && (
+              <h3 className="mb-5 text-sm text-red-500 ">
+                Are you sure you want to delete <br />
+                <span className="font-semibold text-gray-900 text-italic">
+                  {product.title}
+                </span>{" "}
+              </h3>
+            )}
+            {mode === "disable" && (
+              <p className="mb-5 text-sm text-red-500 ">
+                This action will remove the product from your shop and cannot be
+                undone.
+              </p>
+            )}
             <div className="flex justify-center gap-4">
               <Button
                 color="failure"
-                onClick={mode === 'disable' ? disable : enable}
+                onClick={mode === "disable" ? disable : enable}
               >
                 {"Yes, I'm sure"}
               </Button>

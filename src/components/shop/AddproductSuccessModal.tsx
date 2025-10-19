@@ -34,8 +34,8 @@ const AddproductSuccessModal = ({
     <Modal
       show={showShopSuccessModal}
       onClose={() => {
-        handleClose();
         router.push("/");
+        handleClose();
       }}
     >
       <ModalBody>
@@ -86,7 +86,6 @@ const AddproductSuccessModal = ({
           <div className="flex flex-col md:flex-row justify-center mt-8 gap-3 w-full">
             <ButtonPrimary
               onClick={() => {
-                handleClose();
                 router.push(
                   `/shop/${
                     product?.shopId
@@ -100,7 +99,6 @@ const AddproductSuccessModal = ({
 
             <ButtonSecondary
               onClick={() => {
-                handleClose();
                 router.push("/shop");
               }}
               className="w-full rounded-lg h-[3rem] bg-secondary text-white"

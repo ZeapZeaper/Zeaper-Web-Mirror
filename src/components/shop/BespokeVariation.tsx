@@ -122,7 +122,7 @@ const BespokeVariation = ({
               making a purchase.
             </span>
             <span>
-              Note that this is available only for single plain color products
+              Note that this is available only for single plain colour products.
             </span>
           </Alert>
           <div className="flex flex-wrap gap-4">

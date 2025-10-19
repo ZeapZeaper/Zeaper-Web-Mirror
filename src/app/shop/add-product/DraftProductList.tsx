@@ -147,7 +147,7 @@ const DraftProductList = ({
       {/* 🧾 Delete Confirmation Modal */}
       <Modal
         show={showModal}
-        size="md"
+        size="lg"
         popup
         onClose={() => setShowModal(false)}
       >
@@ -167,10 +167,15 @@ const DraftProductList = ({
             <HiTrash className="mx-auto mb-4 text-red-600 w-12 h-12" />
             <h3 className="mb-5 text-lg font-normal text-gray-500">
               Are you sure you want to delete{" "}
+              <br />
               <span className="font-semibold text-gray-900 text-italic">
                 {getSelectedProduct()?.title || "this draft product"}
               </span>{" "}
             </h3>
+            <p className="mb-5 text-sm text-red-500 ">
+              This action will permanently delete the draft product
+            </p>
+           
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={confirmDelete}>
                 Yes, I&#39;m sure

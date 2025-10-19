@@ -382,7 +382,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                               (color: string) => (
                                 <div
                                   key={color}
-                                  className="w-8 h-8 rounded-full cursor-pointer"
+                                  className="w-8 h-8 rounded-full cursor-pointer border  border-slate-200"
                                   style={{ background: getBg(color) }}
                                 ></div>
                               )
@@ -473,7 +473,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                               (color: string) => (
                                 <div
                                   key={color}
-                                  className="w-8 h-8 rounded-full cursor-pointer"
+                                  className="w-8 h-8 rounded-full cursor-pointer border  border-slate-200"
                                   style={{ background: getBg(color) }}
                                 ></div>
                               )

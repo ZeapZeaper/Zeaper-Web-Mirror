@@ -135,14 +135,14 @@ const AutoPriceAdjustment = ({
               Allow auto price adjustment for this product. If accepted, the
               price of this product will be adjusted by our automated
               system/admin based on market conditions like demand,
-              competitor,inflation, exchange rate, etc.
+              competition, inflation, exchange rate, etc.
             </span>
             <span className="block sm:inline">
               This will help you stay competitive in the market and increase
               your sales.
             </span>
             <span className="block sm:inline">
-              The price adjustment would never go below or beyond your chosen
+              The price adjustment will never go below or beyond your chosen
               percentage.
             </span>
           </span>
