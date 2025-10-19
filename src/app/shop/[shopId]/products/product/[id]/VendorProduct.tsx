@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import { useEffect, useState } from "react";
 
-import {  Alert, Badge, Button, Table } from "flowbite-react";
+import { Alert, Badge, Button, Table } from "flowbite-react";
 import { globalSelectors } from "@/redux/services/global.slice";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import { ColorInterface, VariationInterface } from "@/interface/interface";
@@ -62,7 +62,7 @@ const VendorProduct = ({ id }: { id: string }) => {
   const bespokeVariation = variations?.find(
     (variation: VariationInterface) => variation.colorValue === "Bespoke"
   )?.bespoke;
-  
+
   const [images, setImages] = useState<string[]>([]);
   const [numberOfShownVariations, setNumberOfShownVariations] =
     useState<number>(5);
@@ -162,9 +162,14 @@ const VendorProduct = ({ id }: { id: string }) => {
                         setImages(color?.images.map((image) => image.link));
                       }}
                       key={index}
-                      className="w-8 h-8 rounded-full cursor-pointer border  border-slate-200"
-                      style={{ background: getBg(color?.value) }}
-                    ></div>
+                      className="cursor-pointer flex flex-col items-center"
+                    >
+                      <div
+                        className="w-8 h-8 rounded-full cursor-pointer border  border-slate-200"
+                        style={{ background: getBg(color?.value) }}
+                      ></div>
+                      <span className="text-[9px] mt-1">{color?.value}</span>
+                    </div>
                   )
                 )}
               </div>
@@ -382,9 +387,16 @@ const VendorProduct = ({ id }: { id: string }) => {
                               (color: string) => (
                                 <div
                                   key={color}
-                                  className="w-8 h-8 rounded-full cursor-pointer border  border-slate-200"
-                                  style={{ background: getBg(color) }}
-                                ></div>
+                                  className="flex flex-col items-center"
+                                >
+                                  <div
+                                    className="w-8 h-8 rounded-full cursor-pointer border  border-slate-200"
+                                    style={{ background: getBg(color) }}
+                                  ></div>
+                                  <span className="text-[9px] mt-1">
+                                    {color}
+                                  </span>
+                                </div>
                               )
                             )}
                           </span>
