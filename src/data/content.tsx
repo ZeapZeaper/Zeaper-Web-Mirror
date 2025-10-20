@@ -444,7 +444,7 @@ export const footerData = {
       title: "Company",
       links: [
         { href: "/about", name: "About" },
-        { href: "/sell-on-zeap", name: "Sell on Zeaper" },
+        { href: "/vendor-onboarding", name: "Sell on Zeaper" },
         { href: "/blog", name: "Blog" },
       ],
     },

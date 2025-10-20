@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Bodoni_Moda } from "next/font/google";
 import "./globals.css";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Suspense } from "react";
 import DisplayChildren from "./DisplayChildren";
 import StoreProvider from "@/redux/store/StoreProvider";
@@ -36,6 +36,7 @@ export default function RootLayout({
   if (isVendorOnboarding) {
     return (
       <StoreProvider>
+        <SpeedInsights />
         <html lang="en">
           <head>
             <link rel="icon" href="/favicon.ico" />
@@ -96,6 +97,7 @@ export default function RootLayout({
   } else {
     return (
       <WebSocketProvider>
+        <SpeedInsights />
         <StoreProvider>
           <AuthProvider>
             <NotificationProvider>

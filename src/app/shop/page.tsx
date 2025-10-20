@@ -43,7 +43,7 @@ const ShopPage = () => {
         </div>
       )}
       {isFulfilled && shop?.disabled && shop?.status === "new" && <NewShop />}
-      <div className="container pb-6 lg:pb-28">
+      <div className="container pb-6 lg:pb-28 ">
         {user && shop && !shop.disabled && shopAnalytics && (
           <>
             <TopSection shop={shop} shopAnalytics={shopAnalytics} />

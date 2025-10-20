@@ -46,6 +46,8 @@ const drawerTheme = {
 };
 
 export default function VendorWelcome(): React.JSX.Element {
+  const isVendorOnboarding =
+    process.env.NEXT_PUBLIC_VENDOR_ONBOARDING === "true";
   const router = useRouter();
   const { user, isAuthenticated, loading } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -131,7 +133,7 @@ export default function VendorWelcome(): React.JSX.Element {
     },
   ];
 
-  const process = [
+  const steps = [
     {
       icon: <FaStore className="w-6 h-6 text-[#D5B07B]" />,
       title: "Easy Setup",
@@ -195,44 +197,48 @@ export default function VendorWelcome(): React.JSX.Element {
     <div className="relative w-full min-h-screen bg-[#133522] ">
       {/* Background overlay */}
       <div className="absolute inset-0 bg-black/60 "></div>
-
-      {/* Launching Soon Banner */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="fixed top-0 left-0 w-full z-20 bg-[#D5B07B] text-[#133522] font-semibold text-center py-3 shadow-md text-xs md:text-sm"
-      >
-        <span className="hidden md:block">
-          🚀 Zeaper is launching soon! Be among the first to join as a vendor.{" "}
-        </span>
-        <span className="md:hidden">
-          🚀 Zeaper is launching soon! Join as a vendor.{" "}
-        </span>
-      </motion.div>
-
-      {/* Top bar with logo and profile menu */}
-      <div className="  z-20 flex justify-between items-center px-4 pb-4 align-center mt-16">
-        <Image
-          src={Logo}
-          alt="Zeaper Logo"
-          width={150}
-          height={50}
-          className="object-contain relative z-10 w-28 md:w-36 lg:w-48 cursor-pointer"
-        />
-
-        {/* Profile menu */}
-        <div className="flex items-center gap-4 ">
-          {/* User Menu Bar */}
-          {user && (
-            <span className="inline-block mt-3">
-              <DropdownNotification />
+      {isVendorOnboarding && (
+        <>
+          {/* Launching Soon Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="fixed top-0 left-0 w-full z-20 bg-[#D5B07B] text-[#133522] font-semibold text-center py-3 shadow-md text-xs md:text-sm"
+          >
+            <span className="hidden md:block">
+              🚀 Zeaper is launching soon! Be among the first to join as a
+              vendor.{" "}
             </span>
-          )}
+            <span className="md:hidden">
+              🚀 Zeaper is launching soon! Join as a vendor.{" "}
+            </span>
+          </motion.div>
 
-          <UserMenuBar />
-        </div>
-      </div>
+          {/* Top bar with logo and profile menu */}
+          <div className="  z-20 flex justify-between items-center px-4 pb-4 align-center mt-16">
+            <Image
+              src={Logo}
+              alt="Zeaper Logo"
+              width={150}
+              height={50}
+              className="object-contain relative z-10 w-28 md:w-36 lg:w-48 cursor-pointer"
+            />
+
+            {/* Profile menu */}
+            <div className="flex items-center gap-4 ">
+              {/* User Menu Bar */}
+              {user && (
+                <span className="inline-block mt-3">
+                  <DropdownNotification />
+                </span>
+              )}
+
+              <UserMenuBar />
+            </div>
+          </div>
+        </>
+      )}
 
       <main className="relative z-10 flex flex-col items-center px-6 py-24 text-center">
         {/* Welcome Header */}
@@ -281,7 +287,7 @@ export default function VendorWelcome(): React.JSX.Element {
           </div>
         </motion.section>
 
-        {/* Selling Simplified Process */}
+        {/* Selling Simplified steps */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -293,7 +299,7 @@ export default function VendorWelcome(): React.JSX.Element {
             Selling Simplified
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 2lg:grid-cols-6 gap-6">
-            {process.map((step, idx) => (
+            {steps.map((step, idx) => (
               <motion.div
                 key={idx}
                 whileHover={{ scale: 1.05 }}

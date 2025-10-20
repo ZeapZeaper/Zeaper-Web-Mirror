@@ -103,7 +103,7 @@ const AccountNavBar = () => {
         )}
         { !user?.shopId && (
           <Link
-            href={"/sell-on-zeap"}
+            href={"/vendor-onboarding"}
             className="flex w-full p-2 justify-center mt-6"
           >
             <span className="block  font-semibold bg-lightSuccess  p-2 rounded-md cursor-pointer text-sm w-full text-center">

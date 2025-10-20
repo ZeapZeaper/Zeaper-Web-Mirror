@@ -105,7 +105,7 @@ const MobileSubProductPrimaryNav = ({
           onClick={() => {
             setIsVisable(false);
           }}
-          href={"/sell-on-zeap"}
+          href={"/vendor-onboarding"}
           className="flex justify-center font-extrabold bg-lightSuccess   p-2 rounded-md cursor-pointer text-sm"
         >
           Sell on Zeaper
