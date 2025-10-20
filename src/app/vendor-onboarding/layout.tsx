@@ -20,6 +20,25 @@ export default function VendorOnboardingLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const isVendorOnboarding =
+    process.env.NEXT_PUBLIC_VENDOR_ONBOARDING === "true";
+  if (!isVendorOnboarding) {
+    return (
+      <>
+        {" "}
+        <Suspense fallback={<Loading />}>
+          <div className=" w-full min-h-screen bg-[#133522] text-white">
+            {/* Background overlay */}
+            <div className="absolute inset-0 bg-black/60 "></div>
+
+            <div className="flex flex-col   text-center z-10 overflow-hidden ">
+              {children}
+            </div>
+          </div>
+        </Suspense>
+      </>
+    );
+  }
   return (
     <WebSocketProvider>
       <StoreProvider>

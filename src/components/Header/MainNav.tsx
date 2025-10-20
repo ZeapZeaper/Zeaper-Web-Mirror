@@ -41,7 +41,7 @@ const MainNav = () => {
           {" "}
           {!user?.shopId && (
             <Link
-              href={"/sell-on-zeap"}
+              href={"/vendor-onboarding"}
               className="hidden xl:block  font-semibold bg-lightSuccess  p-2 rounded-md cursor-pointer text-sm"
             >
               Sell on Zeaper
