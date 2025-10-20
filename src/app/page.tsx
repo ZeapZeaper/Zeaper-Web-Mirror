@@ -6,36 +6,21 @@
 
 //import ComingSoon2 from "./ComingSoon2";
 import ComingSoon from "./CommingSoon";
+import HomePage from "./HomePage";
 
 const page = () => {
+  const isVendorOnboarding =
+    process.env.NEXT_PUBLIC_VENDOR_ONBOARDING === "true";
+  if (isVendorOnboarding) {
+    return (
+      <>
+        <ComingSoon />
+      </>
+    );
+  }
   return (
     <>
-      <ComingSoon />
-      {/* <ComingSoon2 /> */}
-      {/* Uncomment the sections below when ready to implement */}
-      {/* <SectionHeader />
-      {/* Uncomment the sections below when ready to implement */}
-      {/* <div className="py-10">
-        <SectionHeader />
-      {/* <div className="">
-        <SectionHeader />
-        
-      </div>
-      <div className="py-10">
-        <SectionCategory />
-      </div>
-
-      <div>
-        <SectionSecond />
-      </div>
-
-      <div className="py-24">
-        <SectionProducts />
-      </div>
-
-      <div className="pb-24">
-        <SectionStyle />
-      </div> */}
+      <HomePage />
     </>
   );
 };
