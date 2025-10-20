@@ -97,86 +97,83 @@ export default function RootLayout({
     return (
       <WebSocketProvider>
         <StoreProvider>
-          <AuthProvider>
-            <NotificationProvider>
-              <ThemeProvider>
-                <FlowBiteTheme>
-                  <html lang="en">
-                    <head>
-                      <link rel="icon" href="/favicon.ico" />
-                      <meta
-                        name="viewport"
-                        content="width=device-width, initial-scale=1.0"
-                      />
-                      <meta name="theme-color" content="#000000" />
-                      {isProd && (
-                        <>
-                          <meta
-                            name="description"
-                            content="Discover the latest fashion trends and styles at Zeaper Fashion. Shop now for exclusive collections and deals."
-                          />
-                          <meta
-                            name="keywords"
-                            content="fashion, clothing, trends, style"
-                          />
-                          <meta name="author" content="Zeaper Fashion" />
-                          <meta property="og:title" content="Zeaper Fashion" />
-                          <meta
-                            property="og:description"
-                            content="Discover the latest fashion trends and styles at Zeaper Fashion. Shop now for exclusive collections and deals."
-                          />
-                          <meta property="og:type" content="website" />
-                          <meta
-                            property="og:url"
-                            content="https://zeaperfashion.com"
-                          />
-                          <meta property="og:image" content="/og-image.jpg" />
-                          <meta
-                            name="twitter:card"
-                            content="summary_large_image"
-                          />
-                          <meta name="twitter:title" content="Zeaper Fashion" />
-                          <meta
-                            name="twitter:description"
-                            content="Discover the latest fashion trends and styles at Zeaper Fashion. Shop now for exclusive collections and deals."
-                          />
-                          <meta name="twitter:image" content="/og-image.jpg" />
-                        </>
-                      )}
-                      <meta name="apple-mobile-web-app-capable" content="yes" />
-                      <meta
-                        name="apple-mobile-web-app-status-bar-style"
-                        content="black-translucent"
-                      />
+          <NotificationProvider>
+            <ThemeProvider>
+              <FlowBiteTheme>
+                <html lang="en">
+                  <head>
+                    <link rel="icon" href="/favicon.ico" />
+                    <meta
+                      name="viewport"
+                      content="width=device-width, initial-scale=1.0"
+                    />
+                    <meta name="theme-color" content="#000000" />
+                    {isProd && (
+                      <>
+                        <meta
+                          name="description"
+                          content="Discover the latest fashion trends and styles at Zeaper Fashion. Shop now for exclusive collections and deals."
+                        />
+                        <meta
+                          name="keywords"
+                          content="fashion, clothing, trends, style"
+                        />
+                        <meta name="author" content="Zeaper Fashion" />
+                        <meta property="og:title" content="Zeaper Fashion" />
+                        <meta
+                          property="og:description"
+                          content="Discover the latest fashion trends and styles at Zeaper Fashion. Shop now for exclusive collections and deals."
+                        />
+                        <meta property="og:type" content="website" />
+                        <meta
+                          property="og:url"
+                          content="https://zeaperfashion.com"
+                        />
+                        <meta property="og:image" content="/og-image.jpg" />
+                        <meta
+                          name="twitter:card"
+                          content="summary_large_image"
+                        />
+                        <meta name="twitter:title" content="Zeaper Fashion" />
+                        <meta
+                          name="twitter:description"
+                          content="Discover the latest fashion trends and styles at Zeaper Fashion. Shop now for exclusive collections and deals."
+                        />
+                        <meta name="twitter:image" content="/og-image.jpg" />
+                      </>
+                    )}
+                    <meta name="apple-mobile-web-app-capable" content="yes" />
+                    <meta
+                      name="apple-mobile-web-app-status-bar-style"
+                      content="black-translucent"
+                    />
 
-                      <meta
-                        name="apple-mobile-web-app-title"
-                        content="Zeaper Fashion"
-                      />
-                      <link
-                        rel="apple-touch-icon"
-                        href="/apple-touch-icon.png"
-                      />
-                      <link rel="manifest" href="/manifest.webmanifest" />
-                      <link
-                        rel="preconnect"
-                        href="https://fonts.googleapis.com"
-                      />
-                    </head>
-                    <body
-                      className={` ${getBodoniFont.variable} antialiased h-full`}
-                    >
+                    <meta
+                      name="apple-mobile-web-app-title"
+                      content="Zeaper Fashion"
+                    />
+                    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+                    <link rel="manifest" href="/manifest.webmanifest" />
+                    <link
+                      rel="preconnect"
+                      href="https://fonts.googleapis.com"
+                    />
+                  </head>
+                  <body
+                    className={` ${getBodoniFont.variable} antialiased h-full`}
+                  >
+                    <AuthProvider>
                       <Suspense fallback={<Loading />}>
                         <div className="flex flex-col min-h-screen">
                           <DisplayChildren>{children}</DisplayChildren>
                         </div>
                       </Suspense>
-                    </body>
-                  </html>
-                </FlowBiteTheme>
-              </ThemeProvider>
-            </NotificationProvider>
-          </AuthProvider>
+                    </AuthProvider>
+                  </body>
+                </html>
+              </FlowBiteTheme>
+            </ThemeProvider>
+          </NotificationProvider>
         </StoreProvider>
       </WebSocketProvider>
     );
