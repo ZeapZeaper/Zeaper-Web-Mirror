@@ -1,3 +1,4 @@
+// combining all home page sections here
 // import SectionCategory from "./_home/SectionCategory";
 // import SectionHeader from "./_home/SectionHeader";
 // import SectionProducts from "./_home/SectionProducts";
