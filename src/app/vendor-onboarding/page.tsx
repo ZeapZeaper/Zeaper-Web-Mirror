@@ -256,6 +256,40 @@ export default function VendorWelcome(): React.JSX.Element {
           to customers worldwide.
         </p>
         {loading && <Loading />}
+        {/* Launch Offer Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="mt-6 mb-12 px-6 py-3 bg-white text-[#133522] rounded-full shadow-lg font-semibold text-sm md:text-base tracking-wide inline-block"
+        >
+          <motion.span
+            animate={{ rotate: [0, 15, -15, 10, -10, 0], y: [0, -4, 0] }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatDelay: 2,
+              ease: "easeInOut",
+            }}
+            className="inline-block mr-2"
+          >
+            🎉
+          </motion.span>
+          0% Commission — Keep <span className="text-success">100%</span> of
+          your earnings during our launch phase! 
+          <motion.span
+            animate={{ rotate: [0, 15, -15, 10, -10, 0], y: [0, -4, 0] }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatDelay: 2,
+              ease: "easeInOut",
+            }}
+            className="inline-block mr-2 ml-2"
+          >
+            🎉
+          </motion.span>
+        </motion.div>
 
         {/* Start Selling Button */}
 
