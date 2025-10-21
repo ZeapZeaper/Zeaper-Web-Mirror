@@ -198,14 +198,11 @@ export default function ComingSoon(): React.JSX.Element {
           </span>
           Goodbye to{" "}
           <span className="text-emerald-300 font-semibold">
-            “What I got vs. What I ordered”
+            “What I Ordered vs. What I Got”
           </span>
           <br />
-          Enjoy{" "}
-          <span className="text-emerald-300 font-bold ">
-            hassle-free returns
-          </span>{" "}
-          <span className="hidden md:inline">with peace of mind</span>
+          Enjoy peace of mind with{" "}
+          <span className="text-emerald-300 font-bold ">Zeaper</span> .
           <span className="mr-2">✨</span>
         </motion.div>
         <motion.p

@@ -128,6 +128,7 @@ const ReadyMadeSizeGuideModal = ({
   defaultGender?: string;
   setOpenModal: (open: boolean) => void;
 }) => {
+ 
   const { setDimBackground } = useContext(ThemeContext);
   const token = useSelector(globalSelectors.selectAuthToken);
   const getReadyMadeSizeGuideQuery = zeapApiSlice.useGetReadyMadeSizeGuideQuery(
@@ -142,7 +143,7 @@ const ReadyMadeSizeGuideModal = ({
   const [title, setTitle] = useState<string>(defaultTitle);
 
   const [unit, setUnit] = useState<string>(defaultUnit);
-  const [gender, setGender] = useState(defaultGender);
+  const [gender, setGender] = useState(defaultGender.toLowerCase());
   const [countryCode, setCountryCode] = useState<string>("UK");
   // const [activeTab, setActiveTab] = useState(0);
 
