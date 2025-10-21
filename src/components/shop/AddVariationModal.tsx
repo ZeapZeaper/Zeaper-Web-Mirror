@@ -36,6 +36,7 @@ const AddVariationModal = ({
   currVariation?: VariationInterface | null;
   allColors: ColInterface[];
 }) => {
+  const sku = currVariation?.sku;
   const [error, setError] = useState<string | null>(null);
   const [color, setColor] = useState<string>("");
   const [size, setSize] = useState<string>("");
@@ -55,9 +56,9 @@ const AddVariationModal = ({
   const sizes = product?.sizes;
 
   const getTextColor = (hex: string) => {
-    const red = parseInt(hex.substring(1, 3), 16);
-    const green = parseInt(hex.substring(3, 5), 16);
-    const blue = parseInt(hex.substring(5, 7), 16);
+    const red = parseInt(hex?.substring(1, 3), 16);
+    const green = parseInt(hex?.substring(3, 5), 16);
+    const blue = parseInt(hex?.substring(5, 7), 16);
     return red * 0.299 + green * 0.587 + blue * 0.114 > 186
       ? "text-black"
       : "text-white";
@@ -229,25 +230,19 @@ const AddVariationModal = ({
             />
           </div>
 
-          <div className="mb-2 flex flex-col gap-1 w-fit">
-            <Label value="Quantity" />
-            {/* <TextInput
-              theme={inputTheme}
-              value={quantity}
-              type="number"
-              onChange={(e) => {
-                setQuantity(parseInt(e.target.value));
-              }}
-            /> */}
-            <NumberInput
-              value={quantity}
-              onChange={(value) => setQuantity(value ? Number(value) : 0)}
-              allowDecimals={false}
-              showArrows
-              placeholder="Enter quantity"
-              min={0}
-            />
-          </div>
+        {sku !== 'BESPOKE' && (
+            <div className="mb-2 flex flex-col gap-1 w-fit">
+              <Label value="Quantity" />
+              <NumberInput
+                value={quantity}
+                onChange={(value) => setQuantity(value ? Number(value) : 0)}
+                allowDecimals={false}
+                showArrows
+                placeholder="Enter quantity"
+                min={0}
+              />
+            </div>
+          )}
         </div>
         <div className="mt-4">
           <div className="text-sm text-gray-500">

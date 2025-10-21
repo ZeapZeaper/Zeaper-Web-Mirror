@@ -3,6 +3,7 @@ import {
   HomeIcon,
   InformationCircleIcon,
 } from "@heroicons/react/24/solid";
+import { BiSupport } from "react-icons/bi";
 import { Alert } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import DisabledShopReason from "./DisabledShopReason";
@@ -58,6 +59,14 @@ function Content() {
         >
           <HomeIcon className="-ml-0.5 mr-2 h-4 w-4" />
           Home
+        </button>
+        <button
+          type="button"
+          onClick={() => router.push("/contact")}
+          className="mr-2 inline-flex items-center  rounded-lg border border-green-700 bg-transparent px-3 py-1.5 text-center text-xs md:text-lg font-medium text-green-700 hover:bg-green-800 hover:text-white focus:ring-4 focus:ring-green-300 dark:border-green-800 dark:text-green-800 dark:hover:text-white"
+        >
+          <BiSupport className="-ml-0.5 mr-2 h-4 w-4" />
+          Contact Support
         </button>
       </div>
     </>
