@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Bodoni_Moda } from "next/font/google";
 import "./globals.css";
-// import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Suspense } from "react";
 import DisplayChildren from "./DisplayChildren";
 import StoreProvider from "@/redux/store/StoreProvider";
