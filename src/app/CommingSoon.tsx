@@ -142,10 +142,7 @@ export default function ComingSoon(): React.JSX.Element {
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
       >
-        <source
-          src="/video/rtwHome.mov"
-          type="video/mp4"
-        />
+        <source src="/video/rtwHome.mov" type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
@@ -178,6 +175,36 @@ export default function ComingSoon(): React.JSX.Element {
           Coming Soon!
         </motion.h1>
 
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mb-8 px-6 py-3 bg-white/30 text-white rounded-full shadow-md font-semibold text-xs md:text-base tracking-wide  mx-auto backdrop-blur-md"
+        >
+          <motion.span
+            animate={{ rotate: [0, 15, -15, 10, -10, 0], y: [0, -4, 0] }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatDelay: 2,
+              ease: "easeInOut",
+            }}
+            className="inline-block "
+          >
+            🎉
+          </motion.span>{" "}
+          <span className="text-emerald-300 font-bold hidden md:inline">
+            Hurray!{" "}
+          </span>
+          Goodbye to{" "}
+          <span className="text-emerald-300 font-semibold">
+            “What I Ordered vs. What I Got”
+          </span>
+          <br />
+          Enjoy peace of mind with{" "}
+          <span className="text-emerald-300 font-bold ">Zeaper</span> .
+          <span className="mr-2">✨</span>
+        </motion.div>
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

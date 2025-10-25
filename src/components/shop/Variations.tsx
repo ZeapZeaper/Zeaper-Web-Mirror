@@ -30,9 +30,9 @@ const Variations = ({
   const currency = product?.currency?.symbol || "₦";
 
   const getTextColor = (hex: string) => {
-    const red = parseInt(hex.substring(1, 3), 16);
-    const green = parseInt(hex.substring(3, 5), 16);
-    const blue = parseInt(hex.substring(5, 7), 16);
+    const red = parseInt(hex?.substring(1, 3), 16);
+    const green = parseInt(hex?.substring(3, 5), 16);
+    const blue = parseInt(hex?.substring(5, 7), 16);
     return red * 0.299 + green * 0.587 + blue * 0.114 > 186
       ? "text-black"
       : "text-white";
@@ -110,7 +110,11 @@ const Variations = ({
                       {currency}
                       {numberWithCommas(variation.price)}
                     </Table.Cell>
-                    <Table.Cell>{variation.quantity}</Table.Cell>
+                    <Table.Cell>
+                      {variation?.sku !== "BESPOKE"
+                        ? variation.quantity
+                        : "N/A"}
+                    </Table.Cell>
                     <Table.Cell className="flex gap-2">
                       <Badge
                         className="cursor-pointer"

@@ -9,7 +9,7 @@ import ReadyMadeSizeGuideTable from "./ReadyMadeSizeGuideTable";
 
 const ModalTheme = {
   root: {
-    base: "fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-[70rem]",
+    base: "fixed inset-x-0 top-0 z-50 min-h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:min-h-[70rem]",
     show: {
       on: "flex bg-gray-900/50 dark:bg-gray-900/80",
       off: "hidden",
@@ -21,7 +21,7 @@ const ModalTheme = {
   content: {
     base: "fixed   w-full p:0 md:p-4 md:h-auto",
     inner:
-      "relative flex h-[100vh] md:h-full md:max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700",
+      "relative flex h-[100vh] md:h-full  flex-col rounded-lg bg-white shadow dark:bg-gray-700",
   },
 };
 interface ReadyMadeSizeGuideInterface {
@@ -142,7 +142,7 @@ const ReadyMadeSizeGuideModal = ({
   const [title, setTitle] = useState<string>(defaultTitle);
 
   const [unit, setUnit] = useState<string>(defaultUnit);
-  const [gender, setGender] = useState(defaultGender);
+  const [gender, setGender] = useState(defaultGender.toLowerCase());
   const [countryCode, setCountryCode] = useState<string>("UK");
   // const [activeTab, setActiveTab] = useState(0);
 
@@ -187,7 +187,6 @@ const ReadyMadeSizeGuideModal = ({
           newObj.Waist = item[key];
         } else if (key === "Hips") {
           newObj.Hips = item[key];
-        } else if (key === "Foot Length") {
         } else if (key === "Chest") {
           newObj.Chest = item[key];
         } else if (key === "Foot Length") {
@@ -231,7 +230,6 @@ const ReadyMadeSizeGuideModal = ({
           newObj.Waist = item[key];
         } else if (key === "Hips") {
           newObj.Hips = item[key];
-        } else if (key === "Foot Length") {
         } else if (key === "Chest") {
           newObj.Chest = item[key];
         } else if (key === "Foot Length") {

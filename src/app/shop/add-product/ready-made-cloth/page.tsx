@@ -59,6 +59,7 @@ const AddReadyMadeClothPage = () => {
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
   const [sizes, setSizes] = useState<string[]>([]);
+
   const [sizeStandard, setSizeStandard] = useState("");
 
   const [categories, setCategories] = useState<CategoriesInterface>({
@@ -420,8 +421,10 @@ const AddReadyMadeClothPage = () => {
       ) || [];
 
     if (regionSizeExist?.length > 0) {
+     
       return regionSizeExist;
     }
+
     return sizeOptionEnums;
   };
   return (

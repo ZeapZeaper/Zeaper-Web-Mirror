@@ -4,7 +4,7 @@ import { ThemeContext } from "@/contexts/themeContext";
 import { PromoInterface } from "@/interface/interface";
 import { globalSelectors } from "@/redux/services/global.slice";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
-import { Alert, Badge, Button, Label, Modal, TextInput } from "flowbite-react";
+import { Alert, Badge, Button, Label, Modal,  } from "flowbite-react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import Loading from "../loading/Loading";
@@ -12,6 +12,7 @@ import { displayDate } from "@/utils/helpers";
 import { productTypeOptions } from "@/data/content";
 import { cn } from "@/utils/cn";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import NumberInput from "@/shared/Input/NumberInput";
 
 const JoinPromoModal = ({
   openModal,
@@ -25,7 +26,9 @@ const JoinPromoModal = ({
   const topDiv = useRef<HTMLDivElement>(null);
   const token = useSelector(globalSelectors.selectAuthToken);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [discountPercentage, setDiscountPercentage] = useState<number>(0);
+  const [discountPercentage, setDiscountPercentage] = useState<
+    number | undefined | string
+  >(0);
   const [selectedPromo, setSelectedPromo] = useState<PromoInterface | null>(
     null
   );
@@ -193,7 +196,7 @@ const JoinPromoModal = ({
             >
               Discount Percentage
             </Label>
-            <TextInput
+            {/* <TextInput
               id="discountPercentage"
               type="number"
               value={discountPercentage}
@@ -205,6 +208,19 @@ const JoinPromoModal = ({
               }
               min={selectedPromo?.discount.rangePercentage?.min}
               max={selectedPromo?.discount.rangePercentage?.max}
+              className="w-full md:w-40"
+            /> */}
+            <NumberInput
+              id="discountPercentage"
+              value={discountPercentage}
+              onChange={(value) => setDiscountPercentage(value)}
+              placeholder="Enter discount %"
+              disabled={
+                !selectedPromo || selectedPromo.discount.type === "fixed"
+              }
+              min={selectedPromo?.discount.rangePercentage?.min}
+              max={selectedPromo?.discount.rangePercentage?.max}
+              showArrows
               className="w-full md:w-40"
             />
           </div>
