@@ -9,7 +9,7 @@ interface ProductFiltersProps {
   dynamicFilters: {
     name: string;
     type: string;
-    options: Record<string, { value: string }>;
+    options: Record<string, { value: string ,slug?: string}>;
   }[];
   totalCount: number;
   // setSubTitle: (value: string) => void;
@@ -48,22 +48,22 @@ const ProductFilters = ({
   const lowerFirstChar = (str: string) => {
     return str.charAt(0).toLowerCase() + str.slice(1);
   };
-  const checkIfFilterExist = (key: string, value: string) => {
+  const checkIfFilterExist = (key: string, slug: string) => {
     const params = new URLSearchParams(searchParams.toString());
     const exist = params.get(key);
     if (exist) {
-      return exist.split(",").includes(value);
+      return exist.split(",").includes(slug);
     }
     return false;
   };
   const handleFilterChange = (
     key: string,
-    value: string,
+    slug: string,
     replace?: boolean
   ) => {
     if (replace) {
       const params = new URLSearchParams(searchParams.toString());
-      params.set(key, value);
+      params.set(key, slug);
       router.push(`?${params.toString()}`);
       return;
     }
@@ -73,18 +73,18 @@ const ProductFilters = ({
     // join the values with comma if exist
     if (exist) {
       // remove the value if exist
-      if (exist.split(",").includes(value)) {
-        const values = exist.split(",").filter((item) => item !== value);
+      if (exist.split(",").includes(slug)) {
+        const values = exist.split(",").filter((item) => item !== slug);
         if (values.length > 0) {
           params.set(key, values.join(","));
         } else {
           params.delete(key);
         }
       } else {
-        params.set(key, `${exist},${value}`);
+        params.set(key, `${exist},${slug}`);
       }
     } else {
-      params.set(key, value);
+      params.set(key, slug);
     }
     router.push(`?${params.toString()}`);
   };
@@ -182,7 +182,7 @@ const ProductFilters = ({
                         <>
                           {Object.keys(filter?.options)
                             .map((key) => filter?.options[key])
-                            .map((obj: { value: string }) => (
+                            .map((obj: { value: string, slug?: string }) => (
                               <div
                                 key={obj?.value}
                                 className="flex items-center cursor-pointer mt-2"
@@ -195,14 +195,14 @@ const ProductFilters = ({
                                     lowerFirstChar(
                                       filter?.name?.replace(/ /g, "")
                                     ),
-                                    obj?.value
+                                    obj?.slug || obj?.value
                                   )}
                                   onChange={() =>
                                     handleFilterChange(
                                       lowerFirstChar(
                                         filter?.name?.replace(/ /g, "")
                                       ),
-                                      obj?.value
+                                      obj?.slug || obj?.value
                                     )
                                   }
                                 />
@@ -212,7 +212,7 @@ const ProductFilters = ({
                                       lowerFirstChar(
                                         filter?.name?.replace(/ /g, "")
                                       ),
-                                      obj?.value
+                                      obj?.slug || obj?.value
                                     )
                                   }
                                   htmlFor={obj?.value}
@@ -236,7 +236,7 @@ const ProductFilters = ({
                         <>
                           {Object.keys(filter?.options)
                             .map((key) => filter?.options[key])
-                            .map((obj: { value: string }) => (
+                            .map((obj: { value: string, slug?: string }) => (
                               <div
                                 key={obj?.value}
                                 className="flex items-center cursor-pointer mt-2"
@@ -249,14 +249,14 @@ const ProductFilters = ({
                                     lowerFirstChar(
                                       filter?.name?.replace(/ /g, "")
                                     ),
-                                    obj?.value
+                                    obj?.slug || obj?.value
                                   )}
                                   onChange={() =>
                                     handleFilterChange(
                                       lowerFirstChar(
                                         filter?.name?.replace(/ /g, "")
                                       ),
-                                      obj?.value
+                                      obj?.slug || obj?.value
                                     )
                                   }
                                 />
@@ -266,7 +266,7 @@ const ProductFilters = ({
                                       lowerFirstChar(
                                         filter?.name?.replace(/ /g, "")
                                       ),
-                                      obj?.value
+                                      obj?.slug || obj?.value
                                     )
                                   }
                                   htmlFor={obj?.value}
