@@ -63,9 +63,15 @@ const DisplayCollections = ({ paramObj }: { paramObj?: ParamObj }) => {
   );
 
   const products = productsQuery?.data?.data?.products || [];
-  const filters = productsQuery?.data?.data?.dynamicFilters;
-  const totalCount = productsQuery?.data?.data?.totalCount;
+  const productListDynamicFiltersQuery =
+    zeapApiSlice.useGetProductListDynamicFiltersQuery(
+      { ...param, ...paramObj },
+      { skip: !token }
+    );
+  const filters = productListDynamicFiltersQuery?.data?.data?.dynamicFilters;
+  const totalCount = productListDynamicFiltersQuery?.data?.data?.totalCount;
   const isLoading = productsQuery.isLoading || false;
+  const filtersLoading = productListDynamicFiltersQuery.isLoading || false;
   const productOptionsQuery = zeapApiSlice.useGetProductsOptionsQuery(
     {},
     { skip: !token }
@@ -98,7 +104,6 @@ const DisplayCollections = ({ paramObj }: { paramObj?: ParamObj }) => {
 
   return (
     <>
-   
       <div className="md:p-4 h-full">
         <div className="grid gap-7 md:grid-cols-3 lg:grid-cols-4">
           {isLoading &&
@@ -107,12 +112,15 @@ const DisplayCollections = ({ paramObj }: { paramObj?: ParamObj }) => {
         {products?.length > 0 && (
           <div className="flex flex-col lg:flex-row lg:gap-4">
             <div className="hidden lg:flex flex-none md:w-64">
-              <ProductFilters
-                dynamicFilters={dynamicFilters}
-                totalCount={totalCount}
-                // setSubTitle={setSubTitle}
-                colorOptions={colorOptions}
-              />
+              {filtersLoading ? (
+                <Skeleton />
+              ) : (
+                <ProductFilters
+                  dynamicFilters={dynamicFilters}
+                  totalCount={totalCount}
+                  colorOptions={colorOptions}
+                />
+              )}
             </div>
             <div className="flex flex-col gap-8">
               <ProductCollectionDisplay
@@ -128,6 +136,7 @@ const DisplayCollections = ({ paramObj }: { paramObj?: ParamObj }) => {
                 // setSubTitle={setSubTitle}
                 colorOptions={colorOptions}
                 showMobileFilters={true}
+                filtersLoading={filtersLoading}
                 dynamicFilters={dynamicFilters}
                 totalCount={totalCount}
               />

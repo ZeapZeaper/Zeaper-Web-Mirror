@@ -6,6 +6,7 @@ import { MobileProductFilters } from "./MobileProductFilters";
 import Image from "next/image";
 import NoPic from "@/images/noPhoto.png";
 import { useSearchParams } from "next/navigation";
+import Skeleton from "../loading/Skeleton";
 
 const ProductCollectionDisplay = ({
   products,
@@ -15,6 +16,7 @@ const ProductCollectionDisplay = ({
   // setSubTitle,
   colorOptions,
   showMobileFilters = false,
+  filtersLoading = false,
   dynamicFilters,
   totalCount,
 }: {
@@ -29,6 +31,7 @@ const ProductCollectionDisplay = ({
   // setSubTitle: (value: string) => void;
   colorOptions: { name: string; hex?: string; background?: string }[];
   showMobileFilters?: boolean;
+  filtersLoading?: boolean;
   dynamicFilters: {
     name: string;
     type: string;
@@ -118,12 +121,15 @@ const ProductCollectionDisplay = ({
       </div>
       {showMobileFilters && (
         <div className="flex lg:hidden">
-          <MobileProductFilters
-            dynamicFilters={dynamicFilters}
-            totalCount={totalCount}
-            // setSubTitle={setSubTitle}
-            colorOptions={colorOptions}
-          />
+          {filtersLoading ? (
+            <Skeleton />
+          ) : (
+            <MobileProductFilters
+              dynamicFilters={dynamicFilters}
+              totalCount={totalCount}
+              // setSubTitle={setSubTitle}
+              colorOptions={colorOptions}
+          />)}
         </div>
       )}
       <div className="grid gap-1 lg:gap-4 grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 w-full ">

@@ -690,6 +690,18 @@ export default createApi({
         responseHandler({}, queryArgs);
       },
     }),
+    getProductListDynamicFilters: builder.query({
+      query: (arg) => {
+        return {
+          url: `products/list/dynamicFilters`,
+          params: { ...arg },
+        };
+      },
+      providesTags: ["Products"],
+      onQueryStarted: async (_, queryArgs) => {
+        responseHandler({}, queryArgs);
+      },
+    }),
     getShopProducts: builder.query({
       query: (arg) => {
         return {

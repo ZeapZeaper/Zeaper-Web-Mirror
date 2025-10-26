@@ -43,9 +43,17 @@ const Page = () => {
   );
 
   const products = productsQuery?.data?.data?.products || [];
-  const dynamicFilters = productsQuery?.data?.data?.dynamicFilters;
-  const totalCount = productsQuery?.data?.data?.totalCount;
+   const productListDynamicFiltersQuery =
+     zeapApiSlice.useGetProductListDynamicFiltersQuery(
+       { ...param },
+       { skip: !token }
+     );
+   const dynamicFilters =
+     productListDynamicFiltersQuery?.data?.data?.dynamicFilters;
+   const totalCount = productListDynamicFiltersQuery?.data?.data?.totalCount;
   const isLoading = productsQuery.isLoading || false;
+  const filtersLoading = productListDynamicFiltersQuery.isLoading || false;
+  
   const productOptionsQuery = zeapApiSlice.useGetProductsOptionsQuery(
     {},
     { skip: !token }
@@ -66,12 +74,15 @@ const Page = () => {
         {products?.length > 0 && (
           <div className="flex flex-col md:flex-row md:gap-4 ">
             <div className="hidden lg:flex h-[100%] md:w-64">
-              <ProductFilters
-                dynamicFilters={dynamicFilters}
-                totalCount={totalCount}
-               
-                colorOptions={colorOptions}
-              />
+                {filtersLoading ? (
+                <Skeleton />
+              ) : (
+                <ProductFilters
+                  dynamicFilters={dynamicFilters}
+                  totalCount={totalCount}
+                  colorOptions={colorOptions}
+                />
+              )}
             </div>
             <div className="flex flex-col gap-8  ">
               <ProductCollectionDisplay
@@ -86,6 +97,7 @@ const Page = () => {
                
                 colorOptions={colorOptions}
                 showMobileFilters={true}
+                filtersLoading={filtersLoading}
                 dynamicFilters={dynamicFilters}
                 totalCount={totalCount}
               />
