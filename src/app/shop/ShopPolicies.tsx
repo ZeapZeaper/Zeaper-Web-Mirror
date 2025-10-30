@@ -2,7 +2,7 @@ import { ShopInterface } from "@/interface/interface";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import React from "react";
 
-const ShopDocuments = ({ shop }: { shop: ShopInterface }) => {
+const ShopPolicies = ({ shop }: { shop: ShopInterface }) => {
   const getSellerPolicyQuery = zeapApiSlice.useGetSellerPolicyQuery({});
   const isFulfilled = getSellerPolicyQuery?.status === "fulfilled";
   const sellerPolicy: {
@@ -53,4 +53,4 @@ const ShopDocuments = ({ shop }: { shop: ShopInterface }) => {
   );
 };
 
-export default ShopDocuments;
+export default ShopPolicies;
