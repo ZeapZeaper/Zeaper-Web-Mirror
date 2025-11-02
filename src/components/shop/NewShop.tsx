@@ -12,9 +12,11 @@ export default function NewShop() {
         </h1>
 
         {/* Next step */}
-        <p className="text-gray-700 dark:text-gray-300 mb-4 bg-info/5 border border-info/40 p-4 rounded-md">
-          *Next Step: Upload Your Documents by clicking on the{" "}
-          <span className="font-semibold">&quot;Upload Document&quot;</span>{" "}
+        <p className="text-gray-700 font-semibold dark:text-gray-300 mb-4 bg-yellow-50 dark:bg-yellow-900/40 border border-yellow-300 dark:border-yellow-700 p-4 rounded-md">
+          Next Step: Upload Your Documents by clicking on the{" "}
+          <span className="font-semibold text-green-500">
+            &quot;Upload Document&quot;
+          </span>{" "}
           button below.
         </p>
         {/* Welcome message */}
@@ -25,8 +27,8 @@ export default function NewShop() {
         </p>
 
         {/* Account status */}
-        <div className="bg-yellow-50 dark:bg-yellow-900/40 border border-yellow-300 dark:border-yellow-700 rounded-md p-4 mb-6">
-          <p className="text-yellow-800 dark:text-yellow-200 font-medium">
+        <div className="bg-blue-50 dark:bg-blue-900/40 border border-blue-300 dark:border-blue-700 rounded-md p-4 mb-6">
+          <p className="text-blue-800 dark:text-blue-200 font-medium">
             🔒 During this period, your account will remain disabled until
             verification is complete.
           </p>
@@ -38,8 +40,8 @@ export default function NewShop() {
             ⏳ To complete your verification quickly and start selling, please
             upload your documents immediately.
           </p>
-          <p className="text-gray-700 dark:text-gray-300">
-            * Please keep an eye on your email for subsequent communication from
+          <p className="text-gray-700 dark:text-gray-300 font-semibold">
+            📧 Please keep an eye on your email for subsequent communication from
             Zeaper.
           </p>
 
@@ -51,14 +53,14 @@ export default function NewShop() {
           <p className="text-gray-700 dark:text-gray-300">
             📞 Kindly contact our team if your shop is not activated within{" "}
             <span className="font-semibold">48 hours</span> after uploading your
-            documents or if you have any questions.
+            documents or if you have any enquiries.
           </p>
         </div>
 
         {/* Contact button */}
         <div className="flex flex-col  gap-4 justify-center">
           <Link
-            href="/upload-onboarding-documents"
+            href="/shop/upload-onboarding-documents"
             className="inline-block px-6 py-2 bg-success text-white font-semibold rounded-lg shadow hover:bg-primary/80 transition "
           >
             Upload Documents

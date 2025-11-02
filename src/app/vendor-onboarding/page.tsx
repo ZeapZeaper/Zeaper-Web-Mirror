@@ -30,6 +30,7 @@ import { useRouter } from "next/navigation";
 import Loading from "../loading";
 import DropdownNotification from "@/components/Header/DropdownNotification";
 import Image from "next/image";
+import VendorGuideVideo from "@/components/shop/VendorGuideVideo";
 
 const drawerTheme = {
   root: {
@@ -294,6 +295,7 @@ export default function VendorWelcome(): React.JSX.Element {
         {/* Start Selling Button */}
 
         <StartSelling setIsOpen={setIsOpen} userDetails={userDetails} />
+        <VendorGuideVideo />  
 
         {/* Why Partner With Us */}
         <motion.section

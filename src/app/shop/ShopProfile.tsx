@@ -3,7 +3,7 @@ import ShopInfo from "./ShopInfo";
 import UserInfo from "@/components/account/UserInfo";
 import ShopBankDetails from "./ShopBankDetails";
 import ShopPolicies from "./ShopPolicies";
-
+import OnboadingDocuments from "@/components/shop/OnboadingDocuments";
 
 const ShopProfile = ({
   user,
@@ -17,6 +17,7 @@ const ShopProfile = ({
       <UserInfo user={user} />
       <ShopInfo shop={shop} />
       <ShopPolicies shop={shop} />
+      <OnboadingDocuments shopId={shop.shopId} />
       <ShopBankDetails shop={shop} />
     </div>
   );

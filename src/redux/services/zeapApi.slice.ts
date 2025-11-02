@@ -2735,6 +2735,7 @@ export default createApi({
         };
       },
     }),
+
     getSellerPolicy: builder.query({
       query: (arg) => {
         return {
@@ -2742,7 +2743,26 @@ export default createApi({
           params: { ...arg },
         };
       },
-      providesTags: ["Policy"],
+      providesTags: ["Policy", "User", "Shop"],
+    }),
+    getShopOnboardingDocuments: builder.query({
+      query: (arg) => {
+        return {
+          url: `/shop/onboarding-documents`,
+          params: { ...arg },
+        };
+      },
+      providesTags: ["Shop"],
+    }),
+    addOnboardingDocument: builder.mutation({
+      query: (arg) => {
+        const { payload } = arg;
+        return {
+          url: `/shop/onboarding-document/add`,
+          method: "POST",
+          body: payload,
+        };
+      },
     }),
   }),
 });
