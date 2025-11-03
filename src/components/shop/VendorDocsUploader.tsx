@@ -76,7 +76,7 @@ const VendorDocsUploader = () => {
     { skip: !token || !shopId }
   );
   const shop: ShopInterface = getShopQuery?.data?.data || null;
-  const editable = !shop?.disabled; // true = can edit
+  const editable = shop?.disabled; // true = can edit
   const getShopDocsQuery = zeapApiSlice.useGetShopOnboardingDocumentsQuery(
     { shopId },
     { skip: !shopId || !token }
