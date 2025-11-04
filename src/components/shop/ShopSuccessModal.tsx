@@ -52,21 +52,14 @@ const ShopSuccessModal = ({
             We’re excited to have you on board. Your registration has been
             received, and currently being processed.
           </p>
-          <p className="text-center mt-4">
-            Keep an eye on your email for updates and next steps.
+          <p className=" mt-4 text-gray-700 font-semibold dark:text-gray-300 mb-4 bg-yellow-50 dark:bg-yellow-900/40 border border-yellow-300 dark:border-yellow-700 p-4 rounded-md">
+            Next Step: Upload Your Documents by clicking on the{" "}
+            <span className="font-semibold text-green-500">
+              &quot;Upload Document&quot;
+            </span>{" "}
+            button below.
           </p>
-          <div className="flex flex:col md:flex-row justify-center mt-4 gap-2">
-            <ButtonPrimary
-              onClick={() => {
-                setShowShopSuccessModal(false);
-                setDimBackground(false);
-                router.push(`/shop/`);
-              }}
-              className="w-full rounded-lg h-[3rem] "
-            >
-              View Shop
-            </ButtonPrimary>
-
+          <div className="flex flex:col md:flex-row justify-center mt-8 gap-2">
             <ButtonSecondary
               onClick={(e) => {
                 if (e) {
@@ -79,12 +72,22 @@ const ShopSuccessModal = ({
                 if (setOpenModal) {
                   setOpenModal(false);
                 }
-                router.push("/vendor-onboarding");
+                router.push("/shop/upload-onboarding-documents");
               }}
-              className="w-full rounded-lg h-[3rem] bg-secondary text-white"
+              className="w-full rounded-lg h-[3rem] bg-success text-white"
             >
-              Go to Home
+              Upload Document
             </ButtonSecondary>
+            <ButtonPrimary
+              onClick={() => {
+                setShowShopSuccessModal(false);
+                setDimBackground(false);
+                router.push(`/shop/`);
+              }}
+              className="w-full rounded-lg h-[3rem] "
+            >
+              View Shop
+            </ButtonPrimary>
           </div>
         </div>
       </ModalBody>

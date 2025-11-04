@@ -82,7 +82,6 @@ const VendorDocsUploader = () => {
     { skip: !shopId || !token }
   );
   const isLoading = getShopDocsQuery.isLoading;
-  const isFulfilled = getShopDocsQuery?.status === "fulfilled";
   const existingDocs = getShopDocsQuery?.data?.data as
     | ExistingDoc[]
     | undefined;
@@ -205,14 +204,6 @@ const VendorDocsUploader = () => {
     for (const slug of readyKeys) await uploadSingle(slug);
   };
 
-  if (isLoading)
-    return (
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {isLoading &&
-          Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} />)}
-      </div>
-    );
-
   const getSelectFileButtonLabel = (slug: DocKey) => {
     const fileState = files[slug];
     if (fileState.status === "uploaded") return "Change file";
@@ -229,9 +220,33 @@ const VendorDocsUploader = () => {
     }
     return isPdf;
   };
-
+  if (isLoading)
+    return (
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Skeleton key={i} />
+        ))}
+      </div>
+    );
+  if (!shop) return null;
   return (
     <div className="max-w-5xl mx-auto p-4 sm:p-6">
+      {user && !shopId && (
+        <Alert color="warning" className="mb-4  ">
+          <div className="flex flex-col">
+            <span className="text-sm">
+              You need to create a shop before uploading onboarding documents.
+              Please go to the vendor onboarding page to create your shop.
+            </span>
+            <Link
+              href="/vendor-onboarding"
+              className="font-semibold mt-2 bg-primary text-white p-2 rounded-md text-sm w-fit flex items-center justify-center"
+            >
+              Vendor Onboarding
+            </Link>
+          </div>
+        </Alert>
+      )}
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <h3 className="text-lg font-semibold text-white">
           Upload Onboarding Documents
@@ -310,9 +325,7 @@ const VendorDocsUploader = () => {
                     )}
                   </>
                 ) : (
-                  <div className="text-sm text-gray-500">
-                    {!isFulfilled ? "Loading doc..." : "No file selected"}
-                  </div>
+                  <div className="text-sm text-gray-500">No file selected</div>
                 )}
               </div>
               <div className="w-full bg-white/10 rounded-full h-[2rem]">
