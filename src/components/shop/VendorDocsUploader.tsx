@@ -260,6 +260,7 @@ const VendorDocsUploader = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {DOCS.map((doc) => {
           const s = files[doc.slug];
+
           const isReady = s.status === "ready";
           const disable =
             !editable ||
@@ -301,43 +302,48 @@ const VendorDocsUploader = () => {
               </div>
 
               {/* Image Container */}
-              <div className="relative w-full  aspect-square bg-white/5 border border-white/10 rounded-md overflow-hidden flex items-center justify-center">
-                {s.previewUrl ? (
-                  <>
-                    {getIsFileImageOrPdf(doc.slug) ? (
-                      <iframe
-                        src={s.previewUrl}
-                        title={doc.label}
-                        className="w-full h-full "
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
-                    ) : (
-                      <Image
-                        src={s.previewUrl}
-                        alt={doc.label}
-                        fill
-                        className="object-contain cursor-pointer hover:scale-105 transition-transform"
-                        onClick={() => window.open(s.previewUrl!, "_blank")}
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                      />
-                    )}
-                  </>
-                ) : (
-                  <div className="text-sm text-gray-500">No file selected</div>
+              <div className="flex flex-col gap-2 flex-grow">
+                <div className="relative w-full aspect-square bg-white/5 border border-white/10 rounded-md overflow-hidden flex items-center justify-center">
+                  {s.previewUrl ? (
+                    <>
+                      {getIsFileImageOrPdf(doc.slug) ? (
+                        <iframe
+                          src={s.previewUrl}
+                          title={doc.label}
+                          className="w-full h-full "
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      ) : (
+                        <Image
+                          src={s.previewUrl}
+                          alt={doc.label}
+                          fill
+                          className="object-contain cursor-pointer hover:scale-105 transition-transform"
+                          onClick={() => window.open(s.previewUrl!, "_blank")}
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <div className="text-sm text-gray-500">
+                      No file selected
+                    </div>
+                  )}
+                </div>
+                <div className="w-full bg-white/10 rounded-full h-[2rem]">
+                  {(s.status === "uploading" || s.status === "uploaded") && (
+                    <div
+                      className="h-2 rounded-full bg-emerald-400 transition-all"
+                      style={{ width: `${s.progress}%` }}
+                    />
+                  )}
+                </div>
+                {s.error && (
+                  <div className="text-xs text-red-400">{s.error}</div>
                 )}
               </div>
-              <div className="w-full bg-white/10 rounded-full h-[2rem]">
-                {(s.status === "uploading" || s.status === "uploaded") && (
-                  <div
-                    className="h-2 rounded-full bg-emerald-400 transition-all"
-                    style={{ width: `${s.progress}%` }}
-                  />
-                )}
-              </div>
-              {s.error && <div className="text-xs text-red-400">{s.error}</div>}
-
               <div className="flex gap-2 items-center">
                 <label
                   className={`inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium cursor-pointer ${
