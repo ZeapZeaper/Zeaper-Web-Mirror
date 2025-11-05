@@ -332,18 +332,16 @@ const VendorDocsUploader = () => {
                     </div>
                   )}
                 </div>
-                <div className="w-full bg-white/10 rounded-full h-[2rem]">
-                  {(s.status === "uploading" || s.status === "uploaded") && (
-                    <div
-                      className="h-2 rounded-full bg-emerald-400 transition-all"
-                      style={{ width: `${s.progress}%` }}
-                    />
-                  )}
-                </div>
-                {s.error && (
-                  <div className="text-xs text-red-400">{s.error}</div>
+              </div>
+              <div className="w-full bg-white/10 rounded-full h-[2rem]">
+                {(s.status === "uploading" || s.status === "uploaded") && (
+                  <div
+                    className="h-2 rounded-full bg-emerald-400 transition-all"
+                    style={{ width: `${s.progress}%` }}
+                  />
                 )}
               </div>
+              {s.error && <div className="text-xs text-red-400">{s.error}</div>}
               <div className="flex gap-2 items-center">
                 <label
                   className={`inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium cursor-pointer ${
