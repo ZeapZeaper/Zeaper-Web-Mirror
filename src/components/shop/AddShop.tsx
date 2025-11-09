@@ -262,6 +262,7 @@ export function AddShop({
                   required
                   shadow
                   color="primary"
+                  disabled={mode === "edit"}
                 />
               </div>
               <div className="mb-4">
@@ -271,8 +272,14 @@ export function AddShop({
                     color={isTailor ? "success" : "primary"}
                     checked={isTailor}
                     onChange={(e) => setIsTailor(e.target.checked)}
+                    disabled={mode === "edit"}
                   />
-                  <Label value="Are you a Tailor?" />
+                  <Label
+                    value="Are you a Tailor?"
+                    className={
+                      mode === "edit" ? "text-gray-400 cursor-not-allowed" : ""
+                    }
+                  />
                 </div>
                 <div className="mb-2 flex items-center gap-2">
                   <Checkbox
@@ -280,8 +287,14 @@ export function AddShop({
                     onChange={(e) => setIsShoeMaker(e.target.checked)}
                     theme={checkBoxTheme}
                     color={isShoeMaker ? "success" : "primary"}
+                    disabled={mode === "edit"}
                   />
-                  <Label value="Are you a Shoe Maker?" />
+                  <Label
+                    value="Are you a Shoe Maker?"
+                    className={
+                      mode === "edit" ? "text-gray-400 cursor-not-allowed" : ""
+                    }
+                  />
                 </div>
               </div>
 
