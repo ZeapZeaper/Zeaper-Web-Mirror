@@ -431,7 +431,7 @@ const AddReadyMadeClothPage = () => {
     <div className="container py-6 lg:pb-28">
       <div ref={topDivRef} />
       <span className="text-xl md:text-2xl font-bold ">
-        Ready-To-Wear Clothe
+        Ready-To-Wear Cloth
       </span>
 
       <ol className="flex items-center w-full mb-4 sm:mb-5">

@@ -1,7 +1,7 @@
 "use client";
 import { SignInSignUpDrawer } from "@/authentication/SignInSignUpDrawer";
 import Image from "next/image";
-import logo from "@/images/app_logo.png";
+import logo from "@/images/Zeaper_Main_Logo.png";
 import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
@@ -13,16 +13,16 @@ const LoginPage = () => {
           className="rounded-md"
           src={logo}
           alt="logo"
-          width={100}
-          height={100}
+          width={150}
+          height={150}
         />
         {/* <span className={` text-2xl font-bold`}>Zeaper Fashion</span> */}
       </div>
+      
       <SignInSignUpDrawer
         callBack={() => {
-         
-            router.push("/");
-        
+          router.push("/");
+
           return true;
         }}
       />

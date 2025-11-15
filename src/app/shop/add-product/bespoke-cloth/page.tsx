@@ -468,7 +468,7 @@ const AddBespokeClothPage = () => {
   return (
     <div className="container py-6 lg:pb-28">
       <div ref={topDivRef} />
-      <span className="text-xl md:text-2xl font-bold ">Bespoke Clothe</span>
+      <span className="text-xl md:text-2xl font-bold ">Bespoke Cloth</span>
       <ol className="flex items-center w-full mb-4 sm:mb-5">
         <li className={`${getClass(1)} md:after:content-['Basic_Details']`}>
           <div

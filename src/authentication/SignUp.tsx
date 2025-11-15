@@ -28,7 +28,7 @@ const SignUp = ({
       data-nc-id="PageLogin"
     >
       <div className="container ">
-        <span className="font-bold text-2xl text-center mb-6">
+        <span className="font-bold text-lg md:text-2xl text-center mb-6">
           SIGN IN OR CREATE ACCOUNT
         </span>
         <div className="mx-auto max-w-md mt-6">

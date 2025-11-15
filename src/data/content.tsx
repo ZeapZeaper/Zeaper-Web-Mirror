@@ -661,7 +661,7 @@ export const productsCollection = {
 
 export const productTypeOptions = [
   {
-    name: "Ready-To-Wear Clothe",
+    name: "Ready-To-Wear Cloth",
     value: "readyMadeCloth",
     slug: "ready-made-cloth",
   },
