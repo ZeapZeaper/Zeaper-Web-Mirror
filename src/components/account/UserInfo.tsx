@@ -1,20 +1,18 @@
-import { UserInterface } from '@/interface/interface';
-import { shortenLongString } from '@/utils/helpers';
-import { useState } from 'react';
-
+import { UserInterface } from "@/interface/interface";
+import { shortenLongString } from "@/utils/helpers";
+import { useState } from "react";
 
 const UserInfo = ({ user }: { user: UserInterface }) => {
-
   const [viewAll, setViewAll] = useState(false);
   return (
-    <div className="w-full md:max-w-md p-4 bg-white border border-gray-200 text-black rounded-lg shadow sm:p-8 dark:bg-slate-800 dark:text-white dark:border-gray-700">
+    <div className="w-full lg:max-w-md p-4 bg-white border border-gray-200 text-black rounded-lg shadow sm:p-8 dark:bg-slate-800 dark:text-white dark:border-gray-700">
       <div className="flex items-center justify-between mb-4">
         <h5 className="text-xl font-bold text-primary">User Info</h5>
         <div
           onClick={() => setViewAll(!viewAll)}
           className="text-sm font-medium text-info hover:underline cursor-pointer"
         >
-          {viewAll ? 'View Less' : 'View All'}
+          {viewAll ? "View Less" : "View All"}
         </div>
       </div>
       <div className="flow-root">
@@ -26,7 +24,7 @@ const UserInfo = ({ user }: { user: UserInterface }) => {
                 className=" text-slate-500 dark:text-slate-300
                     "
               >
-                {user?.firstName || 'N/A'}
+                {user?.firstName || "N/A"}
               </div>
             </div>
           </li>
@@ -37,7 +35,7 @@ const UserInfo = ({ user }: { user: UserInterface }) => {
                 className=" text-slate-500 dark:text-slate-300
                     "
               >
-                {user?.lastName || 'N/A'}
+                {user?.lastName || "N/A"}
               </div>
             </div>
           </li>
@@ -48,7 +46,7 @@ const UserInfo = ({ user }: { user: UserInterface }) => {
                 className=" text-slate-500 dark:text-slate-300
                     "
               >
-                {user?.email || 'N/A'}
+                {user?.email || "N/A"}
               </div>
             </div>
           </li>
@@ -59,7 +57,7 @@ const UserInfo = ({ user }: { user: UserInterface }) => {
                 className=" text-slate-500 dark:text-slate-300
                     "
               >
-                {user?.phoneNumber || 'N/A'}
+                {user?.phoneNumber || "N/A"}
               </div>
             </div>
           </li>
@@ -72,7 +70,7 @@ const UserInfo = ({ user }: { user: UserInterface }) => {
                     className=" text-slate-500 dark:text-slate-300
                     "
                   >
-                    {user?.address || 'N/A'}
+                    {user?.address || "N/A"}
                   </div>
                 </div>
               </li>
@@ -83,7 +81,7 @@ const UserInfo = ({ user }: { user: UserInterface }) => {
                     className=" text-slate-500 dark:text-slate-300
                     "
                   >
-                    {user?.region || 'N/A'}
+                    {user?.region || "N/A"}
                   </div>
                 </div>
               </li>
@@ -94,7 +92,7 @@ const UserInfo = ({ user }: { user: UserInterface }) => {
                     className=" text-slate-500 dark:text-slate-300
                     "
                   >
-                    {user?.country || 'N/A'}
+                    {user?.country || "N/A"}
                   </div>
                 </div>
               </li>
@@ -107,7 +105,7 @@ const UserInfo = ({ user }: { user: UserInterface }) => {
                   >
                     {user?.social?.twitter
                       ? shortenLongString(user?.social?.twitter, 20)
-                      : 'N/A'}
+                      : "N/A"}
                   </div>
                 </div>
               </li>
@@ -120,7 +118,7 @@ const UserInfo = ({ user }: { user: UserInterface }) => {
                   >
                     {user?.social?.facebook
                       ? shortenLongString(user?.social?.facebook, 20)
-                      : 'N/A'}
+                      : "N/A"}
                   </div>
                 </div>
               </li>
@@ -133,7 +131,7 @@ const UserInfo = ({ user }: { user: UserInterface }) => {
                   >
                     {user?.social?.instagram
                       ? shortenLongString(user?.social?.instagram, 20)
-                      : 'N/A'}
+                      : "N/A"}
                   </div>
                 </div>
               </li>
@@ -146,7 +144,7 @@ const UserInfo = ({ user }: { user: UserInterface }) => {
                   >
                     {user?.social?.linkedin
                       ? shortenLongString(user?.social?.linkedin, 20)
-                      : 'N/A'}
+                      : "N/A"}
                   </div>
                 </div>
               </li>
@@ -161,7 +159,7 @@ const UserInfo = ({ user }: { user: UserInterface }) => {
                   >
                     {user?.social?.website
                       ? shortenLongString(user?.social?.website, 20)
-                      : 'N/A'}
+                      : "N/A"}
                   </a>
                 </div>
               </li>

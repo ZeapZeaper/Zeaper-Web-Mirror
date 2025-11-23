@@ -78,6 +78,8 @@ const AddBespokeShoePage = () => {
     fastening: [],
   });
   const [measurements, setMeasurements] = useState<MeasurementInterface[]>([]);
+  const [additionalMeasurementNote, setAdditionalMeasurementNote] =
+    useState<string>("");
   const [error, setError] = useState({
     title: "",
     description: "",
@@ -328,6 +330,7 @@ const AddBespokeShoePage = () => {
     const payload = {
       productId: product?.productId,
       measurements: measurements,
+      additionalMeasurementNote: additionalMeasurementNote,
     };
     addProductBodyMeasurement({ payload })
       .unwrap()
@@ -1033,6 +1036,8 @@ const AddBespokeShoePage = () => {
               measurements={measurements}
               setMeasurements={setMeasurements}
               genders={categories.gender}
+              additionalMeasurementNote={additionalMeasurementNote}
+              setAdditionalMeasurementNote={setAdditionalMeasurementNote}
             />
           )}
           {stage === 4 && <BespokeImages product={product} />}

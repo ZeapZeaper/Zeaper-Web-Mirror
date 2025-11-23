@@ -8,9 +8,9 @@ import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import Loading from "@/app/loading";
 import Image from "next/image";
 import { HiCamera } from "react-icons/hi2";
- import MyContactInfo from "./MyContactInfo";
+import MyContactInfo from "./MyContactInfo";
 import MySocialDetails from "./MySocialDetails";
- import MyOtherInfo from "./MyOtherInfo";
+import MyOtherInfo from "./MyOtherInfo";
 import MyDeliveryAddresses from "./MyDeliveryAddresses";
 
 const MyProfile = () => {
@@ -144,7 +144,7 @@ const MyProfile = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4  md:grid-cols-2 md:gap-8 w-full mt-4 md:mt-2">
+        <div className="grid grid-cols-1 gap-4  lg:grid-cols-2 md:gap-8 w-full mt-4 md:mt-8">
           <MyContactInfo />
           <MyOtherInfo />
           <MySocialDetails />

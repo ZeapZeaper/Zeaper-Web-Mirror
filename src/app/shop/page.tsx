@@ -49,12 +49,12 @@ const ShopPage = () => {
             <TopSection shop={shop} shopAnalytics={shopAnalytics} />
             <ShopOverview shopAnalytics={shopAnalytics} />
             <ShopProductOrders shop_id={shop._id} />
-            <div className="grid grid-cols-1 md:grid-cols-8 md:gap-4 w-full">
-              <div className="col-span-3">
+            <div className="grid grid-cols-1 lg:grid-cols-8 md:gap-4 w-full">
+              <div className="lg:col-span-3">
                 <ShopProfile user={user} shop={shop} />
                 <ShopPayments shopId={shop.shopId} />
               </div>
-              <div className="col-span-5 w-full">
+              <div className="lg:col-span-5 w-full">
                 <ShopProducts shopId={shop.shopId} />
               </div>
             </div>

@@ -1,7 +1,7 @@
 import { Alert } from "flowbite-react";
 import Image from "next/image";
 import { useState } from "react";
-import {  HiArrowSmDown, HiArrowSmUp } from "react-icons/hi";
+import { HiArrowSmDown, HiArrowSmUp } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
 
 interface BodyMeasurementGuideFieldsInterface {
@@ -16,7 +16,7 @@ interface BodyMeasurementGuideFieldsInterface {
 
 const BespokeBodyMeasurementGuide = ({
   bodyMeasurementGuideField,
-  gender = "female"
+  gender = "female",
 }: {
   bodyMeasurementGuideField: BodyMeasurementGuideFieldsInterface;
   gender?: string;
@@ -37,15 +37,16 @@ const BespokeBodyMeasurementGuide = ({
             : "bg-green-50 text-green-700 hover:bg-green-100"
         }`}
       >
-        {showGuide ? "Hide Measurement Guide" : "Show Measurement Guide"} {showGuide ? (
-              <HiArrowSmUp  />
-            ) : (
-              <HiArrowSmDown />
-            )}
+        {showGuide ? "Hide Measurement Guide" : "Show Measurement Guide"}{" "}
+        {showGuide ? <HiArrowSmUp /> : <HiArrowSmDown />}
       </span>
 
       {showGuide && (
-        <div className={`p-4  ${gender === "female" ? "bg-pink-50" : "bg-blue-50"} `}>
+        <div
+          className={`p-4 mt-2  ${
+            gender === "female" ? "bg-pink-50" : "bg-blue-50"
+          } `}
+        >
           <div className="pb-9 pt-6">
             <div className="flex  gap-2 items-center justify-between">
               <h2 className="mb-3 text-md font-semibold text-info">

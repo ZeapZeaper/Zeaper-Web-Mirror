@@ -58,12 +58,15 @@ export function AddBodyMeasurementTemplate({
   setOpenModal,
   gender,
   template,
+  mode = "add",
 }: {
   openModal: boolean;
   gender: string;
   setOpenModal: (open: boolean) => void;
   template?: BodyMeasurementTemplateInterface;
+  mode?: "add" | "edit";
 }) {
+  console.log("gender in modal", gender);
   const topDiveRef = useRef<HTMLDivElement>(null);
   const token = useSelector(globalSelectors.selectAuthToken);
   const { setDimBackground } = useContext(ThemeContext);
@@ -93,6 +96,7 @@ export function AddBodyMeasurementTemplate({
           .filter((item) => item !== "")
           .sort((a, b) => a.localeCompare(b))
       : [];
+  console.log("bodyMeasurementTemplateFields", bodyMeasurementTemplateFields);
   const getBodyMeasurementGuideQuery =
     zeapApiSlice.useGetBodyMeasurementGuideQuery(
       {
@@ -129,7 +133,7 @@ export function AddBodyMeasurementTemplate({
     }
   }, [serverError]);
   useEffect(() => {
-    if (template) {
+    if (template && mode === "edit") {
       setTemplateName(template.templateName);
       const templateMeasurements = template.measurements.map(
         (measurement: measurementField) => ({
@@ -137,9 +141,10 @@ export function AddBodyMeasurementTemplate({
           value: measurement.value,
         })
       );
+      console.log("templateMeasurements", templateMeasurements);
       setMeasurementInputs(templateMeasurements);
     }
-  }, [template]);
+  }, [template, mode]);
 
   const getInputValue = (field: string) => {
     const found = measurementInputs.find(
@@ -204,6 +209,7 @@ export function AddBodyMeasurementTemplate({
   const handleUpdateTemplate = (name: string) => {
     const payload = {
       templateName: name,
+      template_id: template?._id,
       measurements: measurementInputs,
     };
     updateBodyMeasurementTemplate({ payload })
@@ -233,11 +239,13 @@ export function AddBodyMeasurementTemplate({
         <div className="space-y-6">
           <div className="flex justify-between gap-2" ref={topDiveRef}>
             <p className="text-lg font-medium font-semibold text-gray-900 dark:text-white">
-              New Template
+              {mode === "edit"
+                ? "Edit Measurement Template"
+                : "Add Measurement Template"}
             </p>
           </div>
           <div className="flex flex-col gap-2">
-            {gender === "male" ? (
+            {gender.toLowerCase() === "male" ? (
               <span className="text-green-700 p-2 items-center text-center bg-blue-50 rounded-md text-sm cursor-pointer font-semibold">
                 Male Measurement Template
               </span>
@@ -253,14 +261,15 @@ export function AddBodyMeasurementTemplate({
 
             <div className="flex flex-col gap-1">
               <label htmlFor="templateName" className="text-sm font-semibold">
-                New Template Name
+                Template Name
               </label>
               <input
                 type="text"
                 id="templateName"
                 value={templateName || ""}
                 onChange={(e) => setTemplateName(e.target.value)}
-                className="block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                className={`block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 
+                }`}
                 placeholder="Enter template name"
               />
             </div>
@@ -316,7 +325,7 @@ export function AddBodyMeasurementTemplate({
             textClassName="text-gold"
             sizeClass="px-4 py-2"
             onClick={() =>
-              template
+              mode === "edit"
                 ? handleUpdateTemplate(templateName)
                 : handleAddTemplate()
             }
@@ -325,7 +334,7 @@ export function AddBodyMeasurementTemplate({
             updateBodyMeasurementTemplateStatus?.isLoading ? (
               <LoadingDots />
             ) : (
-              "Save New Template"
+              "Save Template"
             )}
           </ButtonPrimary>
         </div>

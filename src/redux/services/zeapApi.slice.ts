@@ -2622,6 +2622,17 @@ export default createApi({
         responseHandler({}, queryArgs);
       },
     }),
+    markNotificationAsSeen: builder.mutation({
+      query: (arg) => {
+        const { payload } = arg;
+        return {
+          url: `/notification/inbox/markAsSeen`,
+          method: "PUT",
+          body: payload,
+        };
+      },
+      invalidatesTags: ["Notification"],
+    }),
     deleteNotification: builder.mutation({
       query: (arg) => {
         const { payload } = arg;

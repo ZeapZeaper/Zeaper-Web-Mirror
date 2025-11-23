@@ -19,7 +19,7 @@ const AccountNavBar = () => {
   const { user, logout } = useContext(AuthContext);
   const router = useRouter();
   return (
-    <div className="md:w-64 text-sm text-gray-500 dark:text-gray-400 flex flex-col gap-2 bg-white mb-4 md:mb-0">
+    <div className="lg:w-64 text-sm text-gray-500 dark:text-gray-400 flex flex-col gap-2 bg-white mb-4 md:mb-0">
       <div className="flex flex-col items-center gap-2 w-full ">
         <div className="flex w-full p-2 ">
           <List className="w-full flex md:flex-col gap-4 flex-wrap">
@@ -91,32 +91,26 @@ const AccountNavBar = () => {
         </div>
         {user && !user?.isGuest && (
           <div onClick={logout} className="hidden md:flex flex-col w-full ">
-            <hr className="border-b border-slate-300 w-full my-2" />
+            <hr className="border-b border-slate-300 w-[10rem] my-2" />
             <ListItem
               className="hover:bg-slate-100 p-2 rounded-md cursor-pointer text-danger"
               icon={() => <HiLogout className=" mr-3" />}
             >
               Logout
             </ListItem>
-            <hr className="border-b border-slate-300 w-full mb-2" />
+            <hr className="border-b border-slate-300 w-[10rem] mb-2" />
           </div>
         )}
-        { !user?.shopId && (
-          <Link
-            href={"/vendor-onboarding"}
-            className="flex w-full p-2 justify-center mt-6"
-          >
-            <span className="block  font-semibold bg-lightSuccess  p-2 rounded-md cursor-pointer text-sm w-full text-center">
+        {!user?.shopId && (
+          <Link href={"/vendor-onboarding"} className="flex w-full p-2  mt-6">
+            <span className="block  font-semibold bg-lightSuccess  p-2 rounded-md cursor-pointer text-sm w-[10rem] text-center">
               Sell on Zeaper
             </span>
           </Link>
         )}
         {user?.shopId && (
-          <Link
-            href="/shop"
-            className="flex w-full p-2 justify-center mt-6"
-          >
-            <span className="block  font-semibold bg-lightSuccess  p-2 rounded-md cursor-pointer text-sm w-full text-center">
+          <Link href="/shop" className="flex w-full p-2  mt-6">
+            <span className="block  font-semibold bg-lightSuccess  p-2 rounded-md cursor-pointer text-sm w-[10rem] text-center">
               My Shop
             </span>
           </Link>

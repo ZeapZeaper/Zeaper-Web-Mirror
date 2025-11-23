@@ -88,6 +88,8 @@ export function AddBodyMeasurementsSize({
 
   const [openExistingBodyMeasurements, setOpenExistingBodyMeasurements] =
     useState(false);
+  const [showAdditionalNote, setShowAdditionalNote] = useState(false);
+
   const [
     openUpdateBodyMeasurementTemplate,
     setOpenUpdateBodyMeasurementTemplate,
@@ -113,6 +115,8 @@ export function AddBodyMeasurementsSize({
 
   const measurements =
     getProductBodyMeasurement?.data?.data?.measurements || [];
+  const additionalMeasurementNote =
+    getProductBodyMeasurement?.data?.data?.additionalMeasurementNote || "";
   const gender = getProductBodyMeasurement?.data?.data?.gender;
   const getBodyMeasurementGuideQuery =
     zeapApiSlice.useGetBodyMeasurementGuideQuery(
@@ -134,6 +138,11 @@ export function AddBodyMeasurementsSize({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openModal]);
+  useEffect(() => {
+    if (additionalMeasurementNote && additionalMeasurementNote.length < 150) {
+      setShowAdditionalNote(true);
+    }
+  }, [additionalMeasurementNote]);
 
   useEffect(() => {
     if (
@@ -164,9 +173,6 @@ export function AddBodyMeasurementsSize({
       return true;
     }
     setServerError("Please fill all required fields");
-    setTimeout(() => {
-      setServerError("");
-    }, 5000);
     return false;
   };
   const handleAddToCart = () => {
@@ -203,9 +209,6 @@ export function AddBodyMeasurementsSize({
         })
         .catch((err) => {
           setServerError(err.data.error);
-          setTimeout(() => {
-            setServerError("");
-          }, 5000);
         });
     }
     addToCart({ payload })
@@ -216,10 +219,6 @@ export function AddBodyMeasurementsSize({
       })
       .catch((err) => {
         setServerError(err.data.error);
-
-        setTimeout(() => {
-          setServerError("");
-        }, 5000);
       });
   };
 
@@ -241,8 +240,22 @@ export function AddBodyMeasurementsSize({
   const checkInputError = (name: string, field: string) => {
     return inputError[`${name}-${field}`];
   };
+  const validateInput = (value: string) => {
+    const numberValue = Number(value);
+    if (isNaN(numberValue) || numberValue < 0) {
+      return false;
+    }
+    //ensure valive is not less than 0
+    if (numberValue < 0) {
+      return false;
+    }
+    return true;
+  };
 
   const handleInputChange = (value: string, name: string, field: string) => {
+    if (value !== "" && !validateInput(value)) {
+      return;
+    }
     const currentBodyMeasurements = [...bodyMeasurements];
     const found = currentBodyMeasurements.find(
       (item: bodyMeasurement) => item.name.toLowerCase() === name.toLowerCase()
@@ -313,6 +326,41 @@ export function AddBodyMeasurementsSize({
                 : "Kindly provide us your measurements"}
             </p>
           </div>
+          {/* Additional Measurement Note */}
+          {additionalMeasurementNote && (
+            <div className="rounded-md border border-amber-300 bg-amber-50 p-3">
+              <div
+                className="flex justify-between items-center cursor-pointer"
+                onClick={() => setShowAdditionalNote(!showAdditionalNote)}
+              >
+                <div className="flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="w-4 h-4 text-amber-600"
+                  >
+                    <path d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0L17.451 12.8c.75 1.333-.214 2.95-1.743 2.95H4.292c-1.53 0-2.493-1.617-1.743-2.95L8.257 3.1zM11 14a1 1 0 10-2 0 1 1 0 002 0zm-1-2a1 1 0 01-1-1V8a1 1 0 112 0v3a1 1 0 01-1 1z" />
+                  </svg>
+
+                  <span className="text-sm font-semibold text-amber-800">
+                    Note from Tailor
+                  </span>
+                </div>
+
+                <span className="text-amber-700 text-xs underline">
+                  {showAdditionalNote ? "Hide" : "Show"}
+                </span>
+              </div>
+
+              {showAdditionalNote && (
+                <p className="mt-2 text-sm text-amber-800 whitespace-pre-wrap">
+                  {additionalMeasurementNote}
+                </p>
+              )}
+            </div>
+          )}
+
           <div className="flex flex-col gap-2">
             <span
               onClick={() => setOpenExistingBodyMeasurements(true)}
@@ -327,6 +375,7 @@ export function AddBodyMeasurementsSize({
               Add New Measurement
             </span>
           </div>
+
           <div className="flex flex-col gap-2">
             {getProductBodyMeasurement.isLoading && <Loading />}
             {serverError && <Alert color="failure">{serverError}</Alert>}
@@ -346,12 +395,13 @@ export function AddBodyMeasurementsSize({
                           htmlFor={field}
                           className="text-sm text-slate-800 "
                         >
-                          {field}*
+                          {field}
                         </label>
                         <div className="flex m-2 ">
                           <input
                             type="number"
                             id={field}
+                            min={0}
                             name={`${measurement.name}-${field}`}
                             value={getInputValue(measurement.name, field) || ""}
                             onChange={(e) =>

@@ -77,7 +77,8 @@ const AddBespokeClothPage = () => {
     fit: [],
   });
   const [measurements, setMeasurements] = useState<MeasurementInterface[]>([]);
-
+  const [additionalMeasurementNote, setAdditionalMeasurementNote] =
+    useState<string>("");
   const [error, setError] = useState({
     title: "",
     description: "",
@@ -334,6 +335,7 @@ const AddBespokeClothPage = () => {
     const payload = {
       productId: product?.productId,
       measurements: measurements.filter((item) => item.fields.length > 0),
+      additionalMeasurementNote,
     };
     addProductBodyMeasurement({ payload })
       .unwrap()
@@ -357,7 +359,7 @@ const AddBespokeClothPage = () => {
       variation: {
         colorType,
         availableColors,
-         price: Number(
+        price: Number(
           typeof price === "string" ? price.replace(/,/g, "") : price
         ),
         ...(bespoke && { sku: bespoke.sku }),
@@ -1151,6 +1153,8 @@ const AddBespokeClothPage = () => {
               bodyMeasurementEnums={bodyMeasurementEnums}
               measurements={measurements}
               setMeasurements={setMeasurements}
+              additionalMeasurementNote={additionalMeasurementNote}
+              setAdditionalMeasurementNote={setAdditionalMeasurementNote}
               genders={categories.gender}
             />
           )}

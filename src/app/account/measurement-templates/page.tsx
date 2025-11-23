@@ -23,6 +23,7 @@ const MeasurementTemplatesPage = () => {
   const isFulfilled = getBodyMeasurementTemplatesQuery?.status === "fulfilled";
 
   const [openModal, setOpenModal] = useState(false);
+  const [mode, setMode] = useState<"add" | "edit">("add");
   const [gender, setGender] = useState("female");
   const [template, setTemplate] = useState<BodyMeasurementTemplateInterface>();
 
@@ -37,8 +38,8 @@ const MeasurementTemplatesPage = () => {
         <div className="hidden md:col-span-1 md:block">
           <AccountNavBar />
         </div>
-        <div className="col-span-1 md:col-span-3  w-full">
-          <div className="flex flex-col md:flex-row md:justify-between mb-4">
+        <div className="col-span-1 md:col-span-3  w-full ">
+          <div className="flex flex-col lg:flex-row lg:justify-between mb-4">
             <h1 className="text-2xl  font-bold sm:text-3xl lg:text-4xl mb-4">
               My Measurement Templates
             </h1>
@@ -47,6 +48,7 @@ const MeasurementTemplatesPage = () => {
                 onClick={() => {
                   setGender("male");
                   setOpenModal(true);
+                  setMode("add");
                 }}
                 data-testid="add-new-template"
                 role="button"
@@ -57,6 +59,7 @@ const MeasurementTemplatesPage = () => {
                     setGender("male");
                     setTemplate(undefined);
                     setOpenModal(true);
+                    setMode("add");
                   }
                 }}
                 className="text-green-700 p-2 h-fit items-center text-center bg-blue-50 rounded-md text-sm cursor-pointer font-semibold"
@@ -68,6 +71,7 @@ const MeasurementTemplatesPage = () => {
                   setGender("female");
                   setTemplate(undefined);
                   setOpenModal(true);
+                  setMode("add");
                 }}
                 data-testid="add-new-template"
                 role="button"
@@ -77,6 +81,7 @@ const MeasurementTemplatesPage = () => {
                   if (e.key === "Enter") {
                     setGender("female");
                     setOpenModal(true);
+                    setMode("add");
                   }
                 }}
                 className="text-green-700 p-2 h-fit items-center text-center bg-pink-50 rounded-md text-sm cursor-pointer font-semibold"
@@ -88,8 +93,9 @@ const MeasurementTemplatesPage = () => {
               <AddBodyMeasurementTemplate
                 openModal={openModal}
                 setOpenModal={setOpenModal}
-                gender={gender}
+                gender={gender.toLowerCase()}
                 template={template}
+                mode={mode}
               />
             )}
           </div>
@@ -110,7 +116,7 @@ const MeasurementTemplatesPage = () => {
             </div>
           )}
 
-          <div className="grid gap-2 md:gap-4 grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 ">
+          <div className="grid gap-2 lg:gap-4 grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 ">
             {templates?.length > 0 &&
               templates.map((template: BodyMeasurementTemplateInterface) => (
                 <div
@@ -129,6 +135,7 @@ const MeasurementTemplatesPage = () => {
                         setTemplate(template);
                         setGender(template.gender);
                         setOpenModal(true);
+                        setMode("edit");
                       }}
                       data-testid="edit-template"
                       role="button"

@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 
-
 const RecentViewCard = () => {
   const token = useSelector(globalSelectors.selectAuthToken);
 

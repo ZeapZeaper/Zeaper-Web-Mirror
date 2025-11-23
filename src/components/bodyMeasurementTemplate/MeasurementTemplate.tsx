@@ -33,7 +33,9 @@ const MeasurementTemplate = ({
         >
           <div className="flex items-center gap-1">
             <span className="text-lg font-semibold">
-              {template.templateName} {template?.gender && `- ${capitalizeFirstLetter(template.gender)}`}
+              {template.templateName}{" "}
+              {template?.gender &&
+                `- ${capitalizeFirstLetter(template.gender)}`}
             </span>
             {showSelectButton && <Badge color="success">{buttonLabel}</Badge>}
           </div>

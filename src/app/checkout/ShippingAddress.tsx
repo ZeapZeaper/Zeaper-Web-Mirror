@@ -18,6 +18,7 @@ import { ThemeContext } from "@/contexts/themeContext";
 import { globalSelectors } from "@/redux/services/global.slice";
 import { useSelector } from "react-redux";
 import { DeliveryAddressInterface } from "@/interface/interface";
+import PhoneInput from "react-phone-number-input";
 
 interface Props {
   isActive: boolean;
@@ -300,7 +301,7 @@ const ShippingAddress: FC<Props> = ({
           </div>
           <div>
             <FormItem label="Phone number *">
-              <Input
+              {/* <Input
                 rounded="rounded-lg"
                 sizeClass="h-12 px-4 py-3"
                 className={`border-neutral-300 bg-transparent placeholder:text-neutral-500 focus:border-gold ${
@@ -308,6 +309,17 @@ const ShippingAddress: FC<Props> = ({
                 }`}
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+              /> */}
+              <PhoneInput
+                value={phoneNumber}
+                onChange={(value) => setPhoneNumber(value || "")}
+                numberInputProps={{
+                  className: `border-neutral-300 bg-transparent placeholder:text-neutral-500 focus:border-gold rounded-lg h-12 px-4 py-3 w-full ${
+                    errors.phoneNumber && !phoneNumber ? "border-red-500" : ""
+                  }`,
+                }}
+                international
+                required
               />
             </FormItem>
             {errors.phoneNumber && !phoneNumber && (
@@ -334,9 +346,18 @@ const ShippingAddress: FC<Props> = ({
               />
 
               <div className="relative w-11 h-6 bg-slate-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600 dark:peer-checked:bg-green-600"></div>
-              <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+              <span
+                className={`ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 ${
+                  user?.isGuest ? "cursor-not-allowed text-slate-200" : ""
+                }`}
+              >
                 Save this delivery details for next time (optional)
               </span>
+              {user?.isGuest && (
+                <span className="text-warning text-xs">
+                  &nbsp; <i>(Login to enable)</i>
+                </span>
+              )}
             </label>
           </div>
           {user?.isGuest && (

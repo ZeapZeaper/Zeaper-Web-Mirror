@@ -228,7 +228,7 @@ const ImagesAndColor = ({
                 style={{
                   background: color?.hex || color?.background,
                 }}
-                className={`w-20 h-6 rounded-md items-center justify-center flex ${getTextColor(
+                className={`w-20 h-6 rounded-md items-center justify-center flex border border-neutral-300 ${getTextColor(
                   color?.hex || ""
                 )}`}
               >

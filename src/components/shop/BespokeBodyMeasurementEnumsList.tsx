@@ -1,6 +1,13 @@
-import { MeasurementInterface } from "@/interface/interface";
+import {
+  BodyMeasurementGuideInterface,
+  MeasurementInterface,
+} from "@/interface/interface";
 import { capitalizeWords } from "@/utils/helpers";
 import { Accordion, Badge, ToggleSwitch } from "flowbite-react";
+import BespokeBodyMeasurementGuide from "../bodyMeasurementTemplate/BespokeBodyMeasurementGuide";
+import zeapApiSlice from "@/redux/services/zeapApi.slice";
+import { globalSelectors } from "@/redux/services/global.slice";
+import { useSelector } from "react-redux";
 
 const toggleTheme = {
   root: {
@@ -20,11 +27,20 @@ const toggleTheme = {
     },
   },
 };
-
+interface BodyMeasurementGuideFieldsInterface {
+  _id: string;
+  field: string;
+  imageUrl: {
+    name: string;
+    link: string;
+  };
+  description: string;
+}
 const BespokeBodyMeasurementEnumsList = ({
   bodyMeasurementEnumsData,
   measurements,
   setMeasurements,
+  gender,
 }: {
   bodyMeasurementEnumsData: {
     name: string;
@@ -32,7 +48,20 @@ const BespokeBodyMeasurementEnumsList = ({
   }[];
   measurements: MeasurementInterface[];
   setMeasurements: (measurement: MeasurementInterface[]) => void;
+  gender: string;
 }) => {
+  const token = useSelector(globalSelectors.selectAuthToken);
+  const getBodyMeasurementGuideQuery =
+    zeapApiSlice.useGetBodyMeasurementGuideQuery(
+      {
+        gender,
+      },
+      { skip: !token || !gender }
+    );
+  const bodyMeasurementGuide: BodyMeasurementGuideInterface[] =
+    getBodyMeasurementGuideQuery.data?.data || [];
+  const bodyMeasurementGuideFields: BodyMeasurementGuideFieldsInterface[] =
+    bodyMeasurementGuide.map((item) => item?.fields).flat();
   const checkIsChecked = (name: string, field: string) => {
     return measurements
       ?.find((item) => item.name === name)
@@ -150,7 +179,10 @@ const BespokeBodyMeasurementEnumsList = ({
 
                   <div className="flex flex-col gap-2">
                     {bodyMeasurementEnum.fields.map((field) => (
-                      <div key={field} className="flex flex-col gap-2">
+                      <div
+                        key={field}
+                        className="grid grid-cols-1 md:grid-cols-2  "
+                      >
                         <ToggleSwitch
                           theme={toggleTheme}
                           label={field}
@@ -164,6 +196,20 @@ const BespokeBodyMeasurementEnumsList = ({
                             handleToggle(bodyMeasurementEnum.name, field)
                           }
                         />
+                        <span>
+                          {bodyMeasurementGuideFields?.find(
+                            (item) => item.field === field
+                          ) && (
+                            <BespokeBodyMeasurementGuide
+                              gender={gender}
+                              bodyMeasurementGuideField={
+                                bodyMeasurementGuideFields?.find(
+                                  (item) => item.field === field
+                                ) as BodyMeasurementGuideFieldsInterface
+                              }
+                            />
+                          )}
+                        </span>
                       </div>
                     ))}
                   </div>

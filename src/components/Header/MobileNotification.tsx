@@ -11,6 +11,15 @@ import ReactTimeAgo from "react-time-ago";
 import NoPic from "@/images/noPhoto.png";
 import { HiTrash } from "react-icons/hi";
 
+interface notificationInterface {
+  createdAt: Date;
+  title: string;
+  body: string;
+  image: string;
+  seen: boolean;
+  _id: string;
+}
+
 const MobileNotification = () => {
   const { user } = useContext(AuthContext);
   const token = useSelector(globalSelectors.selectAuthToken);
@@ -23,6 +32,11 @@ const MobileNotification = () => {
     { skip: !token || !user?._id }
   );
   const notifications = getNotificationsQuery?.data?.data.notifications;
+  const unSeenNotifications = notifications?.filter(
+    (n: notificationInterface) => !n.seen
+  );
+  const [markNotificationAsSeen] =
+    zeapApiSlice.useMarkNotificationAsSeenMutation();
   const [deleteNotification, deleteNotificationStatus] =
     zeapApiSlice.useDeleteNotificationMutation();
   const [deleteAllNotifications, deleteAllNotificationsStatus] =
@@ -73,6 +87,17 @@ const MobileNotification = () => {
   };
   const handleClick = () => {
     setActive(!active);
+    if (unSeenNotifications?.length > 0) {
+      handleMarkAllAsSeen();
+    }
+  };
+  const handleMarkAllAsSeen = () => {
+    const payload = {
+      notification_ids: unSeenNotifications?.map(
+        (n: notificationInterface) => n._id
+      ),
+    };
+    markNotificationAsSeen({ payload }).unwrap();
   };
 
   return (
@@ -110,11 +135,11 @@ const MobileNotification = () => {
                 </svg>
 
                 <span className="sr-only">Notifications</span>
-                {notifications?.length > 0 && (
+                {unSeenNotifications?.length > 0 && (
                   <div
                     className={`absolute inline-flex items-center justify-center w-fit p-1 h-5  text-xs font-bold text-white bg-green-500 border-2 border-white rounded-full -top-1 -end-0 dark:border-gray-900 ${animate}`}
                   >
-                    {notifications?.length}
+                    {unSeenNotifications?.length}
                   </div>
                 )}
               </span>{" "}
@@ -158,17 +183,24 @@ const MobileNotification = () => {
                   <Alert color="failure">Error - {error}</Alert>{" "}
                 </div>
               )}
-              {notifications?.map(
-                (notification: {
-                  createdAt: Date;
-                  title: string;
-                  body: string;
-                  image: string;
-                  _id: string;
-                }) => (
+              {notifications?.map((notification: notificationInterface) => {
+                const isUnseen = !notification.seen;
+
+                return (
                   <li key={notification._id}>
-                    <div className="flex flex-col gap-2.5  px-2 py-3 bg-slate-200 mb-2 hover:bg-gray-2  dark:hover:bg-meta-4 w-full">
-                      <div className="flex gap-2">
+                    <div
+                      className={`
+            flex flex-col gap-2.5 border-t border-stroke p-4 my-2 w-full
+            hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4
+            ${isUnseen ? "bg-blue-50 dark:bg-slate-700" : ""}
+          `}
+                    >
+                      <div className="flex items-center gap-2 relative">
+                        {/* Dot indicator for unseen */}
+                        {isUnseen && (
+                          <span className="absolute -left-3 top-2 h-2 w-2 rounded-full bg-green-500" />
+                        )}
+
                         <Image
                           src={notification?.image || NoPic.src}
                           alt="notification"
@@ -176,11 +208,22 @@ const MobileNotification = () => {
                           width={24}
                           height={24}
                         />
-                        <h5 className="text-sm font-bold text-slate-900 dark:text-white">
+
+                        <h5
+                          className={`text-sm font-bold ${
+                            isUnseen
+                              ? "text-slate-900 dark:text-white"
+                              : "text-slate-600 dark:text-gray-300"
+                          }`}
+                        >
                           {notification?.title}
                         </h5>
                       </div>
-                      <p className="text-xs">{notification?.body}</p>
+
+                      <p className="text-xs text-slate-700 dark:text-white text-start">
+                        {notification?.body}
+                      </p>
+
                       <div className="flex justify-between items-center">
                         <p className="text-xs text-success">
                           <ReactTimeAgo
@@ -188,23 +231,20 @@ const MobileNotification = () => {
                             locale="en-US"
                           />
                         </p>
+
                         <div
                           className="bg-lightDanger p-2 text-danger rounded-full cursor-pointer hover:bg-danger hover:text-white transition duration-200 ease-in-out"
                           onClick={() => {
                             handleDelete(notification._id);
                           }}
                         >
-                          {isDeleting ? (
-                            <LoadingDots />
-                          ) : (
-                            <HiTrash className="" />
-                          )}
+                          {isDeleting ? <LoadingDots /> : <HiTrash />}
                         </div>
                       </div>
                     </div>
                   </li>
-                )
-              )}
+                );
+              })}
             </ul>
           </>
         )}

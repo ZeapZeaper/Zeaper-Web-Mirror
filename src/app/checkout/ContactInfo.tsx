@@ -11,6 +11,7 @@ import { AuthContext } from "@/contexts/authContext";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import { Alert } from "flowbite-react";
 import LoadingDots from "@/components/loading/LoadingDots";
+import Link from "next/link";
 
 interface Props {
   isActive: boolean;
@@ -70,9 +71,9 @@ const ContactInfo: FC<Props> = ({
   return (
     <div className="z-0 overflow-hidden rounded-xl border border-neutral-300">
       {user?.isGuest && (
-        <span className="flex justify-end px-4 underline cursor-pointer">
+        <Link href="/account/login" className="flex justify-end px-4 underline cursor-pointer">
           Log in
-        </span>
+        </Link>
       )}
       <div className="flex flex-col items-start p-6 sm:flex-row ">
         <span className="hidden sm:block">

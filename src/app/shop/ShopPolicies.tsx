@@ -19,7 +19,7 @@ const ShopPolicies = ({ shop }: { shop: ShopInterface }) => {
     : "N/A";
 
   return (
-    <div className="w-full max-w-md p-4 bg-white border border-gray-200 text-black rounded-lg shadow sm:p-8 dark:bg-slate-800 dark:text-white dark:border-gray-700">
+    <div className="w-full lg:max-w-md p-4 bg-white border border-gray-200 text-black rounded-lg shadow sm:p-8 dark:bg-slate-800 dark:text-white dark:border-gray-700">
       <h5 className="text-xl font-bold text-primary">Policies / Contract</h5>
       <div className="flow-root">
         {sellerPolicy?.length === 0 && isFulfilled && (

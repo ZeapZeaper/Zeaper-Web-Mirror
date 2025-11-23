@@ -75,6 +75,7 @@ const AddUpdateBodyMeasurementTemplate = ({
     const payload = {
       templateName,
       measurements,
+      gender,
     };
     addBodyMeasurementTemplate({ payload })
       .unwrap()
@@ -91,11 +92,10 @@ const AddUpdateBodyMeasurementTemplate = ({
       });
   };
   const handleUpdateTemplate = (name: string) => {
- 
     const payload = {
       templateName: name,
       measurements,
-      gender
+      gender,
     };
     updateBodyMeasurementTemplate({ payload })
       .unwrap()

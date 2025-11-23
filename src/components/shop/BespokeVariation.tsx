@@ -83,7 +83,7 @@ const BespokeVariation = ({
             value={price}
             onChange={(value) => setPrice(value)}
             allowDecimals
-            prefix={getCurrencySmallSymbol(currency )}
+            prefix={getCurrencySmallSymbol(currency)}
             placeholder={`Enter price in ${currency}`}
           />
         </div>
@@ -132,7 +132,7 @@ const BespokeVariation = ({
                 style={{
                   background: getAvailableColorBg(color),
                 }}
-                className={`min-w-20 h-6 rounded-md items-center  flex justify-between py-4 p-1 ${getTextColor(
+                className={`min-w-20 h-6 rounded-md items-center  flex justify-between py-4 p-1  border border-neutral-300 ${getTextColor(
                   getAvailableColorBg(color) as string
                 )}`}
               >
@@ -183,7 +183,7 @@ const BespokeVariation = ({
                     style={{
                       background: color?.hex || color?.background,
                     }}
-                    className={`w-20 h-6 rounded-md items-center justify-center flex ${getTextColor(
+                    className={`w-20 h-6 rounded-md items-center justify-center flex border border-neutral-300 ${getTextColor(
                       color?.hex || color?.background || ""
                     )}`}
                   >

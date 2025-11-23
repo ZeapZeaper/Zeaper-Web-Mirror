@@ -38,6 +38,8 @@ const ReviewsPage = () => {
   const pendingReviews = reviews?.pendingReviews || [];
   const isLoading = getUserReviewsQuery.isLoading;
   const isFulfilled = getUserReviewsQuery?.status === "fulfilled";
+  const noReviews =
+    isFulfilled && givenReviews?.length === 0 && pendingReviews?.length === 0;
   const [tab, setTab] = useState("given");
 
   useEffect(() => {
@@ -56,6 +58,15 @@ const ReviewsPage = () => {
             <h1 className="text-2xl  font-bold sm:text-3xl lg:text-4xl mb-4">
               My Reviews
             </h1>
+            {!isLoading && noReviews && (
+              <div className="flex flex-col items-center justify-center min:h-[15rem] md:h-full ">
+                <h2 className="text-xl font-semibold">No Reviews Yet</h2>
+                <p className="text-slate-500">
+                  You have not given any reviews yet. Once you place orders and
+                  receive them, you can share your feedback here.
+                </p>
+              </div>
+            )}
             {reviews && (
               <div className="overflow-x-auto mb-4">
                 <ul className="grid w-full grid-flow-col divide-x divide-gray-200 rounded-none text-sm font-medium shadow">
@@ -137,14 +148,14 @@ const ReviewsPage = () => {
             )}
             {isLoading && <Loading />}
             {tab === "given" && givenReviews?.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
                 {givenReviews.map((review: ReviewInterface) => (
                   <ReviewCard key={review._id} review={review} />
                 ))}
               </div>
             )}
             {tab === "pending" && pendingReviews?.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
                 {pendingReviews.map((review: ReviewInterface) => (
                   <ReviewCard key={review._id} review={review} />
                 ))}

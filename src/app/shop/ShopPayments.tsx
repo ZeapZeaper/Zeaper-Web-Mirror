@@ -17,7 +17,7 @@ const ShopPayments = ({ shopId }: { shopId: string }) => {
   const isLoading = shopPaymentsQuery.isLoading;
   const shopPayments = shopPaymentsQuery?.data?.data;
   return (
-    <div className="w-full max-w-md p-4 bg-white border border-gray-200 text-black rounded-lg shadow sm:p-8 dark:bg-slate-800 dark:text-white dark:border-gray-700">
+    <div className="w-full lg:max-w-md p-4 bg-white border border-gray-200 text-black rounded-lg shadow sm:p-8 dark:bg-slate-800 dark:text-white dark:border-gray-700">
       <div className="flex items-center justify-between mb-4">
         {isLoading && <Loading />}
         <h5 className="text-xl font-bold text-primary">

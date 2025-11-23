@@ -22,7 +22,7 @@ const CollectionFilter = ({
       return {};
     }
 
-    if (inputParameters.length === 0) {
+    if (inputParameters?.length === 0) {
       return {};
     }
     const paramObj: ParamObj = {};

@@ -174,7 +174,7 @@ const ShopBankDetails = ({ shop }: { shop: ShopInterface }) => {
   }
 
   return (
-    <div className="w-full max-w-md p-4 bg-white border border-gray-200 text-black rounded-lg shadow sm:p-8 dark:bg-slate-800 dark:text-white dark:border-gray-700">
+    <div className="w-full lg:max-w-md p-4 bg-white border border-gray-200 text-black rounded-lg shadow sm:p-8 dark:bg-slate-800 dark:text-white dark:border-gray-700">
       <div className="flex items-center justify-between mb-4">
         <h5 className="text-xl font-bold text-primary">Shop Bank Details</h5>
         <div className="flex items-center gap-2">

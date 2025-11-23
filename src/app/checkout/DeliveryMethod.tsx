@@ -1,7 +1,11 @@
 import { globalSelectors } from "@/redux/services/global.slice";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import { getCurrencySmallSymbol, numberWithCommas } from "@/utils/helpers";
+import {
+  capitalizeFirstLetter,
+  getCurrencySmallSymbol,
+  numberWithCommas,
+} from "@/utils/helpers";
 import { useState, type FC } from "react";
 import { VscSymbolMethod } from "react-icons/vsc";
 import { useSelector } from "react-redux";
@@ -39,7 +43,7 @@ const DeliveryMethod: FC<Props> = ({ method, setMethod, country }) => {
           <div className="sm:ml-8">
             <span className="uppercase font-semibold">DELIVERY Method</span>
             <div className="mt-1 text-sm">
-              <span className="">{method}</span>
+              <span className="">{capitalizeFirstLetter(method)}</span>
             </div>
           </div>
           {country.toLowerCase() !== "nigeria" && (
