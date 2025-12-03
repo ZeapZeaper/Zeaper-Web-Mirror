@@ -1,4 +1,4 @@
-import { checkIfHtml, correctULTagFromQuill } from "@/utils/helpers";
+import { checkIfHtml, revertCorrectULTagFromQuill,  } from "@/utils/helpers";
 import React, { useEffect } from "react";
 
 const ProductDescription = ({ description }: { description: string }) => {
@@ -11,7 +11,7 @@ const ProductDescription = ({ description }: { description: string }) => {
     if (descriptionHtmlRef.current) {
       const parser = new DOMParser();
       const doc = parser.parseFromString(
-        correctULTagFromQuill(description),
+        revertCorrectULTagFromQuill(description),
         "text/html"
       );
       descriptionHtmlRef.current.innerHTML = doc.body.innerHTML;
