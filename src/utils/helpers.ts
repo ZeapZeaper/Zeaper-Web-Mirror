@@ -328,23 +328,24 @@ export const getProductGroupLabel = (group: string) => {
 };
 
 export const getProductTypeLabel = (type: string) => {
-//   const productTypeEnums = [
-//   "readyMadeCloth",
-//   "readyMadeShoe",
-//   "accessory",
-//   "bespokeCloth",
-//   "bespokeShoe",
-// ];
-if(type === "readyMadeCloth"){
-  return "Ready To Wear Cloth";
-} else if(type === "readyMadeShoe"){
-  return "Ready To Wear Shoe";
-} else if(type === "bespokeCloth"){
-  return "Bespoke Cloth";
-} else if(type === "bespokeShoe"){
-  return "Bespoke Shoe";
-} else if(type === "accessory"){
-  return "Accessory";
-} else {
-  return type;
-}
+  //   const productTypeEnums = [
+  //   "readyMadeCloth",
+  //   "readyMadeShoe",
+  //   "accessory",
+  //   "bespokeCloth",
+  //   "bespokeShoe",
+  // ];
+  if (type === "readyMadeCloth") {
+    return "Ready To Wear Cloth";
+  } else if (type === "readyMadeShoe") {
+    return "Ready To Wear Shoe";
+  } else if (type === "bespokeCloth") {
+    return "Bespoke Cloth";
+  } else if (type === "bespokeShoe") {
+    return "Bespoke Shoe";
+  } else if (type === "accessory") {
+    return "Accessory";
+  } else {
+    return type;
+  }
+};
