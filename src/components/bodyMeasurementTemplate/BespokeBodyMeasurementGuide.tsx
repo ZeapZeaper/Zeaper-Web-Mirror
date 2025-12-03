@@ -21,6 +21,7 @@ const BespokeBodyMeasurementGuide = ({
   bodyMeasurementGuideField: BodyMeasurementGuideFieldsInterface;
   gender?: string;
 }) => {
+
   const [openModal, setOpenModal] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
   return (

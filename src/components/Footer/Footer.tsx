@@ -1,11 +1,34 @@
 import Link from "next/link";
 import React from "react";
-import { BsFacebook, BsInstagram, BsLinkedin, BsTwitter } from "react-icons/bs";
+import { BsFacebook, BsInstagram, BsLinkedin } from "react-icons/bs";
+import { FaXTwitter } from "react-icons/fa6";
 import { MdCopyright } from "react-icons/md";
 
 import { footerData } from "@/data/content";
 
 import Subscribe from "./Subscribe";
+const socialMediaLinks = [
+  {
+    name: "X Twitter",
+    href: "https://x.com/officialzeaper?t=269UtqV0o2U7KQjbama2VA&s=09",
+    icon: FaXTwitter,
+  },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/company/zona-empire-partners-ltd-zeap/",
+    icon: BsLinkedin,
+  },
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/officialzeaper?igsh=MXRmc3FmM2IwMHAyMg==",
+    icon: BsInstagram,
+  },
+  {
+    name: "Facebook",
+    href: "https://www.facebook.com/share/19up8Gitkb/",
+    icon: BsFacebook,
+  },
+];
 
 const Footer: React.FC = () => {
   return (
@@ -19,16 +42,27 @@ const Footer: React.FC = () => {
                   <h4 className="text-2xl font-medium">{item.title}</h4>
                   {item.links.map((link) => (
                     <div key={link.name}>
-                      <Link href={link.href}>{link.name}</Link>
+                      <Link
+                        href={link.href}
+                        target={link.external ? "_blank" : undefined}
+                      >
+                        {link.name}
+                      </Link>
                     </div>
                   ))}
                 </div>
               ))}
               <div className="flex items-center gap-5">
-                <BsTwitter className="text-2xl" />
-                <BsLinkedin className="text-2xl" />
-                <BsInstagram className="text-2xl" />
-                <BsFacebook className="text-2xl" />
+                {socialMediaLinks.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    target="_blank"
+                    className="text-2xl hover:text-gray-300"
+                  >
+                    <item.icon />
+                  </Link>
+                ))}
               </div>
             </div>
             <div className="flex flex-col justify-center p-5 md:p-20">
@@ -42,7 +76,10 @@ const Footer: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-5">
-              <Link href="/help/article?category=account&subcategory=privacy">
+              <Link
+                href="https://admin.zeaper.com/docs/Zeaper_Policy.pdf"
+                target="_blank"
+              >
                 Privacy Policy
               </Link>
             </div>

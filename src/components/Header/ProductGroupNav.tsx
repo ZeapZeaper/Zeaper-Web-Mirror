@@ -40,7 +40,7 @@ const ProductGroupNav = () => {
           onClick={() => localStorage.setItem("productGroupPage", option.label)}
           className=" flex flex-col cursor-pointer "
         >
-          <span className="   font-extrabold text-sm md:text-md  cursor-pointer">
+          <span className="   font-extrabold text-xs md:text-md  cursor-pointer">
             {option.label}
           </span>
           <span

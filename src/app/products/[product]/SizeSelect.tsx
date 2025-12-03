@@ -25,7 +25,6 @@ const SizeSelect = ({
   showReadyMadeSizeGuide: boolean;
   categories: ProductCategoryInterface;
 }) => {
-
   const gender = categories.gender || [];
   const defaultGender = gender?.find((gen) => gen === "Female")
     ? "female"
@@ -37,9 +36,12 @@ const SizeSelect = ({
       variation.colorValue?.toLocaleLowerCase() ===
       selectedProductColor.toLocaleLowerCase()
   );
-  const variationSizes = selectedColorVariations.map(
-    (variation) => variation.size
-  );
+  const variationSizes = selectedColorVariations.map((variation) => {
+    if (variation.quantity && variation.quantity <= 0) {
+      return null;
+    }
+    return variation.size;
+  });
   // useEffect(() => {
   //   if (!selectedSize || sizes?.length === 1) {
   //     setSelectedSize(sizes[0]);
@@ -62,7 +64,9 @@ const SizeSelect = ({
   return (
     <div className="flex flex-col  gap-4">
       <div className="flex items-center justify-between w-full">
-        <span className="text-md font-semibold">Size {sizeStandard && `(${sizeStandard})`}</span>
+        <span className="text-md font-semibold">
+          Size {sizeStandard && `(${sizeStandard})`}
+        </span>
         {showReadyMadeSizeGuide && (
           <span
             className="underline cursor-pointer"
@@ -79,7 +83,7 @@ const SizeSelect = ({
             type="button"
             disabled={!variationSizes.includes(size)}
             onClick={() => setSelectedSize(size)}
-            className={`w-20 items-center justify-center flex rounded-lg px-3 py-2 text-2xl ${
+            className={`min-w-20 items-center justify-center flex rounded-lg px-3 py-2 text-2xl ${
               selectedSize === size
                 ? "bg-primary text-white"
                 : "border border-neutral-400"

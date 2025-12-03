@@ -73,9 +73,9 @@ const MeasurementTemplate = ({
         }`}
         aria-labelledby="accordion-flush-heading-1"
       >
-        {template?.measurements.map((measurement) => (
+        {template?.measurements.map((measurement,index) => (
           <div
-            key={measurement.field}
+            key={index}
             className="flex justify-between gap-2 text-gray-500 dark:text-gray-400"
           >
             <span className="">{measurement.field}</span>

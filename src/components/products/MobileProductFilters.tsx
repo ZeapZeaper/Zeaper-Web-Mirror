@@ -9,7 +9,7 @@ import { IoMdClose } from "react-icons/io";
 
 const drawerTmem = {
   root: {
-    base: "fixed z-40 overflow-y-auto bg-white p-4 transition-transform dark:bg-gray-800",
+    base: "fixed z-40 overflow-y-auto overscroll-contain bg-white p-4 transition-transform dark:bg-gray-800",
     backdrop: "fixed inset-0 z-30 bg-gray-900/50 dark:bg-gray-900/80",
     edge: "bottom-35 h-[80vh] ",
     position: {
@@ -22,7 +22,7 @@ const drawerTmem = {
         off: "right-0 top-0 h-screen w-80 translate-x-full",
       },
       bottom: {
-        on: "bottom-0 left-0 right-0 w-full transform-none h-[70vh]  overflow-y-scroll",
+        on: "bottom-0 left-0 right-0 w-full transform-none h-[70vh]  overflow-y-scroll overscroll-contain",
         off: "bottom-0 left-0 right-0 w-full translate-y-full",
       },
       left: {
@@ -59,12 +59,13 @@ export function MobileProductFilters({
   dynamicFilters: {
     name: string;
     type: string;
-    options: Record<string, { value: string, slug?: string }>;
+    options: Record<string, { value: string; slug?: string }>;
   }[];
   totalCount: number;
   // setSubTitle: (value: string) => void;
   colorOptions: { name: string; hex?: string; background?: string }[];
 }) {
+  console.log("dynamicFilters", dynamicFilters);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
@@ -83,11 +84,7 @@ export function MobileProductFilters({
     }
     return false;
   };
-  const handleFilterChange = (
-    key: string,
-    slug: string,
-    replace?: boolean
-  ) => {
+  const handleFilterChange = (key: string, slug: string, replace?: boolean) => {
     if (replace) {
       const params = new URLSearchParams(searchParams.toString());
       params.set(key, slug);
@@ -201,7 +198,7 @@ export function MobileProductFilters({
         />
 
         <Drawer.Items>
-          <div className="flex flex-col h-[78vh] overflow-scroll p-2">
+          <div className="flex flex-col h-[78vh] overflow-scroll overscroll-contain p-2">
             <div className="grid grid-cols-1 divide-y divide-gray-200 dark:divide-gray-700">
               <div className="flex justify-between items-center">
                 <span
@@ -250,120 +247,124 @@ export function MobileProductFilters({
                     {showOptionsList.includes(filter?.name) && (
                       <>
                         {filter?.name === "Color" ? (
-                          <div className="grid grid-cols-2 gap-4 max-h-70 overflow-scroll">
+                          <div className="grid grid-cols-2 gap-4 max-h-70 overflow-scroll overscroll-contain">
                             {filter?.type === "checkbox" && (
                               <>
                                 {Object.keys(filter?.options)
                                   .map((key) => filter?.options[key])
-                                  .map((obj: { value: string, slug?: string }) => (
-                                    <div
-                                      key={obj?.value}
-                                      className="flex items-center cursor-pointer mt-2"
-                                    >
-                                      <Checkbox
-                                        id={obj?.value}
-                                        name={obj?.value}
-                                        color="success"
-                                        checked={checkIfFilterExist(
-                                          lowerFirstChar(
-                                            filter?.name?.replace(/ /g, "")
-                                          ),
-                                          obj?.slug || obj?.value
-                                        )}
-                                        onChange={() =>
-                                          handleFilterChange(
-                                            lowerFirstChar(
-                                              filter?.name?.replace(/ /g, "")
-                                            ),
-                                            obj?.slug || obj?.value
-                                          )
-                                        }
-                                      />
-                                      <label
-                                        onClick={() =>
-                                          handleFilterChange(
-                                            lowerFirstChar(
-                                              filter?.name?.replace(/ /g, "")
-                                            ),
-                                            obj?.slug || obj?.value
-                                          )
-                                        }
-                                        htmlFor={obj?.value}
-                                        className="ml-2 text-sm text-gray-900 dark:text-white items-center inline-flex gap-2 cursor-pointer"
+                                  .map(
+                                    (obj: { value: string; slug?: string }) => (
+                                      <div
+                                        key={obj?.value}
+                                        className="flex items-center cursor-pointer mt-2"
                                       >
-                                        <div
-                                          className="w-4 h-4 rounded-full border  border-slate-200"
-                                          style={{
-                                            background: getBg(obj?.value),
-                                          }}
-                                        ></div>
+                                        <Checkbox
+                                          id={obj?.value}
+                                          name={obj?.value}
+                                          color="success"
+                                          checked={checkIfFilterExist(
+                                            lowerFirstChar(
+                                              filter?.name?.replace(/ /g, "")
+                                            ),
+                                            obj?.slug || obj?.value
+                                          )}
+                                          onChange={() =>
+                                            handleFilterChange(
+                                              lowerFirstChar(
+                                                filter?.name?.replace(/ /g, "")
+                                              ),
+                                              obj?.slug || obj?.value
+                                            )
+                                          }
+                                        />
+                                        <label
+                                          onClick={() =>
+                                            handleFilterChange(
+                                              lowerFirstChar(
+                                                filter?.name?.replace(/ /g, "")
+                                              ),
+                                              obj?.slug || obj?.value
+                                            )
+                                          }
+                                          htmlFor={obj?.value}
+                                          className="ml-2 text-sm text-gray-900 dark:text-white items-center inline-flex gap-2 cursor-pointer"
+                                        >
+                                          <div
+                                            className="w-4 h-4 rounded-full border  border-slate-200"
+                                            style={{
+                                              background: getBg(obj?.value),
+                                            }}
+                                          ></div>
 
-                                        {obj?.value}
-                                      </label>
-                                    </div>
-                                  ))}
+                                          {obj?.value}
+                                        </label>
+                                      </div>
+                                    )
+                                  )}
                               </>
                             )}
                           </div>
                         ) : (
-                          <div className="flex flex-col max-h-60 overflow-y-scroll">
+                          <div className="flex flex-col ">
                             {filter?.type === "checkbox" && (
                               <>
                                 {Object.keys(filter?.options)
                                   .map((key) => filter?.options[key])
-                                  .map((obj: { value: string, slug?: string }) => (
-                                    <div
-                                      key={obj?.value}
-                                      className="flex items-center cursor-pointer mt-2"
-                                    >
-                                      <Checkbox
-                                        id={obj?.value}
-                                        name={obj?.value}
-                                        color="success"
-                                        checked={checkIfFilterExist(
-                                          lowerFirstChar(
-                                            filter?.name?.replace(/ /g, "")
-                                          ),
-                                          obj?.slug || obj?.value
-                                        )}
-                                        onChange={() =>
-                                          handleFilterChange(
-                                            lowerFirstChar(
-                                              filter?.name?.replace(/ /g, "")
-                                            ),
-                                            obj?.slug || obj?.value
-                                          )
-                                        }
-                                      />
-                                      <label
-                                        onClick={() =>
-                                          handleFilterChange(
-                                            lowerFirstChar(
-                                              filter?.name?.replace(/ /g, "")
-                                            ),
-                                            obj?.slug || obj?.value
-                                          )
-                                        }
-                                        htmlFor={obj?.value}
-                                        className="ml-2 text-sm text-gray-900 dark:text-white items-center inline-flex gap-2 cursor-pointer"
+                                  .map(
+                                    (obj: { value: string; slug?: string }) => (
+                                      <div
+                                        key={obj?.value}
+                                        className="flex items-center cursor-pointer mt-2"
                                       >
-                                        {obj?.value}
-                                      </label>
-                                    </div>
-                                  ))}
+                                        <Checkbox
+                                          id={obj?.value}
+                                          name={obj?.value}
+                                          color="success"
+                                          checked={checkIfFilterExist(
+                                            lowerFirstChar(
+                                              filter?.name?.replace(/ /g, "")
+                                            ),
+                                            obj?.slug || obj?.value
+                                          )}
+                                          onChange={() =>
+                                            handleFilterChange(
+                                              lowerFirstChar(
+                                                filter?.name?.replace(/ /g, "")
+                                              ),
+                                              obj?.slug || obj?.value
+                                            )
+                                          }
+                                        />
+                                        <label
+                                          onClick={() =>
+                                            handleFilterChange(
+                                              lowerFirstChar(
+                                                filter?.name?.replace(/ /g, "")
+                                              ),
+                                              obj?.slug || obj?.value
+                                            )
+                                          }
+                                          htmlFor={obj?.value}
+                                          className="ml-2 text-sm text-gray-900 dark:text-white items-center inline-flex gap-2 cursor-pointer"
+                                        >
+                                          {obj?.value}
+                                        </label>
+                                      </div>
+                                    )
+                                  )}
                               </>
                             )}
                             {filter?.type === "range" && (
                               <div className="relative mb-6">
                                 <MultiRangeSlider
                                   min={
-                                    filter?.options?.min?.value
-                                      ? Number(filter?.options?.min?.value)
+                                    filter?.options?.min
+                                      ? Number(filter?.options?.min)
                                       : 0
                                   }
                                   max={
-                                    filter?.options?.max?.value
-                                      ? Number(filter?.options?.max?.value)
+                                    filter?.options?.max
+                                      ? Number(filter?.options?.max)
                                       : 100
                                   }
                                   onChange={({ min, max }) =>

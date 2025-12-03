@@ -112,9 +112,9 @@ const CartPage = () => {
                     </span>
                   </div>
                 )}
-                <div className="flex justify-between py-4">
+                <div className="flex justify-between py-4 text-xs md:text-sm">
                   <span>Estimated Delivery & Handling</span>
-                  <span className="font-semibold">Calculated at Checkout</span>
+                  <span className="font-semibold ">Calculated at Checkout</span>
                 </div>
               </div>
               <div className="mt-4 flex justify-between text-xl font-semibold">

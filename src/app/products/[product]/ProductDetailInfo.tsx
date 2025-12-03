@@ -1,6 +1,7 @@
 import { ProductCategoryInterface } from "@/interface/interface";
+import { getProductGroupLabel } from "@/utils/helpers";
 import { useSearchParams } from "next/navigation";
-import {  useState } from "react";
+import { useState } from "react";
 
 const ProductDetailInfo = ({
   categories,
@@ -8,7 +9,7 @@ const ProductDetailInfo = ({
   categories: ProductCategoryInterface;
 }) => {
   const searchParams = useSearchParams();
-   const productId = searchParams.get("productId") || "";
+  const productId = searchParams.get("productId") || "";
 
   const [active, setActive] = useState(false);
   const handleClick = () => {
@@ -26,8 +27,8 @@ const ProductDetailInfo = ({
   const heelHeight = categories?.heelHeight || "";
   const brand = categories?.brand || "";
   const accessoryType = categories?.accessoryType || "";
- 
 
+  
   return (
     <div
       id="accordion-flush"
@@ -88,7 +89,7 @@ const ProductDetailInfo = ({
             </span>
             <span className="text-gray-500 dark:text-gray-400">:</span>
             <span className="text-gray-500 dark:text-gray-400">
-              {productGroup}
+              {getProductGroupLabel(productGroup)}
             </span>
           </div>
         )}

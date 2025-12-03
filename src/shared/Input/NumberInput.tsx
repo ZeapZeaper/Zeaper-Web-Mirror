@@ -1,4 +1,10 @@
-import React, { useState, useRef, ChangeEvent, FocusEvent, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  ChangeEvent,
+  FocusEvent,
+  useEffect,
+} from "react";
 
 interface NumberInputProps {
   id?: string;
@@ -12,6 +18,7 @@ interface NumberInputProps {
   showArrows?: boolean; // optional up/down arrows
   useCommas?: boolean; // whether to format with commas
   className?: string;
+  inputClassName?: string;
   min?: number;
   max?: number;
   disabled?: boolean;
@@ -32,6 +39,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   min,
   max,
   disabled = false,
+  inputClassName = "",
 }) => {
   const formatNumber = (val: string): string => {
     if (!val) return "";
@@ -121,7 +129,9 @@ const NumberInput: React.FC<NumberInputProps> = ({
         disabled ? "opacity-50 pointer-events-none" : ""
       }`}
     >
-      <div className="relative flex border border-secondary rounded overflow-hidden focus-within:ring-1 focus-within:ring-secondary h-12">
+      <div
+        className={`relative flex border border-secondary rounded overflow-hidden focus-within:ring-1 focus-within:ring-secondary h-12 ${inputClassName}`}
+      >
         {prefix && (
           <span className="bg-gray-800 text-secondary px-3 py-2 flex items-center select-none">
             {prefix}

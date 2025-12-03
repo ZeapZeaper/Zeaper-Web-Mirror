@@ -81,7 +81,7 @@ const OrdersPage = () => {
         )}
         <div className="flex flex-col md:flex-row md:justify-between">
           <h2 className="block text-xl font-medium sm:text-2xl lg:text-3xl">
-           My Shop Orders
+            My Shop Orders
           </h2>
           {orders?.length > 0 && (
             <div className="flex flex-col justify-center items-center w-full my-4 md:my-0 md:w-auto ">
@@ -115,6 +115,7 @@ const OrdersPage = () => {
                       setInput(e.target.value);
                     }}
                   />
+                  
                   <button
                     type="submit"
                     className="text-white absolute end-2.5 bottom-1 bg-primary hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-xs px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
@@ -138,7 +139,7 @@ const OrdersPage = () => {
             <div className="md:hidden grid grid-cols-1    gap-4 w-full items-center justify-center cursor-pointer">
               {filteredOrders?.length > 0 &&
                 filteredOrders?.map((productOrder: ProductOrdersInterface) => (
-                  <div key={productOrder?._id} >
+                  <div key={productOrder?._id}>
                     <ProductOrderCard productOrder={productOrder} />
                   </div>
                 ))}
@@ -148,7 +149,7 @@ const OrdersPage = () => {
           <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-4 w-full  items-center justify-center cursor-pointer ">
             {filteredOrders?.length > 0 &&
               filteredOrders?.map((productOrder: ProductOrdersInterface) => (
-                <div key={productOrder?._id} >
+                <div key={productOrder?._id}>
                   <ProductOrderCard productOrder={productOrder} />
                 </div>
               ))}

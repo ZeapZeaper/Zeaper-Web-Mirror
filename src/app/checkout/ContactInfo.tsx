@@ -71,7 +71,10 @@ const ContactInfo: FC<Props> = ({
   return (
     <div className="z-0 overflow-hidden rounded-xl border border-neutral-300">
       {user?.isGuest && (
-        <Link href="/account/login" className="flex justify-end px-4 underline cursor-pointer">
+        <Link
+          href="/account/login"
+          className="flex justify-end px-4 underline cursor-pointer"
+        >
           Log in
         </Link>
       )}

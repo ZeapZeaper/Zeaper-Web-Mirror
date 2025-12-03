@@ -106,7 +106,7 @@ const CartItem = ({
   };
 
   return (
-    <div key={item?.sku} className="flex py-5 last:pb-0">
+    <div key={item?.sku} className="flex py-5  last:pb-0">
       <div
         className="relative  w-40 shrink-0 overflow-hidden rounded-xl"
         onClick={() => {
@@ -134,7 +134,7 @@ const CartItem = ({
         />
       </div>
 
-      <div className="ml-4 flex flex-1 flex-col justify-between">
+      <div className="lg:ml-4 flex flex-1 flex-col justify-between">
         <div>
           <div className="flex flex-col gap-2 ">
             <div

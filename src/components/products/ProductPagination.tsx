@@ -24,16 +24,17 @@ const ProductPagination = ({
   };
   return (
     <>
-      {" "}
-      <Pagination
-        currentPage={pageNumber ? pageNumber : 1}
-        totalPages={Math.ceil(totalCount / limit)}
-        onPageChange={(page) => {
-          console.log("page", page);
-          changePage(page);
-        }}
-        showIcons={showIcons}
-      />
+      {totalCount > 0 && (
+        <Pagination
+          currentPage={pageNumber ? pageNumber : 1}
+          totalPages={Math.ceil(totalCount / limit)}
+          onPageChange={(page) => {
+            console.log("page", page);
+            changePage(page);
+          }}
+          showIcons={showIcons}
+        />
+      )}
     </>
   );
 };

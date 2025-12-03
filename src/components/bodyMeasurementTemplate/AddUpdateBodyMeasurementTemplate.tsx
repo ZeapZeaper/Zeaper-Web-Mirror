@@ -92,8 +92,13 @@ const AddUpdateBodyMeasurementTemplate = ({
       });
   };
   const handleUpdateTemplate = (name: string) => {
+    const template_id: string = templates.find(
+      (template: { templateName: string; _id: string }) =>
+        template.templateName === name
+    )._id;
     const payload = {
       templateName: name,
+      template_id,
       measurements,
       gender,
     };

@@ -13,7 +13,7 @@ export const capitalizeWords = (string: string) => {
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
-}
+};
 
 export const shortenLongString = (string: string, maxLength: number) => {
   return string?.length > maxLength
@@ -178,7 +178,7 @@ export const getProductDisplaySubMenus = (
     return slugLink;
   };
   const productTypes = menus
-    .find((menu) => menu.name === "Product Type")
+    ?.find((menu) => menu.name === "Product Type")
     ?.options?.map((opt: { value: string; count: number }) => opt.value);
   if (productTypes && productTypes.length > 4) {
     subMenus = (productTypes ?? []).map((item: string) => {
@@ -198,7 +198,7 @@ export const getProductDisplaySubMenus = (
     return subMenus;
   }
   const main = menus
-    .find((menu) => menu.name === "Main")
+    ?.find((menu) => menu.name === "Main")
     ?.options?.map((opt: { value: string; count: number }) => opt.value);
   if (main && main.length > 6) {
     subMenus = main.map((item: string) => {
@@ -217,7 +217,7 @@ export const getProductDisplaySubMenus = (
     return subMenus;
   }
   const style = menus
-    .find((menu) => menu.name === "Style")
+    ?.find((menu) => menu.name === "Style")
     ?.options?.map((opt: { value: string; count: number }) => opt.value);
   if (style && style.length > 4) {
     subMenus = (style ?? []).map((item: string) => {
@@ -228,7 +228,7 @@ export const getProductDisplaySubMenus = (
         return styles.includes(item);
       });
       if (!productExist) return null;
-      
+
       return {
         value: item,
         link: slugUrl ? `${slugUrl}?style=${item}` : getSlugLink(item, "style"),
@@ -256,24 +256,54 @@ export const convertStringToHtml = (text: string) => {
   return htmlString;
 };
 
-export const correctULTagFromQuill = (str: string) => {
+export const normalizeQuillLists = (html: string) => {
+  const container = document.createElement("div");
+  container.innerHTML = html;
+
+  // Fix each <ol> used as bullet list
+  container.querySelectorAll("ol").forEach((ol) => {
+    const listItems = Array.from(ol.querySelectorAll("li"));
+    const allBullets = listItems.every(
+      (li) => li.getAttribute("data-list") === "bullet"
+    );
+
+    if (allBullets) {
+      // Replace <ol> with <ul>
+      const ul = document.createElement("ul");
+
+      listItems.forEach((li) => {
+        li.removeAttribute("data-list");
+
+        // Remove Quill marker span
+        const marker = li.querySelector(".ql-ui");
+        if (marker) marker.remove();
+
+        ul.appendChild(li);
+      });
+
+      ol.replaceWith(ul);
+    }
+  });
+  return container.innerHTML;
+};
+export const revertCorrectULTagFromQuill = (str: string) => {
   if (str) {
-    const re = /(<ol><li data-list="bullet">)(.*?)(<\/ol>)/;
+    const re = /(<ul><li data-list="bullet">)(.*?)(<\/ul>)/;
     const strArr = str.split(re);
 
     while (
-      strArr.findIndex((ele) => ele === '<ol><li data-list="bullet">') !== -1
+      strArr.findIndex((ele) => ele === '<ul><li data-list="bullet">') !== -1
     ) {
       const indx = strArr.findIndex(
-        (ele) => ele === '<ol><li data-list="bullet">',
+        (ele) => ele === '<ul><li data-list="bullet">'
       );
       if (indx) {
-        strArr[indx] = '<ul><li data-list="bullet">';
-        const endTagIndex = strArr.findIndex((ele) => ele === '</ol>');
-        strArr[endTagIndex] = '</ul>';
+        strArr[indx] = '<ol><li data-list="bullet">';
+        const endTagIndex = strArr.findIndex((ele) => ele === "</ul>");
+        strArr[endTagIndex] = "</ol>";
       }
     }
-    return strArr.join('');
+    return strArr.join("");
   }
   return str;
 };
@@ -281,12 +311,40 @@ export const correctULTagFromQuill = (str: string) => {
 export const validIntegerInput = (value: string) => {
   const regex = /^\d*$/;
   return regex.test(value);
-}
+};
 export const validDecimalInput = (value: string) => {
   const regex = /^\d*\.?\d*$/;
   return regex.test(value);
-}
+};
 export const validNumberInput = (value: string) => {
   const regex = /^-?\d*\.?\d*$/;
   return regex.test(value);
+};
+export const getProductGroupLabel = (group: string) => {
+  if (group === "Ready-Made") {
+    return "Ready to Wear";
+  }
+  return group;
+};
+
+export const getProductTypeLabel = (type: string) => {
+//   const productTypeEnums = [
+//   "readyMadeCloth",
+//   "readyMadeShoe",
+//   "accessory",
+//   "bespokeCloth",
+//   "bespokeShoe",
+// ];
+if(type === "readyMadeCloth"){
+  return "Ready To Wear Cloth";
+} else if(type === "readyMadeShoe"){
+  return "Ready To Wear Shoe";
+} else if(type === "bespokeCloth"){
+  return "Bespoke Cloth";
+} else if(type === "bespokeShoe"){
+  return "Bespoke Shoe";
+} else if(type === "accessory"){
+  return "Accessory";
+} else {
+  return type;
 }

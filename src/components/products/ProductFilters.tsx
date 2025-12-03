@@ -9,7 +9,7 @@ interface ProductFiltersProps {
   dynamicFilters: {
     name: string;
     type: string;
-    options: Record<string, { value: string ,slug?: string}>;
+    options: Record<string, { value: string; slug?: string }>;
   }[];
   totalCount: number;
   // setSubTitle: (value: string) => void;
@@ -56,11 +56,7 @@ const ProductFilters = ({
     }
     return false;
   };
-  const handleFilterChange = (
-    key: string,
-    slug: string,
-    replace?: boolean
-  ) => {
+  const handleFilterChange = (key: string, slug: string, replace?: boolean) => {
     if (replace) {
       const params = new URLSearchParams(searchParams.toString());
       params.set(key, slug);
@@ -182,7 +178,7 @@ const ProductFilters = ({
                         <>
                           {Object.keys(filter?.options)
                             .map((key) => filter?.options[key])
-                            .map((obj: { value: string, slug?: string }) => (
+                            .map((obj: { value: string; slug?: string }) => (
                               <div
                                 key={obj?.value}
                                 className="flex items-center cursor-pointer mt-2"
@@ -236,7 +232,7 @@ const ProductFilters = ({
                         <>
                           {Object.keys(filter?.options)
                             .map((key) => filter?.options[key])
-                            .map((obj: { value: string, slug?: string }) => (
+                            .map((obj: { value: string; slug?: string }) => (
                               <div
                                 key={obj?.value}
                                 className="flex items-center cursor-pointer mt-2"
@@ -282,13 +278,13 @@ const ProductFilters = ({
                         <div className="relative mb-6">
                           <MultiRangeSlider
                             min={
-                              filter?.options?.min?.value
-                                ? Number(filter?.options?.min?.value)
+                              filter?.options?.min
+                                ? Number(filter?.options?.min)
                                 : 0
                             }
                             max={
-                              filter?.options?.max?.value
-                                ? Number(filter?.options?.max?.value)
+                              filter?.options?.max
+                                ? Number(filter?.options?.max)
                                 : 100
                             }
                             onChange={({ min, max }) =>

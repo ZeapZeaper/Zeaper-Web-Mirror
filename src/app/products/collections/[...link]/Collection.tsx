@@ -87,7 +87,7 @@ const Collection = ({ formatLink }: { formatLink: string }) => {
         </div>
         {products?.length > 0 && (
           <div className="flex flex-col lg:flex-row lg:gap-4">
-            <div className="hidden lg:flex flex-none md:w-64">
+            <div className="hidden xl:flex flex-none md:w-64">
               {filtersLoading ? (
                 <Skeleton />
               ) : (

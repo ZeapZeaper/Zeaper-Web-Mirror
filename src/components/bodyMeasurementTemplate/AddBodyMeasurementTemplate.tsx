@@ -20,6 +20,7 @@ import {
   BodyMeasurementTemplateInterface,
 } from "@/interface/interface";
 import BespokeBodyMeasurementGuide from "./BespokeBodyMeasurementGuide";
+import NumberInput from "@/shared/Input/NumberInput";
 
 const ModalTheme = {
   root: {
@@ -41,7 +42,7 @@ const ModalTheme = {
 
 type measurementField = {
   field: string;
-  value: number;
+  value: number | string | undefined;
 };
 interface BodyMeasurementGuideFieldsInterface {
   _id: string;
@@ -285,7 +286,7 @@ export function AddBodyMeasurementTemplate({
                       {field}
                     </label>
                     <div className="flex m-2 ">
-                      <input
+                      {/* <input
                         type="number"
                         id={field}
                         name={field}
@@ -297,7 +298,17 @@ export function AddBodyMeasurementTemplate({
                       />
                       <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-slate-200 border border-e-0 border-slate-300 rounded-e-full">
                         inch
-                      </span>
+                      </span> */}
+                      <NumberInput
+                        value={getInputValue(field) || ""}
+                        onChange={(value) => handleInputChange(value, field)}
+                        allowDecimals={false}
+                        showArrows
+                        min={0}
+                        prefix="inch"
+                        className="!mx-0"
+                        inputClassName="bg-slate-30 border-slate-300 text-gray-900 "
+                      />
                     </div>
                   </div>
                   {bodyMeasurementGuideFields?.find(

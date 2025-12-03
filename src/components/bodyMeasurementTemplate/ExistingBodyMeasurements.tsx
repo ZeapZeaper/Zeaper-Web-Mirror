@@ -124,10 +124,10 @@ export function ExistingBodyMeasurements({
             <div className="flex flex-col items-center justify-center  items-center gap-2 p-4 bg-grey7">
               <div className="flex flex-col items-center gap-1">
                 <span className="font-medium text-warning">
-                  We’ll hold your saved measurement templates for 30 days.
+                  Zeaper keeps your saved measurement templates for 30 days.
                 </span>
                 <span className="font-medium">
-                  Sign in to to keep your measurement templates as long as you
+                  Sign in to keep your measurement templates for as long as you
                   want.
                 </span>
               </div>

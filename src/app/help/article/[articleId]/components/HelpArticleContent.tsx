@@ -1,4 +1,5 @@
 "use client";
+
 import HelpCenterNav from "@/app/help/components/HelpCenterNav";
 import SearchHelpArticle from "@/app/help/components/SearchHelpArticle";
 import Loading from "@/app/loading";
@@ -10,7 +11,7 @@ import {
 import { HelpArticleInterface } from "@/interface/interface";
 import { globalSelectors } from "@/redux/services/global.slice";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
-import { capitalizeFirstLetter, correctULTagFromQuill } from "@/utils/helpers";
+import { capitalizeFirstLetter } from "@/utils/helpers";
 import { useSearchParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import MarkArticleHelpful from "./MarkArticleHelpful";
@@ -33,7 +34,7 @@ const HelpArticleContent = ({ articleId }: { articleId: string }) => {
   const isLoading = getHelpArticleQuery.isLoading;
   const article: HelpArticleInterface | undefined =
     getHelpArticleQuery?.data?.data || undefined;
-  console.log("article", getHelpArticleQuery.status);
+
   const isFulfilled = getHelpArticleQuery.status === "fulfilled";
   const isRejected = getHelpArticleQuery.status === "rejected";
 
@@ -91,9 +92,13 @@ const HelpArticleContent = ({ articleId }: { articleId: string }) => {
                   <h2 className="text-2xl font-bold mb-4">{article.title}</h2>
                   <div className="text-gray-700 dark:text-gray-300">
                     <div
-                      dangerouslySetInnerHTML={{ __html: correctULTagFromQuill(article.content) }}
+                      className="rich-content"
+                      dangerouslySetInnerHTML={{
+                        __html: article.content ? article.content : "",
+                      }}
                     />
                   </div>
+
                   <div className="mt-4 text-sm text-gray-500">
                     <p>
                       Category: {getCategoryLabel(article.category) || "N/A"}

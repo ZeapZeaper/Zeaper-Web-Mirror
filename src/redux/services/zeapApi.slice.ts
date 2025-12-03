@@ -2618,9 +2618,9 @@ export default createApi({
         };
       },
       providesTags: ["Notification", "User"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
+      // onQueryStarted: async (_, queryArgs) => {
+      //   responseHandler({}, queryArgs);
+      // },
     }),
     markNotificationAsSeen: builder.mutation({
       query: (arg) => {

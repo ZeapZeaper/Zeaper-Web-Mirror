@@ -58,7 +58,7 @@ const ProductOrderCard = ({
               {productOrder?.product?.title}
             </span>
             <span
-              className={`text-xs w-[100px] text-center border p-1 rounded-md  ${getProductOrderStatusBg(
+              className={`text-xs max-w-[10rem] text-center border p-1 rounded-md  ${getProductOrderStatusBg(
                 status?.value
               )}`}
             >

@@ -7,7 +7,7 @@ import {
   ProductReviewInterface,
   VariationInterface,
 } from "@/interface/interface";
-import { capitalizeFirstLetter, convertCamelToNormal } from "@/utils/helpers";
+import { capitalizeFirstLetter, getProductTypeLabel } from "@/utils/helpers";
 import ProductDetailPrice from "./ProductDetailPrice";
 import ProductDetailInfo from "./ProductDetailInfo";
 import { Rating } from "flowbite-react";
@@ -101,7 +101,7 @@ const ProductDetails: FC<SectionProductHeaderProps> = ({
             {title}-{capitalizeFirstLetter(selectedProductColor || "")}
           </h5>
           <div className="text-[10px] font-medium text-gray-500 dark:text-gray-400 bg-lightGold dark:bg-secondary p-1 rounded-md w-fit">
-            {convertCamelToNormal(productType).toUpperCase()}
+            {getProductTypeLabel(productType)}
           </div>
         </div>
         {reviews.length > 0 && (
@@ -170,14 +170,15 @@ const ProductDetails: FC<SectionProductHeaderProps> = ({
             sizeStandard={sizeStandard}
           />
         )}
-        {categories?.productGroup === "Bespoke" && (
-          <BespokeMaterialColorSelection
-            availableColors={bespokeAvailableColors}
-            setSelectedMaterialColor={setSelectedMaterialColor}
-            selectedMaterialColor={selectedMaterialColor}
-            colorOptions={colorOptions}
-          />
-        )}
+        {categories?.productGroup === "Bespoke" &&
+          bespokeAvailableColors?.length > 0 && (
+            <BespokeMaterialColorSelection
+              availableColors={bespokeAvailableColors}
+              setSelectedMaterialColor={setSelectedMaterialColor}
+              selectedMaterialColor={selectedMaterialColor}
+              colorOptions={colorOptions}
+            />
+          )}
         <AddToCart
           selectedSize={selectedSize}
           variations={variations}

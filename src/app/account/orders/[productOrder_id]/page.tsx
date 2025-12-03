@@ -64,6 +64,7 @@ const OrderItemPage = () => {
   const color = productOrder?.color;
   const bespokeColor = productOrder?.bespokeColor;
   const quantity = productOrder?.quantity;
+  const bespokeInstruction = productOrder?.bespokeInstruction;
   const size = productOrder?.size;
   const status = productOrder?.status;
   const deliveryDetails = productOrder?.deliveryDetails;
@@ -202,19 +203,19 @@ const OrderItemPage = () => {
                     .replace(/&/g, "and")
                     .replace(/\//g, "-")}-${
                     color || getDefaultColor()
-                  }?productId=${
-                    product?.productId
-                  }&color=${color || getDefaultColor()}`
+                  }?productId=${product?.productId}&color=${
+                    color || getDefaultColor()
+                  }`
                 );
               }}
-              className="text-lg font-semibold cursor-pointer underline underline-thickness-thin underline-offset-small text-info hover:text-darkGold"
+              className="text-sm lg:text-lg font-semibold cursor-pointer underline underline-thickness-thin underline-offset-small text-info hover:text-darkGold"
             >
               {product.title}
             </div>
           </div>
           <div className="grid grid-cols-1  sm:grid-cols-2  ">
             <div className="flex flex-col gap-4">
-              {/* <span className="text-lg font-semibold">{product?.title}</span> */}
+              {/* <span className="text-sm lg:text-lg font-semibold">{product?.title}</span> */}
               <ProductImage images={images || []} />
 
               {/* <div className="hidden md:block">
@@ -230,7 +231,7 @@ const OrderItemPage = () => {
               <div className="flex justify-between items-center">
                 <span className="text-md ">Status</span>
                 <span
-                  className={`text-md w-[100px] text-center border p-2 rounded-md font-bold  ${getProductOrderStatusBg(
+                  className={`text-md max-w-[10rem] text-center border p-2 rounded-md font-bold  ${getProductOrderStatusBg(
                     status?.value
                   )}`}
                 >
@@ -238,54 +239,70 @@ const OrderItemPage = () => {
                 </span>
               </div>
 
-              <div className="flex justify-between items-center">
+              <div className="flex  justify-between items-center">
                 <span className="text-md ">SKU</span>
-                <span className="text-lg font-semibold">{sku}</span>
+                <span className="text-sm lg:text-sm lg:text-lg font-semibold">
+                  {sku}
+                </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-md ">Colour</span>
-                <span className="text-lg font-semibold">
+                <span className="text-sm lg:text-sm lg:text-lg font-semibold">
                   {color || "Not Specified"}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-md ">Size</span>
-                <span className="text-lg font-semibold">{size}</span>
+                <span className="text-sm lg:text-sm lg:text-lg font-semibold">
+                  {size}
+                </span>
               </div>
               {bespokeColor && (
                 <div className="flex justify-between items-center">
                   <span className="text-md ">
                     Single Plain bespoke Material Colour
                   </span>
-                  <span className="text-lg font-semibold">
+                  <span className="text-sm lg:text-sm lg:text-lg font-semibold">
                     {bespokeColor || "N/A"}
                   </span>
                 </div>
               )}
               <div className="flex justify-between items-center">
                 <span className="text-md ">Quantity</span>
-                <span className="text-lg font-semibold">{quantity}</span>
+                <span className="text-sm lg:text-sm lg:text-lg font-semibold">
+                  {quantity}
+                </span>
               </div>
+              {bespokeInstruction && (
+                <div className="flex justify-between items-center">
+                  <span className="text-md ">
+                    {isMyShopOrder ? "Buyer Instruction" : "My Instruction"}
+                  </span>
+                  <span className="text-sm lg:text-sm lg:text-lg font-semibold">
+                    {bespokeInstruction}
+                  </span>
+                </div>
+              )}
               <div className="flex justify-between items-center">
                 <span className="text-md ">Ordered on</span>
-                <span className="text-lg font-semibold">
+                <span className="text-sm lg:text-sm lg:text-lg font-semibold">
                   {" "}
                   <ReactTimeAgo date={productOrder?.createdAt} locale="en-US" />
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-md ">Last Updated on</span>
-                <span className="text-lg font-semibold">
+                <span className="text-sm lg:text-sm lg:text-lg font-semibold">
                   {" "}
                   <ReactTimeAgo date={productOrder?.updatedAt} locale="en-US" />
                 </span>
               </div>
               {productOrder?.expectedVendorCompletionDate && (
-                <div className="flex flex-col md:flex-row justify-between md:items-center">
+                <div className="flex flex-col lg:flex-row justify-between lg:items-center">
                   <span className="text-md ">
                     Expected Vendor Completion Date
                   </span>
-                  <span className="text-lg font-semibold">
+                  <span className="text-sm lg:text-sm  font-semibold">
                     {productOrder?.expectedVendorCompletionDate ? (
                       <span>
                         {" "}
@@ -306,9 +323,9 @@ const OrderItemPage = () => {
                 </div>
               )}
               {productOrder?.expectedDeliveryDate && (
-                <div className="flex flex-col md:flex-row justify-between md:items-center">
+                <div className="flex flex-col lg:flex-row justify-between lg:items-center">
                   <span className="text-md ">Expected Delivery Date</span>
-                  <span className="text-lg font-semibold">
+                  <span className="text-sm lg:text-lg font-semibold">
                     {productOrder?.expectedDeliveryDate ? (
                       <span>
                         {displayDate(
@@ -330,7 +347,7 @@ const OrderItemPage = () => {
               {productOrder?.deliveryCompany && (
                 <div className="flex justify-between items-center">
                   <span className="text-md ">Delivery Company</span>
-                  <span className="text-lg font-semibold">
+                  <span className="text-sm lg:text-lg font-semibold">
                     {productOrder?.deliveryCompany || "N/A"}
                   </span>
                 </div>
@@ -338,7 +355,7 @@ const OrderItemPage = () => {
               {productOrder?.deliveryTrackingNumber && (
                 <div className="flex justify-between items-center">
                   <span className="text-md ">Delivery Tracking Number</span>
-                  <span className="text-lg font-semibold">
+                  <span className="text-sm lg:text-lg font-semibold">
                     {productOrder?.deliveryTrackingNumber || "N/A"}
                   </span>
                 </div>
@@ -346,7 +363,7 @@ const OrderItemPage = () => {
               {productOrder?.deliveryTrackingLink && (
                 <div className="flex justify-between items-center">
                   <span className="text-md ">Delivery Tracking Link</span>
-                  <span className="text-lg font-semibold">
+                  <span className="text-sm lg:text-lg font-semibold">
                     <a
                       href={productOrder?.deliveryTrackingLink}
                       target="_blank"

@@ -238,16 +238,18 @@ const ShopProductsPage = () => {
               </div>
             ))}
         </div>
-        <div className="flex overflow-x-auto sm:justify-center">
-          <Pagination
-            currentPage={pageNumber ? parseInt(pageNumber) : 1}
-            totalPages={Math.ceil(totalCount / limit)}
-            onPageChange={(page) => {
-              changePage(page);
-            }}
-            showIcons
-          />
-        </div>
+        {filteredProduct?.length > 0 && (
+          <div className="flex overflow-x-auto sm:justify-center">
+            <Pagination
+              currentPage={pageNumber ? parseInt(pageNumber) : 1}
+              totalPages={Math.ceil(totalCount / limit)}
+              onPageChange={(page) => {
+                changePage(page);
+              }}
+              showIcons
+            />
+          </div>
+        )}
       </div>
     </div>
   );

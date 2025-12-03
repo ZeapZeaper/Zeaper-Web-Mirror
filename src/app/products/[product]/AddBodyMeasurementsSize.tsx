@@ -17,7 +17,7 @@ import BespokeBodyMeasurementGuide from "@/components/bodyMeasurementTemplate/Be
 
 const ModalTheme = {
   root: {
-    base: "fixed inset-x-0 top-0 z-50 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full",
+    base: "fixed inset-x-0 top-0 z-50 h-[100dvh] overflow-hidden md:inset-0",
     show: {
       on: "flex bg-gray-900/50 dark:bg-gray-900/80",
       off: "hidden",
@@ -27,9 +27,9 @@ const ModalTheme = {
     },
   },
   content: {
-    base: "fixed  w-full md:p-4 md:h-auto",
+    base: "fixed w-full md:p-4",
     inner:
-      "relative flex h-[100vh] md:h-full md:max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700",
+      "relative flex flex-col h-[100dvh] md:h-auto md:max-h-[90dvh] rounded-lg bg-white shadow dark:bg-gray-700 pb-safe-area",
   },
 };
 
@@ -488,8 +488,8 @@ export function AddBodyMeasurementsSize({
                 </div>
                 {user?.isGuest && (
                   <span className="text-info text-xs font-semibold">
-                    We’ll hold your saved measurement templates for 30 days.
-                    Sign in to keep as long as you want.
+                    Zeaper keeps your saved measurement templates for 30 days.
+                    Sign in to keep for as long as you want.
                   </span>
                 )}
               </div>

@@ -100,24 +100,6 @@ const otherPageChildMenus: NavItemType[] = [
       },
     ],
   },
-  {
-    id: ncNanoId(),
-    href: "/blog",
-    name: "Blog Pages",
-    type: "dropdown",
-    children: [
-      {
-        id: ncNanoId(),
-        href: "/blog",
-        name: "Blog Page",
-      },
-      {
-        id: ncNanoId(),
-        href: "/blog/chic-sleek-latest-trends-fashion-wonderland",
-        name: "Blog Single",
-      },
-    ],
-  },
 ];
 
 export const NavLinks: NavItemType[] = [
@@ -443,9 +425,9 @@ export const footerData = {
     {
       title: "Company",
       links: [
-        { href: "/about", name: "About" },
+        { href: "/about", name: "About Us" },
         { href: "/vendor-onboarding", name: "Sell on Zeaper" },
-        { href: "/blog", name: "Blog" },
+        { href: "https://blog.zeaper.com/", name: "Blog", external: true },
       ],
     },
     {

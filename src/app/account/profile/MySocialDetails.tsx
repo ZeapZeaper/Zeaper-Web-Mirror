@@ -1,8 +1,8 @@
 import { AuthContext } from "@/contexts/authContext";
 import { Alert } from "flowbite-react";
 import React, { useContext, useState } from "react";
-import { FaFacebook, FaTwitter } from "react-icons/fa";
-import { FaSquareInstagram } from "react-icons/fa6";
+import { FaFacebook } from "react-icons/fa";
+import { FaSquareInstagram, FaXTwitter } from "react-icons/fa6";
 import { AiFillTikTok } from "react-icons/ai";
 import { HiPlusCircle } from "react-icons/hi";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
@@ -33,7 +33,7 @@ const MySocialDetails = () => {
     updateUser({ payload })
       .then((data) => {
         const user = data?.data?.data;
-   
+
         if (user) {
           setUser(user);
           setEditMode(false);
@@ -174,7 +174,7 @@ const MySocialDetails = () => {
           <div className="flex justify-between w-full my-2 items-center">
             <div className="text-sm font-bold inline-flex items-center gap-2">
               <span className="text-sm font-bold  flex items-center p-1 rounded-full bg-white border border-slate-300">
-                <FaTwitter className="h-7 w-7 text-blue-400" />
+                <FaXTwitter className="h-7 w-7 text-black-400" />
               </span>
               <div className="flex flex-col  w-full">
                 <span className="w-full text-sm font-bold">
