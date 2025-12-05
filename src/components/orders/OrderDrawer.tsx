@@ -10,7 +10,7 @@ import { OrderInterface } from "@/interface/interface";
 
 const drawerTheme = {
   root: {
-    base: "fixed z-50  overflow-y-auto bg-slate-100   p-4 transition-transform ",
+    base: "fixed z-50  overflow-y-auto bg-slate-100   py-4 transition-transform ",
 
     position: {
       right: {
@@ -50,7 +50,7 @@ export function OrderDrawer({
       <Drawer.Header title="Order" className="text-secondary" />
       <Drawer.Items>
         {order && (
-          <div className="p-4 flex flex-col">
+          <div className="p-2 flex flex-col">
             <Order order={order} />
           </div>
         )}

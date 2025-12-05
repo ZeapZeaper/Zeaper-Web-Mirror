@@ -9,17 +9,15 @@ import {
   helpCenterSubCategoryOptions,
 } from "@/components/help/helpCenterStructure";
 import { HelpArticleInterface } from "@/interface/interface";
-import { globalSelectors } from "@/redux/services/global.slice";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import { capitalizeFirstLetter } from "@/utils/helpers";
 import { useSearchParams } from "next/navigation";
-import { useSelector } from "react-redux";
 import MarkArticleHelpful from "./MarkArticleHelpful";
 import NeedMoreHelp from "./NeedMoreHelp";
 import RelatedArticles from "./RelatedArticles";
 
 const HelpArticleContent = ({ articleId }: { articleId: string }) => {
-  const token = useSelector(globalSelectors.selectAuthToken);
+ 
 
   const searchParams = useSearchParams();
   const category = searchParams.get("category") || "";
@@ -29,7 +27,7 @@ const HelpArticleContent = ({ articleId }: { articleId: string }) => {
     {
       articleId,
     },
-    { skip: !token || !articleId }
+    { skip:  !articleId }
   );
   const isLoading = getHelpArticleQuery.isLoading;
   const article: HelpArticleInterface | undefined =

@@ -106,9 +106,12 @@ const CartItem = ({
   };
 
   return (
-    <div key={item?.sku} className="flex py-5  last:pb-0">
+    <div
+      key={item?.sku}
+      className="flex py-5  last:pb-0 w-full justify-center items-center  gap-4 md:gap-6 lg:gap-8 "
+    >
       <div
-        className="relative  w-40 shrink-0 overflow-hidden rounded-xl"
+        className="relative w-20 md:w-40 shrink-0 overflow-hidden rounded-xl"
         onClick={() => {
           localStorage.setItem("selectedProductId", item?.productId);
           localStorage.setItem("selectedProductColor", item?.color);
@@ -134,7 +137,7 @@ const CartItem = ({
         />
       </div>
 
-      <div className="lg:ml-4 flex flex-1 flex-col justify-between">
+      <div className="lg:ml-4 flex flex-1 flex-col w-full gap-4">
         <div>
           <div className="flex flex-col gap-2 ">
             <div
@@ -149,10 +152,10 @@ const CartItem = ({
                 );
               }}
             >
-              <h3 className="font-medium ">{item.title}</h3>
+              <h3 className="font-medium text-xs md:text-sm">{item.title}</h3>
             </div>
             <div className="flex flex-col md:flex-row md:items-center justify-between">
-              <label className="md:ml-2 text-sm text-gray-900 dark:text-white items-center inline-flex gap-2 cursor-pointer">
+              <label className="md:ml-2 text-xs md:text-sm text-gray-900 dark:text-white items-center inline-flex gap-2 cursor-pointer">
                 <div
                   className="w-4 h-4 rounded-full border  border-slate-200"
                   style={{ background: getBg(item.color) }}
@@ -161,12 +164,12 @@ const CartItem = ({
                 {item.color}
               </label>
               {!isBespoke && (
-                <div className="flex items-center gap-3 text-sm">
+                <div className="flex items-center gap-3 text-xs md:text-sm">
                   Size : <span className="font-semibold">{item.size}</span>
                 </div>
               )}
               {isBespoke && (
-                <div className="flex items-center gap-3 text-sm">
+                <div className="flex items-center gap-3 text-xs md:text-sm">
                   Size :{" "}
                   <span
                     onClick={() => {
@@ -179,7 +182,7 @@ const CartItem = ({
                 </div>
               )}
             </div>
-            <div className="flex items-center gap-3 text-sm">
+            <div className="flex items-center gap-3 text-xs md:text-sm">
               {item?.discountedAmount && (
                 <span className="text-primary font-semibold">
                   {getCurrencySmallSymbol(cart?.currency)}
@@ -200,7 +203,7 @@ const CartItem = ({
             </div>
           </div>
         </div>
-        <div className="flex w-full items-end justify-between text-sm">
+        <div className="flex w-full items-end justify-between text-xs md:text-sm">
           <div className="flex items-center gap-3">
             <LikeButton
               isLiked={!!alreadyWishlisted}

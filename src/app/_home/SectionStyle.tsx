@@ -52,7 +52,7 @@ const SectionStyle = () => {
           </div>
         )}
 
-        <div className="space-y-10 mt-4 md:mt-[14rem] ">
+        <div className="space-y-10  mt-[14rem] ">
           <div className="relative flex h-[350px] w-full items-center justify-center rounded-2xl bg-secondary">
             <Image
               src={pic}

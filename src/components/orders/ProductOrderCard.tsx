@@ -31,7 +31,7 @@ const ProductOrderCard = ({
         onClick={() => {
           router.push(`/account/orders/${productOrder?._id}`);
         }}
-        className="flex relative gap-4 bg-white p-4 rounded-lg"
+        className="flex flex-col sm:flex-row relative gap-4 bg-white p-4 rounded-lg"
       >
         <div className="relative  w-40 shrink-0 overflow-hidden rounded-xl">
           <Image
@@ -58,7 +58,7 @@ const ProductOrderCard = ({
               {productOrder?.product?.title}
             </span>
             <span
-              className={`text-xs max-w-[10rem] text-center border p-1 rounded-md  ${getProductOrderStatusBg(
+              className={`text-[10px] md:text-xs w-fit max-w-[10rem] text-center border p-1 rounded-md  ${getProductOrderStatusBg(
                 status?.value
               )}`}
             >

@@ -42,9 +42,9 @@ export default createApi({
         };
       },
       providesTags: ["User"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
+      // onQueryStarted: async (_, queryArgs) => {
+      //   responseHandler({}, queryArgs);
+      // },
     }),
     getAuthUser: builder.query({
       query: (arg) => {
@@ -79,9 +79,9 @@ export default createApi({
         };
       },
       providesTags: ["User"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
+      // onQueryStarted: async (_, queryArgs) => {
+      //   responseHandler({}, queryArgs);
+      // },
     }),
     createPasswordUser: builder.mutation({
       query: (arg) => {
@@ -234,9 +234,9 @@ export default createApi({
         };
       },
       providesTags: ["User"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
+      // onQueryStarted: async (_, queryArgs) => {
+      //   responseHandler({}, queryArgs);
+      // },
     }),
 
     updateUser: builder.mutation({
@@ -430,9 +430,9 @@ export default createApi({
         };
       },
       providesTags: ["DeliveryAddress"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
+      // onQueryStarted: async (_, queryArgs) => {
+      //   responseHandler({}, queryArgs);
+      // },
     }),
     getUserComments: builder.query({
       query: (arg) => {
@@ -443,9 +443,9 @@ export default createApi({
         };
       },
       providesTags: ["User", "Comment"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
+      // onQueryStarted: async (_, queryArgs) => {
+      //   responseHandler({}, queryArgs);
+      // },
     }),
     getShopComments: builder.query({
       query: (arg) => {
@@ -456,9 +456,9 @@ export default createApi({
         };
       },
       providesTags: ["Shops", "Shop", "Comment"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
+      // onQueryStarted: async (_, queryArgs) => {
+      //   responseHandler({}, queryArgs);
+      // },
     }),
     UpdateComment: builder.mutation({
       query: (arg) => {
@@ -552,9 +552,9 @@ export default createApi({
         };
       },
       providesTags: ["Shops"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
+      // onQueryStarted: async (_, queryArgs) => {
+      //   responseHandler({}, queryArgs);
+      // },
     }),
     getShop: builder.query({
       query: (arg) => {
@@ -564,9 +564,9 @@ export default createApi({
         };
       },
       providesTags: ["Shops", "Shop"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
+      // onQueryStarted: async (_, queryArgs) => {
+      //   responseHandler({}, queryArgs);
+      // },
     }),
     getShopPayments: builder.query({
       query: (arg) => {
@@ -576,9 +576,6 @@ export default createApi({
         };
       },
       providesTags: ["Shops", "Shop", "Order", "Payment", "Basket"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getPaymentReference: builder.query({
       query: (arg) => {
@@ -586,9 +583,6 @@ export default createApi({
           url: `payment/reference`,
           params: { ...arg },
         };
-      },
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
       },
     }),
     verifyPayment: builder.mutation({
@@ -674,9 +668,6 @@ export default createApi({
         };
       },
       providesTags: ["Products"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductsDynamicFilters: builder.query({
       query: (arg) => {
@@ -686,9 +677,6 @@ export default createApi({
         };
       },
       providesTags: ["Products"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductListDynamicFilters: builder.query({
       query: (arg) => {
@@ -698,9 +686,6 @@ export default createApi({
         };
       },
       providesTags: ["Products"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getShopProducts: builder.query({
       query: (arg) => {
@@ -710,9 +695,6 @@ export default createApi({
         };
       },
       providesTags: ["Products", "Shop", "Product", "User"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProducts: builder.query({
       query: (arg) => {
@@ -722,9 +704,6 @@ export default createApi({
         };
       },
       providesTags: ["Products"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductBrands: builder.query({
       query: (arg) => {
@@ -734,9 +713,6 @@ export default createApi({
         };
       },
       providesTags: ["Products"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getMostPopularProducts: builder.query({
       query: (arg) => {
@@ -746,9 +722,6 @@ export default createApi({
         };
       },
       providesTags: ["Products"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getNewestArrivalProducts: builder.query({
       query: (arg) => {
@@ -779,9 +752,6 @@ export default createApi({
         };
       },
       providesTags: ["Products"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getSearchProducts: builder.query({
       query: (arg) => {
@@ -842,9 +812,6 @@ export default createApi({
         };
       },
       providesTags: ["Products"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProduct: builder.query({
       query: (arg) => {
@@ -854,9 +821,6 @@ export default createApi({
         };
       },
       providesTags: ["Products", "Product"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductById: builder.query({
       query: (arg) => {
@@ -866,9 +830,6 @@ export default createApi({
         };
       },
       providesTags: ["Products", "Product"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     createProduct: builder.mutation({
       query: (arg) => {
@@ -1216,9 +1177,6 @@ export default createApi({
         };
       },
       providesTags: ["Review"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getUserReviews: builder.query({
       query: (arg) => {
@@ -1228,9 +1186,6 @@ export default createApi({
         };
       },
       providesTags: ["Review"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getCanUserReview: builder.query({
       query: (arg) => {
@@ -1240,9 +1195,6 @@ export default createApi({
         };
       },
       providesTags: ["Review"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductReview: builder.query({
       query: (arg) => {
@@ -1252,9 +1204,6 @@ export default createApi({
         };
       },
       providesTags: ["Review"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     createProductReview: builder.mutation({
       query: (arg) => {
@@ -1369,9 +1318,6 @@ export default createApi({
         };
       },
       providesTags: ["Promo"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
 
     getAvailablePromos: builder.query({
@@ -1382,9 +1328,6 @@ export default createApi({
         };
       },
       providesTags: ["Promo"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
 
     getPromo: builder.query({
@@ -1395,9 +1338,6 @@ export default createApi({
         };
       },
       providesTags: ["Promo"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductPromo: builder.query({
       query: (arg) => {
@@ -1407,9 +1347,6 @@ export default createApi({
         };
       },
       providesTags: ["Promo"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getPromoProducts: builder.query({
       query: (arg) => {
@@ -1419,9 +1356,6 @@ export default createApi({
         };
       },
       providesTags: ["Promo"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getLivePromoProducts: builder.query({
       query: (arg) => {
@@ -1431,9 +1365,6 @@ export default createApi({
         };
       },
       providesTags: ["Promo", "Product", "Products"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     createPromo: builder.mutation({
       query: (arg) => {
@@ -1644,9 +1575,6 @@ export default createApi({
         };
       },
       providesTags: ["Basket"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getBasketTotal: builder.query({
       query: (arg) => {
@@ -1656,9 +1584,6 @@ export default createApi({
         };
       },
       providesTags: ["Basket"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getBasketDeliveryDates: builder.query({
       query: (arg) => {
@@ -1668,9 +1593,6 @@ export default createApi({
         };
       },
       providesTags: ["Basket"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getBasketDeliveryFees: builder.query({
       query: (arg) => {
@@ -1680,9 +1602,6 @@ export default createApi({
         };
       },
       providesTags: ["Basket"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     addProductToBasket: builder.mutation({
       query: (arg) => {
@@ -1810,9 +1729,6 @@ export default createApi({
         };
       },
       providesTags: ["Basket", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getOrder: builder.query({
       query: (arg) => {
@@ -1822,9 +1738,6 @@ export default createApi({
         };
       },
       providesTags: ["Basket", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getOrderByOrderId: builder.query({
       query: (arg) => {
@@ -1834,9 +1747,6 @@ export default createApi({
         };
       },
       providesTags: ["Basket", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     downloadOrderReceipt: builder.mutation({
       query: (arg) => {
@@ -1866,9 +1776,6 @@ export default createApi({
         };
       },
       providesTags: ["Basket", "Order", "Shop", "User"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductOrders: builder.query({
       query: (arg) => {
@@ -1878,9 +1785,6 @@ export default createApi({
         };
       },
       providesTags: ["Basket", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductOrder: builder.query({
       query: (arg) => {
@@ -1890,9 +1794,6 @@ export default createApi({
         };
       },
       providesTags: ["Basket", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductOrderStatusHistory: builder.query({
       query: (arg) => {
@@ -1902,9 +1803,6 @@ export default createApi({
         };
       },
       providesTags: ["Basket", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductOrderStatusOptions: builder.query({
       query: (arg) => {
@@ -1914,9 +1812,6 @@ export default createApi({
         };
       },
       providesTags: ["Basket", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     updateProductOrderStatus: builder.mutation({
       query: (arg) => {
@@ -1968,9 +1863,6 @@ export default createApi({
         };
       },
       providesTags: ["Payment"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getPayment: builder.query({
       query: (arg) => {
@@ -1980,9 +1872,7 @@ export default createApi({
         };
       },
       providesTags: ["Payment"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
+
     }),
     payShop: builder.mutation({
       query: (arg) => {
@@ -2056,9 +1946,7 @@ export default createApi({
         };
       },
       providesTags: ["Voucher", "Basket", "Point", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
+  
     }),
     getInActiveVouchers: builder.query({
       query: (arg) => {
@@ -2068,9 +1956,7 @@ export default createApi({
         };
       },
       providesTags: ["Voucher", "Basket", "Point", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
+  
     }),
     getPoints: builder.query({
       query: (arg) => {
@@ -2080,9 +1966,6 @@ export default createApi({
         };
       },
       providesTags: ["Point", "User", "Voucher"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     convertPointToVoucher: builder.mutation({
       query: (arg) => {
@@ -2167,9 +2050,6 @@ export default createApi({
         };
       },
       providesTags: ["Shop", "Shops", "Analytics"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductOrderAnalytics: builder.query({
       query: (arg) => {
@@ -2179,9 +2059,6 @@ export default createApi({
         };
       },
       providesTags: ["Product", "Products", "Analytics"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getCountAnalytics: builder.query({
       query: (arg) => {
@@ -2191,9 +2068,6 @@ export default createApi({
         };
       },
       providesTags: ["Analytics"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getUserShopCountAnalytics: builder.query({
       query: (arg) => {
@@ -2203,9 +2077,6 @@ export default createApi({
         };
       },
       providesTags: ["Analytics"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductOrdersCountByDateAnalytics: builder.query({
       query: (arg) => {
@@ -2215,9 +2086,6 @@ export default createApi({
         };
       },
       providesTags: ["Analytics", "Product", "Products", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getProductAnalytics: builder.query({
       query: (arg) => {
@@ -2227,9 +2095,6 @@ export default createApi({
         };
       },
       providesTags: ["Analytics", "Product", "Products", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getReadyMadeSizeGuide: builder.query({
       query: (arg) => {
@@ -2239,9 +2104,6 @@ export default createApi({
         };
       },
       providesTags: ["BodyMeasurement"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getBodyMeasurementGuide: builder.query({
       query: (arg) => {
@@ -2251,9 +2113,6 @@ export default createApi({
         };
       },
       providesTags: ["BodyMeasurement"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getBodyMeasurementGuideGallery: builder.query({
       query: (arg) => {
@@ -2263,9 +2122,6 @@ export default createApi({
         };
       },
       providesTags: ["BodyMeasurement"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     getBodyMeasurementGuideFields: builder.query({
       query: (arg) => {
@@ -2275,9 +2131,6 @@ export default createApi({
         };
       },
       providesTags: ["BodyMeasurement"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     uploadBodyMeasurementGuideImage: builder.mutation({
       query: (arg) => {
@@ -2455,9 +2308,6 @@ export default createApi({
         };
       },
       providesTags: ["BodyMeasurement"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     addBodyMeasurementTemplate: builder.mutation({
       query: (arg) => {
@@ -2530,9 +2380,6 @@ export default createApi({
         };
       },
       providesTags: ["DeliveryFee", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
 
     updateDeliveryFee: builder.mutation({
@@ -2564,9 +2411,6 @@ export default createApi({
         };
       },
       providesTags: ["ExchangeRate", "Order"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     updateExchangeRate: builder.mutation({
       query: (arg) => {
@@ -2663,9 +2507,6 @@ export default createApi({
         };
       },
       providesTags: ["EmailTemplate"],
-      onQueryStarted: async (_, queryArgs) => {
-        responseHandler({}, queryArgs);
-      },
     }),
     addEmailTemplate: builder.mutation({
       query: (arg) => {

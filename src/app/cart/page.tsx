@@ -48,16 +48,16 @@ const CartPage = () => {
 
   return (
     <div>
-      <main className="container py-6 lg:pb-28  ">
+      <main className=" px-2 md:container py-6 lg:pb-28  w-full">
         <div className="mb-7">
           <h2 className="block text-2xl font-medium sm:text-3xl lg:text-4xl">
             My Cart
           </h2>
         </div>
 
-        <hr className="my-10 border-neutral-300 xl:my-12" />
+        <hr className="my-10 border-neutral-300 xl:my-12 w-full" />
 
-        <div className="flex flex-col lg:flex-row">
+        <div className="flex flex-col lg:flex-row w-full justify-center items-center lg:items-start lg:justify-start">
           {serverError && <Alert color="failure">{serverError}</Alert>}
 
           <div className="w-full divide-y divide-neutral-300 lg:w-[60%] xl:w-[55%]">
@@ -68,6 +68,7 @@ const CartPage = () => {
                 ))}
               </div>
             )}
+
             {isFulfilled && basketItems?.length === 0 && <EmptyBasket />}
             {basketItems?.length > 0 &&
               [...basketItems]
@@ -84,7 +85,7 @@ const CartPage = () => {
                 ))}
           </div>
           <div className="my-10 shrink-0 border-t border-neutral-300 lg:mx-10 lg:my-0 lg:border-l lg:border-t-0 xl:mx-16 2xl:mx-20" />
-          <div className="flex-1">
+          <div className="flex-1 w-full px-4 lg:px-0 lg:w-[35%] xl:w-[30%]">
             <div className="sticky top-28">
               <h3 className="text-2xl font-semibold">Summary</h3>
               <div className="mt-7 divide-y divide-neutral-300 text-sm">

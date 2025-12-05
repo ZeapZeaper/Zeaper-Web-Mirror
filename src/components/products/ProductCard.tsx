@@ -1,8 +1,6 @@
 "use client";
 import NoPic from "@/images/noPhoto.png";
 import { Badge } from "flowbite-react";
-
-import Image from "next/image";
 import { ProductInterface } from "@/interface/interface";
 
 import {
@@ -18,6 +16,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import { useSelector } from "react-redux";
 import { globalSelectors } from "@/redux/services/global.slice";
+import ProductCardImage from "./ProductCardImage";
 
 const ProductCard = ({
   product,
@@ -163,13 +162,11 @@ const ProductCard = ({
           <div
             className={`w-full ${
               disableLink ? "cursor-not-allowed" : "cursor-pointer"
-            }  `}
+            }`}
             onClick={() => {
               if (disableLink) return;
+              if (href) return router.push(href);
 
-              if (href) {
-                return router.push(href);
-              }
               router.push(
                 `/products/${product?.title
                   .replace(/ /g, "-")
@@ -182,121 +179,47 @@ const ProductCard = ({
               );
             }}
           >
-            <div className=" flex md:hidden flex-col    bg-slate-100 gap-2  my-2  rounded-lg  duration-300 hover:scale-105 transform overflow-hidden  ">
-              <Image
+            <div className="relative bg-slate-100 rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 my-2">
+              {/* <div className="w-full h-[32rem] md:h-[60rem] xl:h-[27rem] relative">
+                <Image
+                  src={
+                    getClickedColorImage(product) ||
+                    getDefaultImageLink(product) ||
+                    String(NoPic.src)
+                  }
+                  width={500}
+                  height={500}
+                  alt={product?.title || "product"}
+                  // fill // important: Image will fill the parent relative container
+                  sizes="100vw"
+                  className="object-cover w-full h-full"
+                  priority={false}
+                />
+              </div> */}
+              <ProductCardImage
                 src={
                   getClickedColorImage(product) ||
                   getDefaultImageLink(product) ||
                   String(NoPic.src)
                 }
                 alt={product?.title || "product"}
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{
-                  width: "full",
-                  height: "20rem",
-                }}
-                className="w-full object-contain object-cover "
+                onWishlistClick={handleWishClick}
+                wishIcon={getWishIcon()}
               />
 
               <button
                 type="button"
-                className="absolute top-2 right-2 p-1 rounded-full"
+                className="absolute top-2 right-2 p-1 rounded-full z-10"
                 aria-label="Wishlist"
                 onClick={handleWishClick}
                 onMouseOver={() => setIsWLHovered(true)}
                 onMouseLeave={() => setIsWLHovered(false)}
               >
                 {getWishIcon()}
-                {/* {isWLHovered || alreadyWishlisted ? <HeartSolid /> : <Heart />} */}
               </button>
             </div>
-            <div className=" hidden md:block xl:hidden flex-col  bg-slate-100 gap-2  my-2  rounded-lg  duration-300 hover:scale-105 transform overflow-hidden  ">
-              <Image
-                src={
-                  getClickedColorImage(product) ||
-                  getDefaultImageLink(product) ||
-                  String(NoPic.src)
-                }
-                alt={product?.title || "product"}
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{
-                  width: "full",
-                  height: "37rem",
-                }}
-                className="w-full  object-contain object-cover"
-              />
-
-              <button
-                type="button"
-                className="absolute top-2 right-2 p-1 rounded-full"
-                aria-label="Wishlist"
-                onClick={handleWishClick}
-                onMouseOver={() => setIsWLHovered(true)}
-                onMouseLeave={() => setIsWLHovered(false)}
-              >
-                {getWishIcon()}
-                {/* {isWLHovered || alreadyWishlisted ? <HeartSolid /> : <Heart />} */}
-              </button>
-            </div>
-            <div className=" hidden  xl:block flex-col  bg-slate-100 gap-2  my-2  rounded-lg  duration-300 hover:scale-105 transform overflow-hidden  ">
-              <Image
-                src={
-                  getClickedColorImage(product) ||
-                  getDefaultImageLink(product) ||
-                  String(NoPic.src)
-                }
-                alt={product?.title || "product"}
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{
-                  width: "full",
-                  height: "27rem",
-                }}
-                className="w-full  object-contain object-cover"
-              />
-
-              <button
-                type="button"
-                className="absolute top-2 right-2 p-1 rounded-full"
-                aria-label="Wishlist"
-                onClick={handleWishClick}
-                onMouseOver={() => setIsWLHovered(true)}
-                onMouseLeave={() => setIsWLHovered(false)}
-              >
-                {getWishIcon()}
-                {/* {isWLHovered || alreadyWishlisted ? <HeartSolid /> : <Heart />} */}
-              </button>
-            </div>
-            {/* <div className="w-72 hidden xl:block  mt-2   overflow-hidden rounded-lg ">
-              <Image
-                className=" w-72 h-80  object-contain transition-transform transform hover:scale-110 duration-1000"
-                src={
-                  getClickedColorImage(product) ||
-                  getDefaultImageLink(product) ||
-                  String(NoPic.src)
-                }
-                alt={product?.title || "product"}
-                width={0}
-                height={0}
-                sizes="100vw"
-              />
-              <button
-                type="button"
-                className="absolute top-2 left-10 p-1 rounded-full"
-                aria-label="Wishlist"
-                onClick={handleWishClick}
-                onMouseOver={() => setIsWLHovered(true)}
-                onMouseLeave={() => setIsWLHovered(false)}
-              >
-                {getWishIcon()}
-              </button>
-            </div> */}
           </div>
+
           <div className="p-4 h-[7rem] xl:h-[7rem] md:w-72">
             <p className=" text-sm   text-gray-900 overflow-auto truncate ">
               {capitalizeFirstLetter(product?.title?.toLowerCase())}-

@@ -133,7 +133,7 @@ const ProductCollectionDisplay = ({
           )}
         </div>
       )}
-      <div className="grid gap-1 lg:gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 w-full ">
+      <div className="grid gap-1 lg:gap-4 grid-cols-2  xl:grid-cols-4 2xl:grid-cols-5 w-full ">
         {products.map((item) => (
           <ProductCard
             product={item}

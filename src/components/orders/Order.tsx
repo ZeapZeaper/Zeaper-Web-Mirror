@@ -45,7 +45,7 @@ const Order = ({ order }: { order: OrderInterface }) => {
           {isCancelled && <Badge color="red">Cancelled</Badge>}
         </span>
       </div>
-      <div className="flex flex-col gap-2 shadow-md w-full p-2">
+      <div className="flex flex-col gap-2 shadow-md w-full p-2 text-xs md:text-sm">
         <span className="font-bold">Delivery Details</span>
         <div className="flex flex-col gap-2 bg-grey8 p-2">
           <div className="flex justify-between">
@@ -73,19 +73,19 @@ const Order = ({ order }: { order: OrderInterface }) => {
 
       <div className="flex flex-col gap-2 shadow-md w-full p-2">
         <span className="font-bold">Payment</span>
-        <span className="text-md ">{payment.reference}</span>
-        <div className="flex justify-between p-2 cursor-pointer bg-grey8">
+        <span className="text-xs md:text-sm ">Ref : {payment.reference}</span>
+        <div className="flex justify-between  cursor-pointer bg-grey8 text-xs md:text-sm">
           {payment?.amount && payment?.currency && (
-            <span className="text-md ">
+            <span className="text-xs md:text-sm ">
               {formatCurrency(payment.amount / 100, payment.currency)}
             </span>
           )}
-          <span className="text-md ">
+          <span className="text-xs md:text-sm ">
             <Badge color="success">{payment.status}</Badge>
           </span>
         </div>
       </div>
-      <div className="flex flex-col gap-2 shadow-md w-full p-2">
+      <div className="flex flex-col gap-2 shadow-md w-full p-1 py-2">
         <span className="font-bold">Order Items</span>
         <div className="grid grid-cols-1 gap-4   ">
           {productOrders.map((productOrder: ProductOrdersInterface) => (
