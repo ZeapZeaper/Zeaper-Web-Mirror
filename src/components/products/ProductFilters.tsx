@@ -145,7 +145,7 @@ const ProductFilters = ({
           </span>
         </div>
         <div className="flex flex-col">
-          {dynamicFilters.map((filter) => (
+          {dynamicFilters?.map((filter) => (
             <div key={filter?.name} className="flex flex-col p-2">
               <div
                 className="flex w-full h-12 items-center rounded-md justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 p-2"

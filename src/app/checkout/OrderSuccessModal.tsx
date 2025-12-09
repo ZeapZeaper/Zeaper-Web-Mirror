@@ -8,6 +8,7 @@ import SuccessPic from "@/images/success_modal_image.png";
 import Image from "next/image";
 import Reciept from "../../components/orders/Reciept";
 import Loading from "../loading";
+import LoadingDots from "../LoadingDots";
 
 const OrderSuccessModal = ({
   orderId,
@@ -117,6 +118,17 @@ const OrderSuccessModal = ({
               </ButtonPrimary>
             </div>
           </div>
+        )}
+        {!serverError && !orderId && (
+          <Alert color="warning">
+            <div className="flex flex-col items-center gap-2 mt-4">
+              <span>
+                Verifying payment and order, please wait and do not close this
+                modal or refresh the page...
+              </span>{" "}
+              <LoadingDots />
+            </div>
+          </Alert>
         )}
       </ModalBody>
     </Modal>

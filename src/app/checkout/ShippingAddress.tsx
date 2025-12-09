@@ -1,7 +1,7 @@
 "use client";
 
 import type { FC } from "react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { TbTruckDelivery } from "react-icons/tb";
 
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
@@ -19,6 +19,8 @@ import { globalSelectors } from "@/redux/services/global.slice";
 import { useSelector } from "react-redux";
 import { DeliveryAddressInterface } from "@/interface/interface";
 import PhoneInput from "react-phone-number-input";
+import { validatePhoneNumberInput } from "@/utils/helpers";
+import { CountryRegionData } from "react-country-region-selector";
 
 interface Props {
   isActive: boolean;
@@ -74,6 +76,8 @@ const ShippingAddress: FC<Props> = ({
   const token = useSelector(globalSelectors.selectAuthToken);
   const { user } = useContext(AuthContext);
   const [serverError, setServerError] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [regionFields, setRegionFields] = useState<any>();
   const [saveForNextTime, setSaveForNextTime] = useState(false);
   const user_id = user?._id;
   const getDeliveryAddressesQuery = zeapApiSlice.useGetDeliveryAddressesQuery(
@@ -88,6 +92,18 @@ const ShippingAddress: FC<Props> = ({
     useState(false);
   const [selectedDeliveryAddress, setSelectedDeliveryAddress] =
     useState<DeliveryAddressInterface | null>(null);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const regionsData: any = useMemo(
+    () => CountryRegionData.find((data) => data[0] === country),
+    [country]
+  );
+
+  useEffect(() => {
+    if (country) {
+      setRegionFields(regionsData);
+    }
+  }, [country, regionsData]);
 
   useEffect(() => {
     if (selectedDeliveryAddress) {
@@ -251,30 +267,15 @@ const ShippingAddress: FC<Props> = ({
         {/* ============ */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-3">
           <div>
-            <FormItem label="Region *">
-              <Input
-                rounded="rounded-lg"
-                sizeClass="h-12 px-4 py-3"
-                className={`border-neutral-300 bg-transparent placeholder:text-neutral-500 focus:border-gold ${
-                  errors.region && !region ? "border-red-500" : ""
-                }`}
-                value={region}
-                onChange={(e) => setRegion(e.target.value)}
-              />
-            </FormItem>
-            {errors.region && !region && (
-              <span className="text-sm text-red-500">{errors.region}</span>
-            )}
-          </div>
-          <div>
             <FormItem label="Country *">
               <Select
                 sizeClass="h-12 px-4 py-3"
-                className={`border-neutral-300 bg-transparent placeholder:text-neutral-500 focus:border-gold ${
+                className={`block w-full border border-neutral-300 bg-transparent placeholder:text-neutral-500 focus:border-gold focus:ring focus:ring-transparent focus:ring-opacity-25 rounded-lg ${
                   errors.country && !country ? "border-red-500" : ""
                 }`}
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
+                variant="border"
               >
                 <option value="Nigeria">Nigeria</option>
                 <option value="United States">USA</option>
@@ -284,6 +285,41 @@ const ShippingAddress: FC<Props> = ({
             </FormItem>
             {errors.country && !country && (
               <span className="text-sm text-red-500">{errors.country}</span>
+            )}
+          </div>
+          <div>
+            <FormItem label="Region *">
+              <Select
+                sizeClass="h-12 px-4 py-3"
+                className={`block w-full border border-neutral-300 bg-transparent placeholder:text-neutral-500 focus:border-gold focus:ring focus:ring-transparent focus:ring-opacity-25 rounded-lg ${
+                  errors.region && !region ? "border-red-500" : ""
+                }`}
+                value={region}
+                onChange={(e) => setRegion(e.target.value)}
+                variant="border"
+              >
+                <option
+                  value=""
+                  disabled
+                  className="text-body dark:text-bodydark"
+                ></option>
+                {regionFields &&
+                  regionFields[2]
+                    ?.split("|")
+                    ?.map((region: string, index: number) => (
+                      <option
+                        key={index}
+                        value={region}
+                        className="text-body dark:text-bodydark"
+                      >
+                        {region.split("~")[0]}
+                      </option>
+                    ))}
+              </Select>
+            </FormItem>
+
+            {errors.region && !region && (
+              <span className="text-sm text-red-500">{errors.region}</span>
             )}
           </div>
         </div>
@@ -315,16 +351,22 @@ const ShippingAddress: FC<Props> = ({
                 onChange={(value) => setPhoneNumber(value || "")}
                 numberInputProps={{
                   className: `border-neutral-300 bg-transparent placeholder:text-neutral-500 focus:border-gold rounded-lg h-12 px-4 py-3 w-full ${
-                    errors.phoneNumber && !phoneNumber ? "border-red-500" : ""
-                  }`,
+                    errors.phoneNumber &&
+                    (!phoneNumber || !validatePhoneNumberInput(phoneNumber))
+                      ? "border-red-500"
+                      : ""
+                  } `,
                 }}
                 international
                 required
               />
             </FormItem>
-            {errors.phoneNumber && !phoneNumber && (
-              <span className="text-sm text-red-500">{errors.phoneNumber}</span>
-            )}
+            {errors.phoneNumber &&
+              (!phoneNumber || !validatePhoneNumberInput(phoneNumber)) && (
+                <span className="text-sm text-red-500">
+                  {errors.phoneNumber}
+                </span>
+              )}
           </div>
         </div>
 

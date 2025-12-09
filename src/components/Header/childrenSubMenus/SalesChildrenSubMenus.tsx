@@ -136,16 +136,18 @@ const SalesChildrenSubMenus = ({
   return (
     <div className="flex ">
       {productSales.length > 0 && (
-        <div className={`flex   flex-col xl:flex-row gap-4 xl:gap-24 p-4 flex-col-reverse xl:flex-row-reverse ${slideAnimate}`}>
+        <div
+          className={`flex   flex-col xl:flex-row gap-4 xl:gap-24 p-4 flex-col-reverse xl:flex-row-reverse ${slideAnimate}`}
+        >
           <div className="flex flex-col gap-2">
             <span className="text-xs font-extrabold mb-2">SALES</span>
 
             <div className="flex flex-col gap-4 xl:gap-6 xl:flex-wrap xl:max-h-[10rem] ">
-              {productSales.map((sale) => (
+              {productSales.map((sale, index) => (
                 <>
                   {" "}
                   <Link
-                    key={sale.promoId}
+                    key={index}
                     href={getSubMenuLink(sale.promoId)}
                     className=" hover:underline text-[0.8rem]"
                     prefetch={false}

@@ -349,3 +349,8 @@ export const getProductTypeLabel = (type: string) => {
     return type;
   }
 };
+export const validatePhoneNumberInput = (phoneNumber: string) => {
+  const cleaned = phoneNumber.replace(/\s+/g, "");
+  const phoneRegex = /^\+?[0-9]{7,15}$/;
+  return phoneRegex.test(cleaned);
+};

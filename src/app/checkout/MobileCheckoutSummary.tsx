@@ -80,7 +80,7 @@ const MobileCheckoutSummary = ({
                   colorOptions={colorOptions}
                 />
 
-                <div className="flex flex-col gap-0 text-sm text-info pl-8">
+                <div className="flex flex-col gap-0 text-sm text-info ">
                   {getEstimatedDeliveryDates(
                     item.sku,
                     "standardDeliveryDate"
@@ -97,7 +97,7 @@ const MobileCheckoutSummary = ({
                     item.sku,
                     "expressDeliveryDate"
                   ) && (
-                    <div className="text-xs text-gray-500 flex justify-end">
+                    <div className="text-xs text-gray-500 flex ">
                       Estimated Express Delivery:{" "}
                       {getEstimatedDeliveryDates(
                         item.sku,

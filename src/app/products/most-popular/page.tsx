@@ -44,12 +44,12 @@ const Page = () => {
   );
   const products = productsQuery?.data?.data?.products || [];
     const productListDynamicFiltersQuery =
-      zeapApiSlice.useGetProductListDynamicFiltersQuery(
+      zeapApiSlice.useGetProductsDynamicFiltersQuery(
         { ...param },
         { skip: !token }
       );
     const dynamicFilters =
-      productListDynamicFiltersQuery?.data?.data?.dynamicFilters;
+      productListDynamicFiltersQuery?.data?.data;
     const totalCount = productListDynamicFiltersQuery?.data?.data?.totalCount;
   const isLoading = productsQuery.isLoading || false;
   const filtersLoading = productListDynamicFiltersQuery.isLoading || false;
@@ -91,7 +91,7 @@ const Page = () => {
               <ProductCollectionDisplay
                 products={products}
                 title="Most Popular"
-                subMenus={subMenus.filter(
+                subMenus={subMenus?.filter(
                   (menu: { link: string; value: string }) => menu !== null
                 )}
                 

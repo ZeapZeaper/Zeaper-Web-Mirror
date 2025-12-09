@@ -59,12 +59,12 @@ const Collection = ({ formatLink }: { formatLink: string }) => {
 
   const products = productsQuery?.data?.data?.products || [];
   const productListDynamicFiltersQuery =
-    zeapApiSlice.useGetProductListDynamicFiltersQuery(
+    zeapApiSlice.useGetProductsDynamicFiltersQuery(
       { ...param },
       { skip: !token }
     );
   const dynamicFilters =
-    productListDynamicFiltersQuery?.data?.data?.dynamicFilters;
+    productListDynamicFiltersQuery?.data?.data;
   const totalCount = productListDynamicFiltersQuery?.data?.data?.totalCount;
   const isLoading = productsQuery.isLoading || false;
   const filtersLoading = productListDynamicFiltersQuery.isLoading || false;

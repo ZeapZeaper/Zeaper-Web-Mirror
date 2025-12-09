@@ -118,13 +118,13 @@ const SectionHeader = () => {
             >
               {promos?.map((promo: PromoInterface) => (
                 <div key={promo?.promoId} className="relative h-full">
-                  <Link
+                  {/* <Link
                     href={`/promo/${promo?.promoId}?productGroupPage=${productGroupPage}&collectionTitle=${promo?.title}`}
                   >
                     <div className="text-white z-50 bg-transparent text-sm font-bold absolute bottom-2 left-1 border-2 border-white px-5 py-2 hover:bg-white hover:text-primary cursor-pointer rounded-md">
                       Shop Now
                     </div>
-                  </Link>
+                  </Link> */}
                   {promo?.smallScreenImageUrl?.type === "image" ? (
                     <Image
                       key={promo?.promoId}

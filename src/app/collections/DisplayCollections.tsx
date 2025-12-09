@@ -64,11 +64,11 @@ const DisplayCollections = ({ paramObj }: { paramObj?: ParamObj }) => {
 
   const products = productsQuery?.data?.data?.products || [];
   const productListDynamicFiltersQuery =
-    zeapApiSlice.useGetProductListDynamicFiltersQuery(
+    zeapApiSlice.useGetProductsDynamicFiltersQuery(
       { ...param, ...paramObj },
       { skip: !token }
     );
-  const filters = productListDynamicFiltersQuery?.data?.data?.dynamicFilters;
+  const filters = productListDynamicFiltersQuery?.data?.data
   const totalCount = productListDynamicFiltersQuery?.data?.data?.totalCount;
   const isLoading = productsQuery.isLoading || false;
   const filtersLoading = productListDynamicFiltersQuery.isLoading || false;

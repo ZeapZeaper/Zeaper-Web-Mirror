@@ -65,12 +65,11 @@ export function MobileProductFilters({
   // setSubTitle: (value: string) => void;
   colorOptions: { name: string; hex?: string; background?: string }[];
 }) {
-  console.log("dynamicFilters", dynamicFilters);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
   const [showOptionsList, setShowOptionsList] = useState<string[]>(
-    dynamicFilters.map((filter) => filter?.name)
+    dynamicFilters?.map((filter) => filter?.name)
   );
 
   const lowerFirstChar = (str: string) => {
@@ -214,7 +213,7 @@ export function MobileProductFilters({
                 </span>
               </div>
               <div className="flex flex-col">
-                {dynamicFilters.map((filter) => (
+                {dynamicFilters?.map((filter) => (
                   <div key={filter?.name} className="flex flex-col p-2">
                     <div
                       className="flex w-full h-12 items-center rounded-md justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 p-2"

@@ -69,7 +69,7 @@ const CartItem = ({
   const getBg = (value: string) => {
     if (value.toLocaleLowerCase() === "bespoke")
       return "radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(204,23,195,0.09147408963585435) 4%, rgba(205,64,138,0.5172443977591037) 25%, rgba(207,136,39,1) 37%, rgba(13,15,25,1) 44%, rgba(32,37,4,1) 45%, rgba(72,84,9,0.4472163865546218) 100%)";
-    const color = colorOptions.find((color) => color.name === value);
+    const color = colorOptions?.find((color) => color.name === value);
     return color?.hex || color?.background;
   };
 

@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
             value: "public, max-age=31536000, immutable",
           },
         ],
-      }
+      },
     ];
   },
   reactStrictMode: true,
@@ -56,6 +56,7 @@ const nextConfig: NextConfig = {
       "media.theeverygirl.com",
       "admin.zeaper.com",
       "zeaper.com",
+      "zeap.netlify.app",
     ],
     minimumCacheTTL: 1500000,
   },
