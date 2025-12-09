@@ -33,7 +33,7 @@ const ProductOrderCard = ({
         }}
         className="flex flex-col sm:flex-row relative gap-4 bg-white p-4 rounded-lg"
       >
-        <div className="relative  w-40 shrink-0 overflow-hidden rounded-xl">
+        <div className="relative  md:w-40 shrink-0 overflow-hidden rounded-xl">
           <Image
             src={
               productOrder?.images.find(
@@ -46,7 +46,7 @@ const ProductOrderCard = ({
             sizes="100vw"
             style={{
               width: "full",
-              height: "7rem",
+              height: "full",
             }}
             className="w-full object-contain "
           />

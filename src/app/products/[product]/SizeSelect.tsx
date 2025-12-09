@@ -37,7 +37,11 @@ const SizeSelect = ({
       selectedProductColor.toLocaleLowerCase()
   );
   const variationSizes = selectedColorVariations.map((variation) => {
-    if (variation.quantity && variation.quantity <= 0) {
+   
+    if (!variation.quantity) {
+      return null;
+    }
+    if (variation.quantity <= 0) {
       return null;
     }
     return variation.size;

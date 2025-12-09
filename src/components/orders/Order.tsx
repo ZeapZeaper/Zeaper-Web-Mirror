@@ -1,8 +1,9 @@
 import { Alert, Badge } from "flowbite-react";
-// import Reciept from './Reciept';
+import Reciept from "./Reciept";
 import { OrderInterface, ProductOrdersInterface } from "@/interface/interface";
 import { formatCurrency } from "@/utils/helpers";
 import ProductOrderCard from "./ProductOrderCard";
+import { useState } from "react";
 
 const Order = ({ order }: { order: OrderInterface }) => {
   const productOrders = order?.productOrders;
@@ -10,11 +11,20 @@ const Order = ({ order }: { order: OrderInterface }) => {
   const deliveryDetails = order?.deliveryDetails;
   const isCancelled = order?.cancel?.isCancelled;
   const payment = order?.payment;
+  const [openReciept, setOpenReciept] = useState(false);
 
   return (
     <div className="flex flex-col text-black gap-4">
       <div className="flex flex-col gap-2 shadow-md w-full p-2">
-        <span className="font-bold">Order ID: {order.orderId}</span>
+        <div className="flex justify-between">
+          <span className="font-bold">Order ID: {order.orderId}</span>
+          <button
+            onClick={() => setOpenReciept(true)}
+            className="text-xs border border-gray-400 px-2 py-1 rounded-md hover:bg-gray-200 transition-colors"
+          >
+            View Reciept
+          </button>
+        </div>
         <div className="flex justify-between">
           <div className="flex flex-col ">
             <span className=" text-xs">
@@ -39,7 +49,11 @@ const Order = ({ order }: { order: OrderInterface }) => {
               </Alert>
             )}
           </div>
-          {/* <Reciept order={order} /> */}
+          <Reciept
+            orderId={order.orderId}
+            openReciept={openReciept}
+            setOpenReciept={setOpenReciept}
+          />
         </div>
         <span className="dark:text-slate-300 text-slate-500 text-xs">
           {isCancelled && <Badge color="red">Cancelled</Badge>}
@@ -85,7 +99,7 @@ const Order = ({ order }: { order: OrderInterface }) => {
           </span>
         </div>
       </div>
-      <div className="flex flex-col gap-2 shadow-md w-full p-1 py-2">
+      <div className="flex flex-col gap-2 shadow-md w-full p-1 py-2 overflow-y-auto h-full mb-[5rem]">
         <span className="font-bold">Order Items</span>
         <div className="grid grid-cols-1 gap-4   ">
           {productOrders.map((productOrder: ProductOrdersInterface) => (

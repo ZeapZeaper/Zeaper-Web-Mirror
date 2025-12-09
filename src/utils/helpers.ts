@@ -28,6 +28,8 @@ const adjustDate = (data: number) => {
 };
 
 export const displayDate = (date: Date, showTime = true) => {
+  // endure date is real date
+  if (!date || isNaN(new Date(date).getTime())) return "";
   const parsedDate = new Date(date);
   const month = new Intl.DateTimeFormat("en-US", {
     month: "long",
