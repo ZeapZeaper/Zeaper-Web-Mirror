@@ -1,7 +1,7 @@
 "use client";
 import { VariationInterface } from "@/interface/interface";
 import { getCurrencySmallSymbol, numberWithCommas } from "@/utils/helpers";
-import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 const ProductDetailPrice = ({
   variations,
@@ -10,12 +10,8 @@ const ProductDetailPrice = ({
   variations: VariationInterface[];
   selectedSize: string;
 }) => {
-  const [color, setColor] = useState<string>("");
-
-  useEffect(() => {
-    const localStorageColor = localStorage.getItem("selectedProductColor");
-    setColor(localStorageColor || "");
-  }, []);
+  const searchParams = useSearchParams();
+  const color = searchParams.get("color") || "";
   const variation =
     variations?.find(
       (variation) =>
