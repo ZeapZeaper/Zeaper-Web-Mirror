@@ -113,13 +113,13 @@ const CartItem = ({
       <div
         className="relative w-20 md:w-40 shrink-0 overflow-hidden rounded-xl"
         onClick={() => {
-          localStorage.setItem("selectedProductId", item?.productId);
-          localStorage.setItem("selectedProductColor", item?.color);
           router.push(
             `/products/${item?.title
               .replace(/ /g, "-")
               .replace(/&/g, "and")
-              .replace(/\//g, "-")}-${item.color}`
+              .replace(/\//g, "-")}-${item?.color}?productId=${
+              item?.productId
+            }&color=${item?.color}`
           );
         }}
       >

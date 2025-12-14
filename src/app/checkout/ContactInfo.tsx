@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import React, { useContext, useState } from "react";
 import { FaRegCircleUser } from "react-icons/fa6";
-
+import { HiInformationCircle } from "react-icons/hi";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import Checkbox from "@/shared/Checkbox/Checkbox";
@@ -71,12 +71,25 @@ const ContactInfo: FC<Props> = ({
   return (
     <div className="z-0 overflow-hidden rounded-xl border border-neutral-300">
       {user?.isGuest && (
-        <Link
-          href="/account/login"
-          className="flex justify-end px-4 underline cursor-pointer"
-        >
-          Log in
-        </Link>
+        <div className="flex flex-col p-2 px-4   border-b border-yellow-400">
+          <Alert
+            color="warning"
+            icon={HiInformationCircle}
+            rounded
+            className="w-full  mb-2"
+            additionalContent={
+              <Link
+                href="/account/login"
+                className="flex justify-end px-4 underline cursor-pointer"
+              >
+                Log in / Create an account
+              </Link>
+            }
+          >
+            While you can check out as a guest, creating an account allows you
+            to track, manage your orders, and access exclusive offers.
+          </Alert>
+        </div>
       )}
       <div className="flex flex-col items-start p-6 sm:flex-row ">
         <span className="hidden sm:block">

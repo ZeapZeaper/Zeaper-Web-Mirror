@@ -1,10 +1,6 @@
 "use client";
-import Skeleton from "@/components/loading/Skeleton";
-import MyRecommendedProducts from "@/components/products/MyRecommendedProducts";
-import NoProduct from "@/components/products/NoProduct";
-import ProductCollectionDisplay from "@/components/products/ProductCollectionDisplay";
-import ProductFilters from "@/components/products/ProductFilters";
-import ProductPagination from "@/components/products/ProductPagination";
+
+import ProductList from "@/components/products/ProductList";
 import { globalSelectors } from "@/redux/services/global.slice";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import {
@@ -64,11 +60,11 @@ const DisplayCollections = ({ paramObj }: { paramObj?: ParamObj }) => {
 
   const products = productsQuery?.data?.data?.products || [];
   const productListDynamicFiltersQuery =
-    zeapApiSlice.useGetProductsDynamicFiltersQuery(
+    zeapApiSlice.useGetProductListDynamicFiltersQuery(
       { ...param, ...paramObj },
       { skip: !token }
     );
-  const filters = productListDynamicFiltersQuery?.data?.data
+  const filters = productListDynamicFiltersQuery?.data?.data?.dynamicFilters;
   const totalCount = productListDynamicFiltersQuery?.data?.data?.totalCount;
   const isLoading = productsQuery.isLoading || false;
   const filtersLoading = productListDynamicFiltersQuery.isLoading || false;
@@ -103,60 +99,25 @@ const DisplayCollections = ({ paramObj }: { paramObj?: ParamObj }) => {
   const dynamicFilters = filterOutParamsObjFromDynamicFilters() || [];
 
   return (
-    <>
-      <div className="md:p-4 h-full">
-        <div className="grid gap-7 md:grid-cols-3 lg:grid-cols-4">
-          {isLoading &&
-            Array.from({ length: 24 }).map((_, i) => <Skeleton key={i} />)}
-        </div>
-        {products?.length > 0 && (
-          <div className="flex flex-col lg:flex-row lg:gap-4">
-            <div className="hidden xl:flex flex-none md:w-64">
-              {filtersLoading ? (
-                <Skeleton />
-              ) : (
-                <ProductFilters
-                  dynamicFilters={dynamicFilters}
-                  totalCount={totalCount}
-                  colorOptions={colorOptions}
-                />
-              )}
-            </div>
-            <div className="flex flex-col gap-8">
-              <ProductCollectionDisplay
-                products={products}
-                title={collectTionTitle || "Collections"}
-                subMenus={getProductDisplaySubMenus(
-                  dynamicFilters,
-                  slug,
-                  slugUrl,
-                  products
-                ).filter((menu) => menu !== null)}
-                // subTitle={subTitle}
-                // setSubTitle={setSubTitle}
-                colorOptions={colorOptions}
-                showMobileFilters={true}
-                filtersLoading={filtersLoading}
-                dynamicFilters={dynamicFilters}
-                totalCount={totalCount}
-              />
-              {/* <ProductTileList products={filteredProducts} /> */}
-
-              <div className="flex overflow-x-auto justify-center">
-                <ProductPagination
-                  pageNumber={pageNumber ? parseInt(pageNumber) : 1}
-                  totalCount={totalCount}
-                  limit={limit}
-                  showIcons
-                />
-              </div>
-            </div>
-          </div>
-        )}
-        {productsQuery.isSuccess && products?.length === 0 && <NoProduct />}
-      </div>
-      <MyRecommendedProducts />
-    </>
+    <ProductList
+      products={products}
+      title={collectTionTitle || "Collections"}
+      subMenus={getProductDisplaySubMenus(
+        dynamicFilters,
+        slug,
+        slugUrl,
+        products
+      ).filter((menu) => menu !== null)}
+      colorOptions={colorOptions}
+      showMobileFilters={true}
+      filtersLoading={filtersLoading}
+      dynamicFilters={dynamicFilters}
+      totalCount={totalCount}
+      pageNumber={pageNumber ? parseInt(pageNumber) : 1}
+      limit={limit}
+      isLoading={isLoading}
+      isSuccess={productsQuery.isSuccess}
+    />
   );
 };
 

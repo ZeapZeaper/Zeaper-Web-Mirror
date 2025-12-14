@@ -678,7 +678,15 @@ export default createApi({
       },
       providesTags: ["Products"],
     }),
-
+    getProductListDynamicFilters: builder.query({
+      query: (arg) => {
+        return {
+          url: `products/list/dynamicFilters`,
+          params: { ...arg },
+        };
+      },
+      providesTags: ["Products"],
+    }),
     getShopProducts: builder.query({
       query: (arg) => {
         return {
@@ -1864,6 +1872,7 @@ export default createApi({
         };
       },
       providesTags: ["Payment"],
+
     }),
     payShop: builder.mutation({
       query: (arg) => {
@@ -1937,6 +1946,7 @@ export default createApi({
         };
       },
       providesTags: ["Voucher", "Basket", "Point", "Order"],
+  
     }),
     getInActiveVouchers: builder.query({
       query: (arg) => {
@@ -1946,6 +1956,7 @@ export default createApi({
         };
       },
       providesTags: ["Voucher", "Basket", "Point", "Order"],
+  
     }),
     getPoints: builder.query({
       query: (arg) => {

@@ -19,7 +19,7 @@ const DisplayChildren = ({ children }: { children: React.ReactNode }) => {
   const isVendorOnboarding =
     process.env.NEXT_PUBLIC_VENDOR_ONBOARDING === "true";
   const pathname = usePathname();
- const {
+  const {
     theme,
     dimBackground,
     setDimBackground,
@@ -58,22 +58,23 @@ const DisplayChildren = ({ children }: { children: React.ReactNode }) => {
       <InputZoomFixGlobal />
 
       {!isAuthPage && <Header />}
-
-      <div
-        className={` ${
-          isSideBarOpen ? "hidden" : "flex-grow"
-        } overflow-hidden ${theme} 
+      <div className="flex flex-col min-h-screen">
+        <div
+          className={`flex-1 ${
+            isSideBarOpen ? "hidden" : "flex-grow"
+          } overflow-hidden ${theme} 
          ${
            dimBackground &&
            "brightness-[20%] bg-neutral-50 blur-sm transition-all duration-300 ease-in-out"
          }`}
-      >
-        {children}
+        >
+          {children}
+        </div>
+
+        <MobileNavBar isVisable={isSideBarOpen} setIsVisable={toggleSideBar} />
+
+        <Footer />
       </div>
-
-      <MobileNavBar isVisable={isSideBarOpen} setIsVisable={toggleSideBar} />
-
-      <Footer />
       <ToastContainer />
       <Whatsapp />
     </>

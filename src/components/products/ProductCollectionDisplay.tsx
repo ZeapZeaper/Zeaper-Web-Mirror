@@ -61,7 +61,7 @@ const ProductCollectionDisplay = ({
   };
 
   return (
-    <div className="max-h-full md:max-h-[100vh] 2xl:max-h-[150vh]  overflow-auto  flex flex-col gap-4 w-full ">
+    <div className="  flex flex-col gap-4 w-full ">
       <div className="flex flex-col gap-2 md:gap-4  md:p-6 ">
         <span className="flex gap-2 items-center">
           {title && (

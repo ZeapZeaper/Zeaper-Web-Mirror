@@ -33,8 +33,6 @@ const FileDownloadProgressCardDIsplay = ({
   const webSocket = useContext(SocketContext);
   const socket = webSocket?.socket;
 
-  console.log("progressStatus", progressStatus);
-
   interface DownloadProgressData {
     progress: number;
     status: string;
@@ -90,12 +88,12 @@ const FileDownloadProgressCardDIsplay = ({
 
       <Modal.Body>
         <div className="d-flex justify-content-center">
-          <div className="d-flex flex-column align-items-center">
-            <h5 className="mt-2 mb-2">
+          <div className="d-flex flex-column align-items-center gap-4">
+            <h5 className="mt-2 mb-2 text-info">
               {progressStatus.charAt(0).toUpperCase() + progressStatus.slice(1)}
             </h5>
             <LoadingDots />
-            <div className="d-flex justify-content-center align-items-center w-full">
+            <div className="d-flex justify-content-center align-items-center w-full mt-3">
               <Progress
                 progress={progress}
                 textLabel={`downloading...`}

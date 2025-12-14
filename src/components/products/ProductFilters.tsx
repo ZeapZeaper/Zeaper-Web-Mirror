@@ -14,6 +14,7 @@ interface ProductFiltersProps {
   totalCount: number;
   // setSubTitle: (value: string) => void;
   colorOptions: { name: string; hex?: string; background?: string }[];
+  isFixed?: boolean;
 }
 
 const ProductFilters = ({
@@ -21,6 +22,7 @@ const ProductFilters = ({
   totalCount,
   // setSubTitle,
   colorOptions,
+  isFixed = false,
 }: ProductFiltersProps) => {
   const router = useRouter();
   const [showOptionsList, setShowOptionsList] = useState<string[]>(
@@ -128,7 +130,11 @@ const ProductFilters = ({
   };
 
   return (
-    <div className="flex   flex-col h-[150vh] overflow-scroll bg-white w-[16rem] ">
+    <div
+      className={`flex   flex-col h-[84vh] overflow-scroll bg-white w-[16rem] transition-transform duration-200 ease-out ${
+        isFixed ? "fixed" : "absolute bottom-0 translate-y-1"
+      }`}
+    >
       {getSearchParamsNumber() > 0 && (
         <div
           onClick={clearAllAppliedFilters}

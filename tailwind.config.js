@@ -39,6 +39,14 @@ module.exports = {
         warning: "#E4A01C",
         info: "#3461B9",
       },
+      zIndex: {
+        60: "60",
+        70: "70",
+        80: "80",
+        90: "90",
+        100: "100",
+        9999: "9999",
+      },
       animation: {
         "infinite-scroll": "infinite-scroll 100s linear infinite",
         "slide-right": "slide-right 0.8s ease-in-out",

@@ -141,7 +141,7 @@ const ReadyToWearCategories = () => {
   return (
     <>
       {isLoading && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Array.from({ length: 6 }).map((_, index: number) => (
             <div
               key={index}
@@ -154,7 +154,7 @@ const ReadyToWearCategories = () => {
           ))}
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-8">
         {data?.map((category) => (
           <Link
             key={category.id}
@@ -166,14 +166,6 @@ const ReadyToWearCategories = () => {
               backgroundPosition: "center",
             }}
           >
-            {/* <Image
-              src={category.image}
-              alt={category.label}
-              width={200}
-              height={200}
-              loading="lazy"
-              className="w-full h-[45rem] object-cover mb-2 rounded"
-            /> */}
             <div className="absolute  bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4 rounded-b-lg group-hover:bg-opacity-70  transition-all duration-3000 ease-in-out h-[6rem] group-hover:h-[8rem] ">
               <div className="flex flex-col">
                 <h3 className="text-white text-lg font-extrabold mb-2">

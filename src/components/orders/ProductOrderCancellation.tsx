@@ -65,7 +65,8 @@ const ProductOrderCancellation = ({
         disabled={
           isLoading ||
           currentStatus?.value === "order cancelled" ||
-          currentStatus?.value === "order delivered"
+          (currentStatus?.value !== "order confirmed" &&
+            currentStatus?.value !== "order placed")
         }
         className=" text-danger hover:text-white"
       >
@@ -87,7 +88,6 @@ const ProductOrderCancellation = ({
               </div>
 
               <div className="flex flex-col gap-4 my-6">
-                
                 <div className="flex flex-col gap-2">
                   <span>Please provide a reason for cancellation</span>
                   <TextInput
@@ -105,6 +105,7 @@ const ProductOrderCancellation = ({
                   onClick={() => {
                     handleCancellation();
                   }}
+                  disabled={reason.length === 0 || isLoading}
                 >
                   {isLoading ? <LoadingDots /> : "Yes, Cancel Order"}
                 </Button>

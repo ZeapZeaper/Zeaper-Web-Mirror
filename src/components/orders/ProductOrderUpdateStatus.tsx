@@ -1,4 +1,4 @@
-import { Alert, Button, Modal} from "flowbite-react";
+import { Alert, Button, Modal } from "flowbite-react";
 import {
   HiArrowNarrowLeft,
   HiArrowNarrowRight,
@@ -58,6 +58,25 @@ const ProductOrderUpdateStatus = ({
     return `Are you sure you want to update status to ${status?.name}. This will notify the customer.`;
   };
 
+  const getUpdateStatusLabel = (name: string) => {
+    if (name === "confirmed") {
+      return "Confirm Order";
+    }
+    if (name === "processing") {
+      return "Start Processing";
+    }
+    if (name === "ready for delivery") {
+      return "Mark as Ready for Delivery";
+    }
+    if (name === "dispatched") {
+      return "Mark as Out for Delivery";
+    }
+    if (name === "delivered") {
+      return "Mark as Delivered";
+    }
+    return `Update Status to ${capitalizeFirstLetter(name)}`;
+  };
+
   return (
     <>
       {" "}
@@ -89,7 +108,7 @@ const ProductOrderUpdateStatus = ({
           className="w-full"
         >
           <HiArrowNarrowRight className="mr-2 h-5 w-5" />
-          Update Status to {capitalizeFirstLetter(nextStatus?.name)}
+          {getUpdateStatusLabel(nextStatus?.name)}
         </Button>
       )}
       {openModal && (

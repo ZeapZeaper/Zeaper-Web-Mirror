@@ -8,15 +8,12 @@ import { useSelector } from "react-redux";
 import { globalSelectors } from "@/redux/services/global.slice";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import { HiTrash } from "react-icons/hi";
-import NoPic from "@/images/noPhoto.png";
+import NoPic from "@/images/Iconmark_green.png";
 import { Alert } from "flowbite-react";
 import ReactTimeAgo from "react-time-ago";
 import Image from "next/image";
 import LoadingDots from "@/components/loading/LoadingDots";
 import MyRecommendedProducts from "@/components/products/MyRecommendedProducts";
-
-
-
 
 const MeasurementTemplatesPage = () => {
   const router = useRouter();
@@ -32,8 +29,7 @@ const MeasurementTemplatesPage = () => {
     zeapApiSlice.useDeleteNotificationMutation();
 
   const isLoading = getNotificationsQuery?.isLoading;
-  const isDeleting =
-    deleteNotificationStatus.isLoading 
+  const isDeleting = deleteNotificationStatus.isLoading;
   const isFulfilled = getNotificationsQuery?.status === "fulfilled";
 
   const handleDelete = (notification_id: string) => {
@@ -87,8 +83,6 @@ const MeasurementTemplatesPage = () => {
             </div>
           )}
 
-         
-
           <div className="grid gap-2 md:gap-4 grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 ">
             {notifications?.map(
               (notification: {
@@ -129,11 +123,7 @@ const MeasurementTemplatesPage = () => {
                         handleDelete(notification._id);
                       }}
                     >
-                      {isDeleting ? (
-                        <LoadingDots />
-                      ) : (
-                        <HiTrash className="" />
-                      )}
+                      {isDeleting ? <LoadingDots /> : <HiTrash className="" />}
                     </div>
                   </div>
                 </div>

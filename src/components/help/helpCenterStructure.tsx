@@ -62,12 +62,7 @@ const helpCenterSubCategoryOptions = [
     categories: ["vendor"],
     icon: <FaList className="size-5" />,
   },
-  {
-    label: "Checkout/ Payment / Fees",
-    value: "payments",
-    categories: ["vendor", "customer", "account"],
-    icon: <MdPayments className="size-5" />,
-  },
+
   {
     label: "Seller Ratings & Badges",
     value: "ratings",

@@ -1,7 +1,7 @@
 import { Alert, Button, Modal } from "flowbite-react";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import LogoIcon from "@/images/app_logo.png";
+import LogoIcon from "@/images/Zeaper_Main_Logo.png";
 import { useReactToPrint } from "react-to-print";
 import { HiDownload, HiPrinter } from "react-icons/hi";
 
@@ -40,7 +40,6 @@ const Reciept = ({
     { skip: !token || !orderId }
   );
   const order = getOrderByOrderIdQuery?.data?.data;
-  console.log("order in reciept", order);
   const order_id = order?._id;
   const receiptRef = useRef<HTMLDivElement>(null);
   const currency = order?.payment?.currency;
@@ -158,19 +157,24 @@ const Reciept = ({
                 id="receipt"
                 ref={receiptRef}
               >
-                <div className="flex justify-between items-center w-full overflow-auto ">
+                <div className="flex  items-center w-full overflow-auto ">
+                  {/* <div>
+                    <Image
+                      src={LogoIcon}
+                      alt="company-logo"
+                      className="object-contain rounded-lg w-24 h-24"
+                    />
+                  </div> */}
+
                   <div>
                     <Image
                       src={LogoIcon}
                       alt="company-logo"
                       className="object-contain rounded-lg w-24 h-24"
                     />
-                  </div>
-
-                  <div className="text-right">
-                    <p>Zona Empires & Partners LTD .</p>
-                    <p className="text-gray-500 text-sm">admin@zeaper.com</p>
-                    <p className="text-gray-500 text-sm mt-1">+44-442341232</p>
+                    <p className="text-gray-500 text-xs">admin@zeaper.com</p>
+                    <p className="text-gray-500 text-xs mt-1">+447518465207 (United Kingdom)</p>
+                    <p className="text-gray-500 text-xs mt-1">+2347075374026 (Nigeria)</p>
                   </div>
                 </div>
 

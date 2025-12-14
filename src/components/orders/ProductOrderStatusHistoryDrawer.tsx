@@ -16,6 +16,7 @@ import ProductOrderUpdateStatus from "./ProductOrderUpdateStatus";
 import { useContext, useState } from "react";
 import { ThemeContext } from "@/contexts/themeContext";
 import { capitalizeFirstLetter } from "@/utils/helpers";
+import { usePathname } from "next/navigation";
 
 const drawerTheme = {
   root: {
@@ -71,6 +72,9 @@ export function ProductOrderStatusHistoryDrawer({
   isOtherUserOrder: boolean;
   isMyShopOrder: boolean;
 }) {
+  const pathname = usePathname();
+
+  const isUserOrderPage = pathname.includes("/account/orders");
   const { setDimBackground } = useContext(ThemeContext);
   const token = useSelector(globalSelectors.selectAuthToken);
   const [serverError, setServerError] = useState("");
@@ -188,14 +192,15 @@ export function ProductOrderStatusHistoryDrawer({
               />
             </div>
           )}
-        {!isOtherUserOrder && (
-          <div className="flex justify-center items-center gap-2 mt-6">
-            <ProductOrderCancellation
-              productOrder_id={productOrder_id}
-              currentStatus={currentStatus}
-            />
-          </div>
-        )}
+        {!isOtherUserOrder ||
+          (isUserOrderPage && (
+            <div className="flex justify-center items-center gap-2 mt-6">
+              <ProductOrderCancellation
+                productOrder_id={productOrder_id}
+                currentStatus={currentStatus}
+              />
+            </div>
+          ))}
       </Drawer.Items>
     </Drawer>
   );

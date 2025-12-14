@@ -67,6 +67,15 @@ const ProductPage = () => {
         product?.colors[0]?.images?.map((i: ImageUrlInterface) => i.link) || []
       );
     }
+    // if product and color is set but set color  does not match any product colors, set noMatch to true
+    if (product && color) {
+      const colorExist = product.colors.find(
+        (col: ColorInterface) => col.value === color
+      );
+      if (!colorExist) {
+        router.replace("/404");
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
@@ -85,7 +94,10 @@ const ProductPage = () => {
   }, [product]);
   return (
     <>
-      <span className="sr-only absolute inset-0 top-0 left-0 w-full h-full" ref={topRef}></span>{" "}
+      <span
+        className="sr-only absolute inset-0 top-0 left-0 w-full h-full"
+        ref={topRef}
+      ></span>{" "}
       <hr className="border-neutral-300 mb-1" />
       <div className="container">
         <ButtonCircle3
@@ -103,7 +115,7 @@ const ProductPage = () => {
             <Alert color="failure">Product not found</Alert>
           </div>
         )}
-        {product && (
+        {product && product?.status === "live" && (
           <div className="mb-20">
             <ProductDetails
               images={images || []}
@@ -127,13 +139,21 @@ const ProductPage = () => {
             />
           </div>
         )}
-        {product && (
+        {product && product?.status === "live" && (
           <div className="mb-20">
             <ProductReview
               product={product}
               setReviews={setReviews}
               setAverageRating={setAverageRating}
             />
+          </div>
+        )}
+        {product && product?.status !== "live" && (
+          <div className="m-4">
+            <Alert color="warning">
+              This product is currently not available. You may want to check
+              back later or explore other products.
+            </Alert>
           </div>
         )}
 

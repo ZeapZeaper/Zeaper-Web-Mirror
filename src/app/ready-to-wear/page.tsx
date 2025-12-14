@@ -11,7 +11,7 @@ const ReadyToWearPage = () => {
   return (
     <>
       <Link
-        href="/collections/isBespoke=true?productGroupPage=BESPOKE&collectionTitle=Bespoke Collections"
+        href="/collections/sReadyMade=true?productGroupPage=ReadyToWear&collectionTitle=Ready to Wear Collections"
         className="relative flex h-screen  w-full items-center justify-center bg-black"
       >
         <video

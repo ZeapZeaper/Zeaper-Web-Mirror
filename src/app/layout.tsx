@@ -158,12 +158,10 @@ export default function RootLayout({
                       href="https://fonts.googleapis.com"
                     />
                   </head>
-                  <body
-                    className={` ${getBodoniFont.variable} antialiased h-full`}
-                  >
+                  <body className={` ${getBodoniFont.variable} antialiased `}>
                     <AuthProvider>
                       <Suspense fallback={<Loading />}>
-                        <div className="flex flex-col min-h-screen">
+                        <div className="flex flex-col ">
                           <DisplayChildren>{children}</DisplayChildren>
                         </div>
                       </Suspense>

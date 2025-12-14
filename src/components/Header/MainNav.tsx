@@ -26,7 +26,7 @@ const MainNav = () => {
   const { user } = useContext(AuthContext);
   return (
     <div className="flex h-full flex-col gap-0">
-      <div className="px-2 flex items-center md:justify-between">
+      <div className="px-2 md:px-6 lg:px-8 flex items-center md:justify-between">
         <div
           onClick={() => {
             if (isSideBarOpen) {
@@ -64,7 +64,7 @@ const MainNav = () => {
         </div>
 
         <div
-            onClick={() => {
+          onClick={() => {
             if (isSideBarOpen) {
               toggleSideBar();
             }
@@ -77,10 +77,13 @@ const MainNav = () => {
           <DropdownNotification />
           <CartMenuBar />
           <MobileUserMenuBar />
-          <MenuBar isSideBarOpen={isSideBarOpen} toggleSideBar={toggleSideBar}/>
+          <MenuBar
+            isSideBarOpen={isSideBarOpen}
+            toggleSideBar={toggleSideBar}
+          />
         </div>
         <div
-           onClick={() => {
+          onClick={() => {
             if (isSideBarOpen) {
               toggleSideBar();
             }
@@ -93,15 +96,18 @@ const MainNav = () => {
           {/* <DropdownNotification /> */}
           <CartMenuBar />
           <MobileUserMenuBar />
-          <MenuBar isSideBarOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
+          <MenuBar
+            isSideBarOpen={isSideBarOpen}
+            toggleSideBar={toggleSideBar}
+          />
         </div>
       </div>
       <span
-         onClick={() => {
-            if (isSideBarOpen) {
-              toggleSideBar();
-            }
-          }}
+        onClick={() => {
+          if (isSideBarOpen) {
+            toggleSideBar();
+          }
+        }}
         className="block xl:hidden w-full p-1 py-2 bg-primary text-white  font-extrabold my-2 md:px-4"
       >
         <ProductGroupNav />
@@ -111,7 +117,7 @@ const MainNav = () => {
           <SubMenu />
         </div>
       )}
-      
+
       {/* <div className="hidden items-center gap-4 xl:flex justify-center">
         
 

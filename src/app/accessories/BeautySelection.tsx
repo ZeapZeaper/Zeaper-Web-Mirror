@@ -1,7 +1,7 @@
-import FrangranceImage from "@/images/golden-fragrance.webp";
-import HairCareImage from "@/images/golden-haircare.webp";
-import MakeupImage from "@/images/golden-makeup.webp";
-import SkinCareImage from "@/images/golden-skincare.webp";
+import FrangranceImage from "@/images/perfume.jpg";
+import HairCareImage from "@/images/haircare.jpg";
+import MakeupImage from "@/images/makeup.jpg";
+import SkinCareImage from "@/images/skincare.jpg";
 import Image from "next/image";
 import Link from "next/link";
 

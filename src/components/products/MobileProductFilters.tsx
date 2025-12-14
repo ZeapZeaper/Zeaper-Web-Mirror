@@ -7,49 +7,6 @@ import { useState } from "react";
 import { HiAdjustments, HiMinus, HiPlus } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
 
-const drawerTmem = {
-  root: {
-    base: "fixed z-40 overflow-y-auto overscroll-contain bg-white p-4 transition-transform dark:bg-gray-800",
-    backdrop: "fixed inset-0 z-30 bg-gray-900/50 dark:bg-gray-900/80",
-    edge: "bottom-35 h-[80vh] ",
-    position: {
-      top: {
-        on: "left-0 right-0 top-0 w-full transform-none",
-        off: "left-0 right-0 top-0 w-full -translate-y-full",
-      },
-      right: {
-        on: "right-0 top-0 h-screen w-80 transform-none",
-        off: "right-0 top-0 h-screen w-80 translate-x-full",
-      },
-      bottom: {
-        on: "bottom-0 left-0 right-0 w-full transform-none h-[70vh]  overflow-y-scroll overscroll-contain",
-        off: "bottom-0 left-0 right-0 w-full translate-y-full",
-      },
-      left: {
-        on: "left-0 top-0 h-screen w-80 transform-none",
-        off: "left-0 top-0 h-screen w-80 -translate-x-full",
-      },
-    },
-  },
-  header: {
-    inner: {
-      closeButton:
-        "absolute end-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white",
-      closeIcon: "h-4 w-4",
-      titleIcon: "me-2.5 h-4 w-4",
-      titleText:
-        "mb-4 inline-flex items-center text-base font-semibold text-gray-500 dark:text-gray-400",
-    },
-    collapsed: {
-      on: "hidden",
-      off: "block",
-    },
-  },
-  items: {
-    base: "",
-  },
-};
-
 export function MobileProductFilters({
   dynamicFilters,
   totalCount,
@@ -92,7 +49,6 @@ export function MobileProductFilters({
     }
     const params = new URLSearchParams(searchParams.toString());
     const exist = params.get(key);
-    console.log("exist", exist);
 
     // join the values with comma if exist
     if (exist) {
@@ -177,217 +133,172 @@ export function MobileProductFilters({
         </div>
       )}
       <Drawer
-        theme={drawerTmem}
-        // edge
         open={isOpen}
         onClose={handleClose}
         position="bottom"
-        className="p-0"
+        className="p-0 z-[9999]"
+
+        // theme={drawerTheme}
       >
-        <Drawer.Header
-          title={
-            !isOpen
-              ? `Filters (${getSearchParamsNumber()})`
-              : `See ${getSearchParamsNumber()} items`
-          }
-          titleIcon={HiAdjustments}
-          closeIcon={IoMdClose}
-          onClick={() => setIsOpen(!isOpen)}
-          className="cursor-pointer text-secondary px-4 pt-4 hover:bg-gray-50 dark:hover:bg-gray-700"
-        />
-
-        <Drawer.Items>
-          <div className="flex flex-col h-[78vh] overflow-scroll overscroll-contain p-2">
-            <div className="grid grid-cols-1 divide-y divide-gray-200 dark:divide-gray-700">
-              <div className="flex justify-between items-center">
-                <span
-                  className="text-xs border border-secondary rounded-full cursor-pointer p-1 mt-6 mb-2 "
-                  onClick={() => {
-                    clearAllAppliedFilters();
-                  }}
-                >
-                  Clear all ({getSearchParamsNumber()})
-                </span>
-                <span className="text-sm text-success mt-6 mb-2 ">
-                  {totalCount} {totalCount > 1 ? "Products" : "Product"}
-                </span>
-              </div>
-              <div className="flex flex-col">
-                {dynamicFilters?.map((filter) => (
-                  <div key={filter?.name} className="flex flex-col p-2">
-                    <div
-                      className="flex w-full h-12 items-center rounded-md justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 p-2"
-                      onClick={() => {
-                        if (showOptionsList.includes(filter?.name)) {
-                          setShowOptionsList(
-                            showOptionsList.filter(
-                              (item) => item !== filter?.name
-                            )
-                          );
-                        } else {
-                          setShowOptionsList([
-                            ...showOptionsList,
-                            filter?.name,
-                          ]);
-                        }
-                      }}
-                    >
-                      <span className="text-sm text-secondary mt-6 mb-2 ">
-                        {filter?.name}
-                      </span>
-                      <div className="text-lg text-secondary mt-6 mb-2 cursor-pointer hover:text-secondary">
-                        {showOptionsList.includes(filter?.name) ? (
-                          <HiMinus />
-                        ) : (
-                          <HiPlus />
-                        )}
-                      </div>
-                    </div>
-                    {showOptionsList.includes(filter?.name) && (
-                      <>
-                        {filter?.name === "Color" ? (
-                          <div className="grid grid-cols-2 gap-4 max-h-70 overflow-scroll overscroll-contain">
-                            {filter?.type === "checkbox" && (
-                              <>
-                                {Object.keys(filter?.options)
-                                  .map((key) => filter?.options[key])
-                                  .map(
-                                    (obj: { value: string; slug?: string }) => (
-                                      <div
-                                        key={obj?.value}
-                                        className="flex items-center cursor-pointer mt-2"
-                                      >
-                                        <Checkbox
-                                          id={obj?.value}
-                                          name={obj?.value}
-                                          color="success"
-                                          checked={checkIfFilterExist(
-                                            lowerFirstChar(
-                                              filter?.name?.replace(/ /g, "")
-                                            ),
-                                            obj?.slug || obj?.value
-                                          )}
-                                          onChange={() =>
-                                            handleFilterChange(
-                                              lowerFirstChar(
-                                                filter?.name?.replace(/ /g, "")
-                                              ),
-                                              obj?.slug || obj?.value
-                                            )
-                                          }
-                                        />
-                                        <label
-                                          onClick={() =>
-                                            handleFilterChange(
-                                              lowerFirstChar(
-                                                filter?.name?.replace(/ /g, "")
-                                              ),
-                                              obj?.slug || obj?.value
-                                            )
-                                          }
-                                          htmlFor={obj?.value}
-                                          className="ml-2 text-sm text-gray-900 dark:text-white items-center inline-flex gap-2 cursor-pointer"
-                                        >
-                                          <div
-                                            className="w-4 h-4 rounded-full border  border-slate-200"
-                                            style={{
-                                              background: getBg(obj?.value),
-                                            }}
-                                          ></div>
-
-                                          {obj?.value}
-                                        </label>
-                                      </div>
-                                    )
-                                  )}
-                              </>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="flex flex-col ">
-                            {filter?.type === "checkbox" && (
-                              <>
-                                {Object.keys(filter?.options)
-                                  .map((key) => filter?.options[key])
-                                  .map(
-                                    (obj: { value: string; slug?: string }) => (
-                                      <div
-                                        key={obj?.value}
-                                        className="flex items-center cursor-pointer mt-2"
-                                      >
-                                        <Checkbox
-                                          id={obj?.value}
-                                          name={obj?.value}
-                                          color="success"
-                                          checked={checkIfFilterExist(
-                                            lowerFirstChar(
-                                              filter?.name?.replace(/ /g, "")
-                                            ),
-                                            obj?.slug || obj?.value
-                                          )}
-                                          onChange={() =>
-                                            handleFilterChange(
-                                              lowerFirstChar(
-                                                filter?.name?.replace(/ /g, "")
-                                              ),
-                                              obj?.slug || obj?.value
-                                            )
-                                          }
-                                        />
-                                        <label
-                                          onClick={() =>
-                                            handleFilterChange(
-                                              lowerFirstChar(
-                                                filter?.name?.replace(/ /g, "")
-                                              ),
-                                              obj?.slug || obj?.value
-                                            )
-                                          }
-                                          htmlFor={obj?.value}
-                                          className="ml-2 text-sm text-gray-900 dark:text-white items-center inline-flex gap-2 cursor-pointer"
-                                        >
-                                          {obj?.value}
-                                        </label>
-                                      </div>
-                                    )
-                                  )}
-                              </>
-                            )}
-                            {filter?.type === "range" && (
-                              <div className="relative mb-6">
-                                <MultiRangeSlider
-                                  min={
-                                    filter?.options?.min
-                                      ? Number(filter?.options?.min)
-                                      : 0
-                                  }
-                                  max={
-                                    filter?.options?.max
-                                      ? Number(filter?.options?.max)
-                                      : 100
-                                  }
-                                  onChange={({ min, max }) =>
-                                    handleFilterChange(
-                                      lowerFirstChar(
-                                        filter?.name?.replace(/ /g, "")
-                                      ),
-                                      `${min}-${max}`,
-                                      true
-                                    )
-                                  }
-                                />
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
+        {/* HEADER */}
+        <div className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 border-b bg-white dark:bg-gray-800">
+          <div className="flex items-center gap-2">
+            <HiAdjustments />
+            <span className="text-sm font-semibold">
+              Filters ({getSearchParamsNumber()})
+            </span>
           </div>
-        </Drawer.Items>
+
+          <IoMdClose className="text-xl cursor-pointer" onClick={handleClose} />
+        </div>
+
+        {/* SCROLL AREA (ONLY SCROLL CONTAINER) */}
+        <div
+          className="
+      h-[calc(100dvh-56px-64px)]
+      overflow-y-auto
+      overscroll-contain
+      px-4
+      pb-6
+      [-webkit-overflow-scrolling:touch]
+    "
+        >
+          {/* CLEAR / COUNT */}
+          <div className="flex justify-between items-center py-4">
+            <button
+              onClick={clearAllAppliedFilters}
+              className="text-xs border border-secondary rounded-full px-3 py-1"
+            >
+              Clear all ({getSearchParamsNumber()})
+            </button>
+
+            <span className="text-sm text-success">
+              {totalCount} {totalCount > 1 ? "Products" : "Product"}
+            </span>
+          </div>
+
+          {/* FILTER LIST */}
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
+            {dynamicFilters.map((filter) => {
+              const paramKey = lowerFirstChar(filter.name.replace(/ /g, ""));
+
+              return (
+                <div key={filter.name} className="py-2">
+                  {/* FILTER HEADER */}
+                  <button
+                    className="flex w-full items-center justify-between py-3"
+                    onClick={() =>
+                      setShowOptionsList((prev) =>
+                        prev.includes(filter.name)
+                          ? prev.filter((n) => n !== filter.name)
+                          : [...prev, filter.name]
+                      )
+                    }
+                  >
+                    <span className="text-sm font-medium text-secondary">
+                      {filter.name}
+                    </span>
+
+                    {showOptionsList.includes(filter.name) ? (
+                      <HiMinus />
+                    ) : (
+                      <HiPlus />
+                    )}
+                  </button>
+
+                  {/* FILTER CONTENT */}
+                  {showOptionsList.includes(filter.name) && (
+                    <div className="pl-1 pb-3 space-y-2">
+                      {/* COLOR */}
+                      {filter.name === "Color" &&
+                        filter.type === "checkbox" && (
+                          <div className="grid grid-cols-2 gap-3">
+                            {Object.keys(filter.options)
+                              .map((key) => filter.options[key])
+                              .map((obj) => (
+                                <label
+                                  key={obj.value}
+                                  className="flex items-center gap-2 text-sm cursor-pointer"
+                                >
+                                  <Checkbox
+                                    checked={checkIfFilterExist(
+                                      paramKey,
+                                      obj.slug || obj.value
+                                    )}
+                                    onChange={() =>
+                                      handleFilterChange(
+                                        paramKey,
+                                        obj.slug || obj.value
+                                      )
+                                    }
+                                  />
+
+                                  <span
+                                    className="w-4 h-4 rounded-full border"
+                                    style={{
+                                      background: getBg(obj.value),
+                                    }}
+                                  />
+
+                                  {obj.value}
+                                </label>
+                              ))}
+                          </div>
+                        )}
+
+                      {/* CHECKBOX */}
+                      {filter.type === "checkbox" &&
+                        filter.name !== "Color" &&
+                        Object.keys(filter.options)
+                          .map((key) => filter.options[key])
+                          .map((obj) => (
+                            <label
+                              key={obj.value}
+                              className="flex items-center gap-2 text-sm cursor-pointer"
+                            >
+                              <Checkbox
+                                checked={checkIfFilterExist(
+                                  paramKey,
+                                  obj.slug || obj.value
+                                )}
+                                onChange={() =>
+                                  handleFilterChange(
+                                    paramKey,
+                                    obj.slug || obj.value
+                                  )
+                                }
+                              />
+                              {obj.value}
+                            </label>
+                          ))}
+
+                      {/* RANGE */}
+                      {filter.type === "range" && (
+                        <MultiRangeSlider
+                          min={Number(filter.options?.min ?? 0)}
+                          max={Number(filter.options?.max ?? 100)}
+                          onChange={({ min, max }) =>
+                            handleFilterChange(paramKey, `${min}-${max}`, true)
+                          }
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* FOOTER */}
+        <div className="sticky bottom-0 z-20 bg-white dark:bg-gray-800 border-t px-4 py-3">
+          <button
+            onClick={handleClose}
+            className="w-full rounded-lg bg-secondary py-2 text-white font-semibold"
+          >
+            See results ({totalCount})
+          </button>
+        </div>
       </Drawer>
     </>
   );

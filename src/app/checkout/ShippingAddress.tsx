@@ -393,7 +393,7 @@ const ShippingAddress: FC<Props> = ({
                   user?.isGuest ? "cursor-not-allowed text-slate-400" : ""
                 }`}
               >
-                Save this delivery details for next time (optional)
+                Save for next time (optional)
               </span>
               {user?.isGuest && (
                 <span className="text-warning text-xs">

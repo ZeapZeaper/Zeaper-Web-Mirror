@@ -33,7 +33,7 @@ const socialMediaLinks = [
 const Footer: React.FC = () => {
   return (
     <div>
-      <div className="z-10">
+      <div className="z-50">
         <div className=" bg-primary text-white">
           <div className="grid gap-10 divide-x divide-neutral-500 lg:grid-cols-2 lg:gap-0">
             <div className="grid gap-y-10 px-10 pb-5 pt-16 grid-cols-2 md:grid-cols-3">

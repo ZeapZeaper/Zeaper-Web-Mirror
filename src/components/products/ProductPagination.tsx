@@ -13,10 +13,10 @@ const ProductPagination = ({
   pageNumber: number;
   showIcons?: boolean;
 }) => {
+  console.log("totalCount", totalCount);
   const searchParams = useSearchParams();
   const router = useRouter();
   const changePage = (page: number) => {
-    console.log("page", page);
     const params = new URLSearchParams(searchParams.toString());
     params.set("pageNumber", `${page}`);
     // window.history.replaceState(null, "", `?${params.toString()}`);
