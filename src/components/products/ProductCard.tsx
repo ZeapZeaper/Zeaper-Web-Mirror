@@ -220,17 +220,18 @@ const ProductCard = ({
             </div>
           </div>
 
-          <div className="p-4 h-[7rem] xl:h-[7rem] md:w-72">
-            <p className=" text-sm   text-gray-900 overflow-auto truncate ">
-              {capitalizeFirstLetter(product?.title?.toLowerCase())}-
-              {getColorNameFromLink(
+          <div className="p-4 h-[7rem]   xl:h-[7rem]">
+            <p className="text-xs text-gray-900 overflow-auto truncate">
+              {`${capitalizeFirstLetter(
+                product?.title?.toLowerCase()
+              )} - ${getColorNameFromLink(
                 getClickedColorImage(product) ||
                   getDefaultImageLink(product) ||
                   String(NoPic.src)
-              )}
+              )}`}
             </p>
 
-            <div className="flex  justify-between">
+            <div className="flex  justify-between w-full ">
               <span className="flex flex-col">
                 {variation?.price ? (
                   <p
@@ -250,14 +251,13 @@ const ProductCard = ({
                   </p>
                 )}
               </span>
-              <span>
-                {variation?.discount && (
-                  <p className="text-xs  font-bold text-gray-500  dark:text-gray-300">
-                    {getCurrencySmallSymbol(variation?.currency)}
-                    {numberWithCommas(variation?.discount)}
-                  </p>
-                )}
-              </span>
+
+              {variation?.discount && (
+                <span className="text-xs  font-bold text-gray-500  dark:text-gray-300 text-right flex  justify-end w-full">
+                  {getCurrencySmallSymbol(variation?.currency)}
+                  {numberWithCommas(variation?.discount)}
+                </span>
+              )}
             </div>
             {colorOptions?.length > 0 && product?.colors?.length > 1 && (
               <div className="flex gap-2">
