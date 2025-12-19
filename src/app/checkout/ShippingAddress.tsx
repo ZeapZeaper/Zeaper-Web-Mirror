@@ -22,6 +22,7 @@ import PhoneInput from "react-phone-number-input";
 import { validatePhoneNumberInput } from "@/utils/helpers";
 import { CountryRegionData } from "react-country-region-selector";
 
+
 interface Props {
   isActive: boolean;
   onCloseActive: () => void;
@@ -119,6 +120,7 @@ const ShippingAddress: FC<Props> = ({
   }, [selectedDeliveryAddress]);
 
   const handleAddDeliveryAddress = () => {
+    if (saveForNextTime) return setSaveForNextTime(false);
     if (!validateShipping()) return;
     const payload = {
       firstName,

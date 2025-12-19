@@ -28,6 +28,7 @@ import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import ProductOrderUpdateStatus from "@/components/orders/ProductOrderUpdateStatus";
 import { ThemeContext } from "@/contexts/themeContext";
 import { FaEye } from "react-icons/fa";
+import ProductOrderRejection from "@/components/orders/ProductOrderRejection";
 
 const vendorActionStatusList = [
   "order placed",
@@ -52,8 +53,10 @@ const OrderItemPage = () => {
   );
 
   const productOrder = productOrderQuery?.data?.data;
+ 
 
-  const isOtherUserOrder = productOrder?.user?._id !== user?._id;
+  const isMyOrder = productOrder?.user?._id === user?._id;
+  
 
   const isMyShopOrder =
     productOrder?.shop.shopId && productOrder?.shop.shopId === user?.shopId;
@@ -69,6 +72,7 @@ const OrderItemPage = () => {
   const status = productOrder?.status;
   const deliveryDetails = productOrder?.deliveryDetails;
   const bodyMeasurements = productOrder?.bodyMeasurements || [];
+  const cancel = productOrder?.cancel;
 
   const images = productOrder?.images.map(
     (image: { name: string; link: string }) => image.link
@@ -144,6 +148,12 @@ const OrderItemPage = () => {
                 openModal={openModal}
                 setOpenModal={setOpenModal}
                 setDimBackground={setDimBackground}
+              />
+            )}
+            {isMyShopOrder && (
+              <ProductOrderRejection
+                productOrder_id={productOrder?._id}
+                currentStatus={status}
               />
             )}
             <Button
@@ -238,6 +248,14 @@ const OrderItemPage = () => {
                   {capitalizeFirstLetter(status.name)}{" "}
                 </span>
               </div>
+              {cancel?.isCancelled && (
+                <div className="flex justify-between items-center">
+                  <span className="text-md ">Cancelled By</span>
+                  <span className="text-sm lg:text-sm lg:text-lg font-semibold">
+                    {capitalizeFirstLetter(cancel.cancelledBy || "Buyer")}{" "}
+                  </span>
+                </div>
+              )}
 
               <div className="flex  justify-between items-center">
                 <span className="text-md ">SKU</span>
@@ -389,7 +407,7 @@ const OrderItemPage = () => {
                   </div>
                 </div>
               )}
-              {!isOtherUserOrder && (
+              {isMyOrder && (
                 <div>
                   <span className="font-bold">Delivery Details</span>
                   <div className=" bg-grey8 p-2 ">
@@ -435,7 +453,7 @@ const OrderItemPage = () => {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           productOrder_id={productOrder?._id}
-          isOtherUserOrder={isOtherUserOrder}
+          isMyOrder={isMyOrder}
           isMyShopOrder={isMyShopOrder}
         />
       )}

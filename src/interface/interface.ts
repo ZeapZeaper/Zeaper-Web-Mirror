@@ -111,7 +111,11 @@ interface ShopInterface {
   totalRevenue?: number;
   currency?: CurrencyInterface;
   email?: string;
-  bankDetails?: { accountNumber: string; bankName: string; accountName: string };
+  bankDetails?: {
+    accountNumber: string;
+    bankName: string;
+    accountName: string;
+  };
   status?: string;
 }
 
@@ -162,7 +166,12 @@ interface BespokeInterface {
   availableColors: string[];
 }
 interface ProductInterface {
-  productType: "readyMadeCloth" | "readyMadeShoe" | "accessory" | "bespokeCloth" | "bespokeShoe";
+  productType:
+    | "readyMadeCloth"
+    | "readyMadeShoe"
+    | "accessory"
+    | "bespokeCloth"
+    | "bespokeShoe";
   productId: string;
   disabled: boolean;
   shopId: string;
@@ -357,7 +366,7 @@ interface ProductOrdersInterface {
   itemNo: number;
   shop: ShopInterface;
   product: ProductInterface;
-  user: UserInterface;
+  user: UserInterface | string;
   quantity: number;
   sku: string;
   color?: string;

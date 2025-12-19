@@ -8,7 +8,7 @@ import {
 import Link from "next/link";
 import { ProductOrderStatusHistoryDrawer } from "./ProductOrderStatusHistoryDrawer";
 import { useContext, useState } from "react";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { AuthContext } from "@/contexts/authContext";
 
 const ProductOrderCard = ({
@@ -18,11 +18,12 @@ const ProductOrderCard = ({
 }) => {
   const { user } = useContext(AuthContext);
   const router = useRouter();
- 
+
   const [isOpen, setIsOpen] = useState(false);
   const status = productOrder?.status;
 
-  const isOtherUserOrder = productOrder?.user?._id !== user?._id;
+  const isMyOrder = productOrder?.user === user?._id;
+
   const isMyShopOrder =
     (productOrder?.shop.shopId && productOrder?.shop.shopId === user?.shopId) ||
     false;
@@ -54,7 +55,9 @@ const ProductOrderCard = ({
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-1">
-            <span className="text-sm font-bold">Item {productOrder?.itemNo}</span>
+            <span className="text-sm font-bold">
+              Item {productOrder?.itemNo}
+            </span>
             <span className="text-xs text-slate-500 w-[8rem] md:w-[9rem] lg:w-[11.5rem] overflow-hidden  truncate text-ellipsis">
               {productOrder?.product?.title}
             </span>
@@ -92,7 +95,7 @@ const ProductOrderCard = ({
             isOpen={isOpen}
             setIsOpen={setIsOpen}
             productOrder_id={productOrder?._id}
-            isOtherUserOrder={isOtherUserOrder}
+            isMyOrder={isMyOrder}
             isMyShopOrder={isMyShopOrder}
           />
         </span>

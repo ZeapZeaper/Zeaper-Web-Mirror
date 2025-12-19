@@ -246,8 +246,8 @@ const ProductCard = ({
                   <Badge color="failure">No price set </Badge>
                 )}
                 {variation?.discount && (
-                  <p className="text-xs text-green-500">
-                    {product?.promo?.discountPercentage}% off
+                  <p className="text-xs text-green-500 ">
+                    Save {product?.promo?.discountPercentage}%
                   </p>
                 )}
               </span>
