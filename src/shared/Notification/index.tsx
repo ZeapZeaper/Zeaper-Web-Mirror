@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "react-toastify/dist/ReactToastify.css";
 
-
 import { useDispatch, useSelector } from "react-redux";
 
 import { messaging } from "@/authentication/firebase";
@@ -23,12 +22,12 @@ const NotificationProvider: React.FC<{ children: ReactNode }> = ({
   const dispatch = useDispatch();
   const token = useSelector(globalSelectors.selectAuthToken);
   const [registerPushToken] = zeapApiSlice.useRegisterPushTokenMutation();
-  
+
   const listenForMessages = () => {
-   
     try {
       onMessage(messaging, (payload) => {
-       console.log("Message received. ", payload);
+        console.log("Message received. ", payload);
+
         // invalidate redux cache with flag notification
         dispatch(zeapApiSlice.util.invalidateTags(["Notification"]));
 
@@ -50,11 +49,19 @@ const NotificationProvider: React.FC<{ children: ReactNode }> = ({
             />
           );
         }
+        const data = payload.data;
+        const notificationType = data?.notificationType;
+        if (notificationType === "order") {
+          dispatch(zeapApiSlice.util.invalidateTags(["Order", "Point"]));
+        }
+        if (notificationType === "shop") {
+          dispatch(zeapApiSlice.util.invalidateTags(["Shop", "Shops"]));
+        }
       });
     } catch (error) {
       console.error("Error listening for messages", error);
     }
-  }
+  };
   useEffect(() => {
     if (!token) return;
     async function requestPermission() {

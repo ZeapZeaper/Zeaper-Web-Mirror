@@ -1,6 +1,10 @@
 import Image from "next/image";
 import ReactTimeAgo from "react-time-ago";
 import { OrderInterface } from "@/interface/interface";
+import {
+  capitalizeFirstLetter,
+  getProductOrderStatusBg,
+} from "@/utils/helpers";
 
 const OrderCard = ({ order }: { order: OrderInterface }) => {
   const productOrders = order?.productOrders ?? [];
@@ -37,21 +41,30 @@ const OrderCard = ({ order }: { order: OrderInterface }) => {
 
         {/* PRODUCT IMAGES STRIP */}
         {itemCount > 0 && (
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <div className="flex gap-4 overflow-x-auto pb-1 scrollbar-hide">
             {productOrders.map((po) => {
               const image = po?.images?.[0]?.link || "/placeholder.png";
 
               return (
                 <div
                   key={po._id}
-                  className="relative h-14 w-14 flex-shrink-0 rounded overflow-hidden bg-white"
+                  className=" flex flex-col items-center justify-center"
                 >
-                  <Image
-                    src={image}
-                    alt={po.product?.title ?? "Product"}
-                    fill
-                    className="object-cover"
-                  />
+                  <div className="relative h-14 w-14 flex-shrink-0 rounded overflow-hidden bg-white">
+                    <Image
+                      src={image}
+                      alt={po.product?.title ?? "Product"}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <p
+                    className={`text-[7px] mt-1 text-center ${getProductOrderStatusBg(
+                      po?.status?.value
+                    )}`}
+                  >
+                    {capitalizeFirstLetter(po?.status?.name || "")}
+                  </p>
                 </div>
               );
             })}

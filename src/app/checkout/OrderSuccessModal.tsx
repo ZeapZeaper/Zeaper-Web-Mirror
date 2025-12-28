@@ -95,7 +95,7 @@ const OrderSuccessModal = ({
               <div className="w-full md:w-1/2">
                 <ButtonSecondary
                   onClick={() => {
-                    setShowOrderSuccessModal(false);
+                    // setShowOrderSuccessModal(false);
                     setDimBackground(false);
                     router.push("/account/orders");
                   }}
@@ -108,7 +108,7 @@ const OrderSuccessModal = ({
             <div className="w-full md:w-1/2 mt-4 mx-auto">
               <ButtonPrimary
                 onClick={() => {
-                  setShowOrderSuccessModal(false);
+                  // setShowOrderSuccessModal(false);
                   setDimBackground(false);
                   router.push("/");
                 }}

@@ -5,8 +5,6 @@ import { Drawer, Timeline } from "flowbite-react";
 import { useSelector } from "react-redux";
 
 import { IoIosDoneAll } from "react-icons/io";
-
-import ReactTimeAgo from "react-time-ago";
 import { IoMdClose } from "react-icons/io";
 import { globalSelectors } from "@/redux/services/global.slice";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
@@ -15,7 +13,7 @@ import ProductOrderCancellation from "./ProductOrderCancellation";
 import ProductOrderUpdateStatus from "./ProductOrderUpdateStatus";
 import { useContext, useState } from "react";
 import { ThemeContext } from "@/contexts/themeContext";
-import { capitalizeFirstLetter } from "@/utils/helpers";
+import { capitalizeFirstLetter, displayDate } from "@/utils/helpers";
 import ProductOrderRejection from "./ProductOrderRejection";
 
 const drawerTheme = {
@@ -146,7 +144,7 @@ export function ProductOrderStatusHistoryDrawer({
                 <Timeline.Content>
                   {status?.date && (
                     <Timeline.Time>
-                      <ReactTimeAgo date={status?.date} locale="en-US" />
+                      {displayDate(new Date(status.date), false)}
                     </Timeline.Time>
                   )}
                   {/* <Timeline.Title>{status?.name}</Timeline.Title> */}
@@ -189,7 +187,7 @@ export function ProductOrderStatusHistoryDrawer({
               />
             </div>
           )}
-        { isMyOrder && (
+        {isMyOrder && (
           <div className="flex justify-center items-center gap-2 mt-6">
             <ProductOrderCancellation
               productOrder_id={productOrder_id}

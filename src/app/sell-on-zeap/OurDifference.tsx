@@ -1,5 +1,5 @@
 import { ourDifference } from "@/data/content";
-import Pic from "@/images/signage-1.jpg";
+import Pic from "@/images/Signage-mockup2.jpg";
 import Image from "next/image";
 import StartSelling from "../../components/shop/StartSelling";
 

@@ -1,4 +1,5 @@
 import { Alert, Drawer, DrawerItems } from "flowbite-react";
+import Link from "next/link";
 const drawerTheme = {
   root: {
     base: "fixed z-50  overflow-y-auto bg-white p-4 transition-transform dark:bg-gray-800",
@@ -32,9 +33,9 @@ function MobileAddedToCart({
           color="success"
           onDismiss={() => setIsOpen(false)}
           additionalContent={
-            <div className="flex items-center justify-center cursor-pointer bg-primary mt-4  p-2 text-white rounded-md">
+            <Link href="/cart" className="flex items-center justify-center cursor-pointer bg-primary mt-4  p-2 text-white rounded-md">
               My Cart
-            </div>
+            </Link>
           }
           icon={() => (
             <svg

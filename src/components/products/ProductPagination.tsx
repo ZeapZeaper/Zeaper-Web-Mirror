@@ -13,7 +13,7 @@ const ProductPagination = ({
   pageNumber: number;
   showIcons?: boolean;
 }) => {
-  console.log("totalCount", totalCount);
+
   const searchParams = useSearchParams();
   const router = useRouter();
   const changePage = (page: number) => {
@@ -29,7 +29,6 @@ const ProductPagination = ({
           currentPage={pageNumber ? pageNumber : 1}
           totalPages={Math.ceil(totalCount / limit)}
           onPageChange={(page) => {
-            console.log("page", page);
             changePage(page);
           }}
           showIcons={showIcons}

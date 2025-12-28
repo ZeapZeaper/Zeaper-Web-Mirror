@@ -190,7 +190,7 @@ const ProductDetails: FC<SectionProductHeaderProps> = ({
           <ProductDescription description={description} />
           <ProductDetailInfo categories={categories} />
 
-          <ProductTimeline categories={categories} />
+          <ProductTimeline productType={productType} />
         </div>
       </div>
     </div>

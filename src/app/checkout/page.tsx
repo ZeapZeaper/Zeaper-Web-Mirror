@@ -300,11 +300,11 @@ const CheckoutPage = () => {
           });
         }
         if (data?.stripeClientSecret) {
-          console.log("data?.stripeClientSecret", data?.stripeClientSecret);
           setClientSecret(data?.stripeClientSecret);
           return setShowStripeModal(true);
         }
         setIsLoading(false);
+        console.log(`Unsupported currency ${data?.currency}`);
         setServerError("Unsupported currency");
         setTimeout(() => {
           setServerError("");

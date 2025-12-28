@@ -196,12 +196,12 @@ html {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-ul {
+.rich-content ul {
   list-style-type: disc;
   margin-left: 1.5rem; /* Add left margin for better indentation */ 
 }
 
-ol {
+.rich-content ol {
   list-style-type: decimal;
   margin-left: 1.5rem; /* Add left margin for better indentation */ 
 }

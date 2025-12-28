@@ -1,6 +1,6 @@
 "use client";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import BackgroudImage from "@/images/signage-1.jpg";
+import BackgroudImage from "@/images/Signage-mockup2.jpg";
 import Typed from "typed.js";
 import { useEffect, useMemo, useRef } from "react";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";

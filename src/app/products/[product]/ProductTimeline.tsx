@@ -1,7 +1,11 @@
-import { bespokeTimeLine, readyMadeTimeLine } from "@/data/content";
-import { ProductCategoryInterface } from "@/interface/interface";
 import {
-
+  accessoriesTimeline,
+  bespokeFootwearTimeline,
+  bespokeClothesTimeline,
+  readyToWearFootwearTimeline,
+  readyToWearClothesTimeline,
+} from "@/data/content";
+import {
   Timeline,
   TimelineBody,
   TimelineContent,
@@ -22,16 +26,16 @@ const timelineTheme = {
   item: {
     root: {
       horizontal: "relative mb-6 sm:mb-0",
-      vertical: "mb-10 ml-6",
+      vertical: "mb-10 ml-8",
     },
     content: {
       root: {
         base: "",
-        horizontal: "mt-3 sm:pr-8",
+        horizontal: "mt-3 sm:pr-8 ",
         vertical: "",
       },
       body: {
-        base: "mb-4 text-base font-normal text-gray-500 dark:text-gray-400",
+        base: "mb-4 text-base font-normal text-gray-500 dark:text-gray-400 ",
       },
       time: {
         base: "mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500",
@@ -51,9 +55,9 @@ const timelineTheme = {
             "absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200 dark:border-gray-900 dark:bg-gray-700",
         },
         icon: {
-          base: "h-3 w-3 text-primary-600 dark:text-primary-300",
+          base: "h-3 w-3 text-primary-600 dark:text-primary-300 ",
           wrapper:
-            "absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-lightGold ring-8 ring-white dark:bg-primary-900 dark:ring-gray-900",
+            "absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-lightGold ring-8 ring-white dark:bg-primary-900 dark:ring-gray-900 ",
         },
       },
       vertical: "",
@@ -61,20 +65,28 @@ const timelineTheme = {
   },
 };
 
-const ProductTimeline = ({
-  categories,
-}: {
-  categories: ProductCategoryInterface;
-}) => {
+const ProductTimeline = ({ productType }: { productType: string }) => {
   const [active, setActive] = useState(false);
   const handleClick = () => {
     setActive(!active);
   };
   const getTimeLine = () => {
-    if (categories?.productGroup === "Bespoke") {
-      return bespokeTimeLine;
+    if (productType === "readyMadeCloth") {
+      return readyToWearClothesTimeline;
     }
-    return readyMadeTimeLine;
+    if (productType === "bespokeCloth") {
+      return bespokeClothesTimeline;
+    }
+    if (productType === "readyMadeFootwear") {
+      return readyToWearFootwearTimeline;
+    }
+    if (productType === "bespokeFootwear") {
+      return bespokeFootwearTimeline;
+    }
+    if (productType === "accessory") {
+      return accessoriesTimeline;
+    }
+    return readyToWearClothesTimeline;
   };
 
   return (
