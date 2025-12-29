@@ -39,11 +39,13 @@ const AddReview = ({
   close,
   productId,
   review,
+  sku,
 }: {
   open: boolean;
   close: () => void;
   productId: string;
   review?: ProductReviewInterface;
+  sku: string;
 }) => {
   const { setDimBackground } = useContext(ThemeContext);
   const [newReview, setNewReview] = useState<string>("");
@@ -53,8 +55,8 @@ const AddReview = ({
   const [displayName, setDisplayName] = useState<string>("");
   const [errorMsg, setErrorMsg] = useState<string>("");
   const getCanUserReviewQuery = zeapApiSlice.useGetCanUserReviewQuery(
-    { productId },
-    { skip: !productId || !!review }
+    { productId, sku },
+    { skip: !productId || !sku || !!review }
   );
   const canUserReview = getCanUserReviewQuery?.data?.data;
   const canReview = canUserReview?.canReview || false;
@@ -118,6 +120,7 @@ const AddReview = ({
     const payload = {
       productId: productId,
       orderId,
+      sku,
       review: newReview,
       title: title,
       rating: rating,

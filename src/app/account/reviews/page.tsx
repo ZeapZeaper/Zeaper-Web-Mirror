@@ -14,15 +14,15 @@ import ReviewCard from "./ReviewCard";
 import { ProductReviewInterface } from "@/interface/interface";
 
 interface ReviewInterface extends ProductReviewInterface {
-  order: {
-    orderId: string;
-    deliveryDate: Date;
-    images: { name: string; link: string; _id: string }[];
-    productId: string;
-    title: string;
-    color: string;
-    size: string;
-  };
+  orderId: string;
+  deliveryDate: Date;
+  images: { name: string; link: string; _id: string }[];
+  productId: string;
+  title: string;
+  color: string;
+  size: string;
+  sku: string;
+  productTitle: string;
 }
 
 const ReviewsPage = () => {
@@ -140,16 +140,18 @@ const ReviewsPage = () => {
             {isLoading && <Loading />}
             {tab === "given" && givenReviews?.length > 0 && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-                {givenReviews.map((review: ReviewInterface) => (
-                  <ReviewCard key={review._id} review={review} />
+                {givenReviews.map((review: ReviewInterface, index: number) => (
+                  <ReviewCard key={index} review={review} />
                 ))}
               </div>
             )}
             {tab === "pending" && pendingReviews?.length > 0 && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-                {pendingReviews.map((review: ReviewInterface) => (
-                  <ReviewCard key={review._id} review={review} />
-                ))}
+                {pendingReviews.map(
+                  (review: ReviewInterface, index: number) => (
+                    <ReviewCard key={index} review={review} />
+                  )
+                )}
               </div>
             )}
           </div>

@@ -12,7 +12,6 @@ import NoProfilePic from "@/images/noProfilePic.png";
 import ReactTimeAgo from "react-time-ago";
 import { HiThumbDown, HiThumbUp } from "react-icons/hi";
 import { AuthContext } from "../../../contexts/authContext";
-import AddReview from "./AddReview";
 import Skeleton from "@/components/loading/Skeleton";
 // import TimeAgo from "javascript-time-ago";
 import { allStars } from "@/data/content";
@@ -43,7 +42,6 @@ const ProductReview = ({
   const { user } = useContext(AuthContext);
   const token = useSelector(globalSelectors.selectAuthToken);
   const [sortBy, setSortBy] = useState<string>("createdAt");
-  const [openReview, setOpenReview] = useState(false);
   const [errorMessages, setErrorMsg] = useState<{ error: string; id: string }>({
     error: "",
     id: "",
@@ -181,13 +179,7 @@ const ProductReview = ({
   return (
     <div>
       {isLoading && <Skeleton />}
-      {openReview && (
-        <AddReview
-          open={openReview}
-          close={() => setOpenReview(false)}
-          productId={product?.productId}
-        />
-      )}
+
       {reviews?.length === 0 && reviewQuery.status === "fulfilled" && (
         <Alert color="info" className="mb-4 w-full">
           <div className="flex flex-col gap-2">
@@ -195,27 +187,7 @@ const ProductReview = ({
               <p className="text-md font-bold text-gray-500 dark:text-gray-400">
                 No reviews yet
               </p>
-              {user?.shopId !== product?.shopId ? (
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Be the first to review this product
-              </p>) : (
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  You will see reviews for this product once customers start
-                  reviewing it. 
-                </p>
-              )}
             </div>
-            {user?.shopId !== product?.shopId && (
-              <div>
-                <Button
-                  color="success"
-                  onClick={() => setOpenReview(true)}
-                  size="xs"
-                >
-                  Write Review
-                </Button>
-              </div>
-            )}
           </div>
         </Alert>
       )}
