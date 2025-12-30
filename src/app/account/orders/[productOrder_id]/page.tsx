@@ -138,7 +138,7 @@ const OrderItemPage = () => {
               Order : {productOrder?.orderId}/{productOrder?.itemNo}
             </h1>
           </div>
-          <div className="flex flex-col md:flex-row  items-center gap-2 w-full  lg:w-[40rem] my-2 lg:my-0">
+          <div className="flex flex-col lg:flex-row  items-center gap-2 w-full  lg:w-[48rem] my-2 lg:my-0">
             {isMyShopOrder && vendorActionStatusList.includes(status.value) && (
               <ProductOrderUpdateStatus
                 nextStatus={nextStatus}

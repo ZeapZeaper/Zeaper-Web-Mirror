@@ -4,7 +4,7 @@ import { BiHelpCircle } from "react-icons/bi";
 import { FaSquareWhatsapp } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import heroImage from "@/images/hero.png";
-import shoeImage from "@/images/category_shoe.png";
+import shoeImage from "@/images/category_shoe_2.png";
 import bagImage from "@/images/category_bag.png";
 import menImage from "@/images/men2.png";
 // import accessoriesImage from "@/images/category_accessories.png";

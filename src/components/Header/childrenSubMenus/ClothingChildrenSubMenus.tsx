@@ -5,8 +5,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import RenderChildrenSubMenus from "./RenderChildrenSubMenus";
 import BespokeImage from "@/images/ath6.webp";
-import HomeImage from "@/images/clothing_1.jpg";
-import ReadyImage from "@/images/clothing_1.jpg";
+import HomeImage from "@/images/clothing_2.jpg";
+import ReadyImage from "@/images/clothing_2.jpg";
 import { usePathname, useSearchParams } from "next/navigation";
 import pluralize from "pluralize";
 

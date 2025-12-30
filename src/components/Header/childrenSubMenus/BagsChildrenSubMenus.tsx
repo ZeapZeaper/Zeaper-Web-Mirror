@@ -4,7 +4,7 @@ import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import RenderChildrenSubMenus from "./RenderChildrenSubMenus";
-import AccessImage from "@/images/access_1.jpg";
+import AccessImage from "@/images/access_2.jpg";
 import { usePathname, useSearchParams } from "next/navigation";
 
 const productGroupNavOptions = [

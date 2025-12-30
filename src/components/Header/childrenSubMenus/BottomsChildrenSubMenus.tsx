@@ -4,7 +4,7 @@ import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import RenderChildrenSubMenus from "./RenderChildrenSubMenus";
-import HomeImage from "@/images/bottom_1.avif";
+import HomeImage from "@/images/bottom_3.jpg";
 import ReadyImage from "@/images/bottom_2.jpg";
 import { usePathname, useSearchParams } from "next/navigation";
 import pluralize from "pluralize";

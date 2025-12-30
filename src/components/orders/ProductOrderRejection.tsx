@@ -65,6 +65,7 @@ const ProductOrderRejection = ({
         disabled={
           isLoading ||
           currentStatus?.value === "order cancelled" ||
+          currentStatus?.value === "order ready for delivery" ||
           currentStatus?.value === "order dispatched" ||
           currentStatus?.value === "order delivered"
         }
@@ -83,8 +84,15 @@ const ProductOrderRejection = ({
               <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-danger" />
               <div className="flex flex-col mb-4">
                 <p className=" text-lg font-normal text-danger">
-                  Are you sure you want to reject this order? Once rejected, this cannot be reversed
+                  Are you sure you want to reject this order? Once rejected,
+                  this cannot be reversed
                 </p>
+                <Alert className="mt-4  text-xs" color="warning">
+                  <span>
+                    Note: Rejecting orders above minimum acceptable threshold
+                    would lead to your account being suspended
+                  </span>
+                </Alert>
               </div>
 
               <div className="flex flex-col gap-4 my-6">
@@ -101,7 +109,8 @@ const ProductOrderRejection = ({
 
               <div className="flex justify-center gap-4">
                 <Button
-                  color="success"
+                  
+                  color="failure"
                   onClick={() => {
                     handleRejection();
                   }}
@@ -109,7 +118,7 @@ const ProductOrderRejection = ({
                 >
                   {isLoading ? <LoadingDots /> : "Yes, Reject Order"}
                 </Button>
-                <Button color="failure" onClick={() => setOpenModal(false)}>
+                <Button color="success" onClick={() => setOpenModal(false)}>
                   No
                 </Button>
               </div>

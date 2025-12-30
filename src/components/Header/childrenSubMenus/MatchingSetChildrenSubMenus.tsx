@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import RenderChildrenSubMenus from "./RenderChildrenSubMenus";
 import BespokeImage from "@/images/machingSet_3.avif";
-import HomeImage from "@/images/matchingSet_1.jpg";
+import HomeImage from "@/images/matchingSet_4.jpg";
 import ReadyImage from "@/images/matchingSet_2.webp";
 import { usePathname, useSearchParams } from "next/navigation";
 import pluralize from "pluralize";

@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import RenderChildrenSubMenus from "./RenderChildrenSubMenus";
 import BespokeImage from "@/images/ath6.webp";
-import HomeImage from "@/images/kid_1.jpg";
+import HomeImage from "@/images/kid_2.jpg";
 import ReadyImage from "@/images/black_child_rtw.avif";
 import AccessImage from "@/images/black_child_bespoke.jpg";
 import { usePathname, useSearchParams } from "next/navigation";

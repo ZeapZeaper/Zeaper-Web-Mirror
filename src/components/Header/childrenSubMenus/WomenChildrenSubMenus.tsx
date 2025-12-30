@@ -7,7 +7,7 @@ import RenderChildrenSubMenus from "./RenderChildrenSubMenus";
 import BespokeImage from "@/images/ath6.webp";
 import HomeImage from "@/images/women_ready_1.webp";
 import ReadyImage from "@/images/women_ready_to2.jpg";
-import AccessImage from "@/images/access_1.jpg";
+import AccessImage from "@/images/access_2.jpg";
 import { usePathname, useSearchParams } from "next/navigation";
 
 const productGroupNavOptions = [
