@@ -1823,16 +1823,16 @@ export default createApi({
         };
       },
       invalidatesTags: ["Basket", "Order"],
-      onQueryStarted: async ({ successHandler, errorHandler }, queryArgs) => {
-        responseHandler(
-          {
-            success: "Order Status Successfully Updated",
-            successHandler,
-            errorHandler,
-          },
-          queryArgs
-        );
-      },
+      // onQueryStarted: async ({ successHandler, errorHandler }, queryArgs) => {
+      //   responseHandler(
+      //     {
+      //       success: "Order Status Successfully Updated",
+      //       successHandler,
+      //       errorHandler,
+      //     },
+      //     queryArgs
+      //   );
+      // },
     }),
     cancelProductOrder: builder.mutation({
       query: (arg) => {

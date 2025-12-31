@@ -26,7 +26,6 @@ import { AuthContext } from "@/contexts/authContext";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import ProductOrderUpdateStatus from "@/components/orders/ProductOrderUpdateStatus";
-import { ThemeContext } from "@/contexts/themeContext";
 import { FaEye } from "react-icons/fa";
 import ProductOrderRejection from "@/components/orders/ProductOrderRejection";
 
@@ -37,7 +36,6 @@ const vendorActionStatusList = [
 ];
 
 const OrderItemPage = () => {
-  const { setDimBackground } = useContext(ThemeContext);
   const { user } = useContext(AuthContext);
   const router = useRouter();
   const token = useSelector(globalSelectors.selectAuthToken);
@@ -101,15 +99,13 @@ const OrderItemPage = () => {
       .unwrap()
       .then(() => {
         setServerError("");
-        setDimBackground(false);
+
         // setOpenRevertModal(false);
         setOpenModal(false);
       })
       .catch((err) => {
         setServerError(err.data.error);
-        setTimeout(() => {
-          setServerError("");
-        }, 5000);
+        
       });
   };
 
@@ -147,7 +143,7 @@ const OrderItemPage = () => {
                 setServerError={setServerError}
                 openModal={openModal}
                 setOpenModal={setOpenModal}
-                setDimBackground={setDimBackground}
+             
               />
             )}
             {isMyShopOrder && (

@@ -11,8 +11,7 @@ import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import Loading from "../loading/Loading";
 import ProductOrderCancellation from "./ProductOrderCancellation";
 import ProductOrderUpdateStatus from "./ProductOrderUpdateStatus";
-import { useContext, useState } from "react";
-import { ThemeContext } from "@/contexts/themeContext";
+import { useState } from "react";
 import { capitalizeFirstLetter, displayDate } from "@/utils/helpers";
 import ProductOrderRejection from "./ProductOrderRejection";
 
@@ -70,7 +69,6 @@ export function ProductOrderStatusHistoryDrawer({
   isMyOrder: boolean;
   isMyShopOrder: boolean;
 }) {
-  const { setDimBackground } = useContext(ThemeContext);
   const token = useSelector(globalSelectors.selectAuthToken);
   const [serverError, setServerError] = useState("");
   // const [openRevertModal, setOpenRevertModal] = useState(false);
@@ -100,15 +98,12 @@ export function ProductOrderStatusHistoryDrawer({
       .unwrap()
       .then(() => {
         setServerError("");
-        setDimBackground(false);
         // setOpenRevertModal(false);
         setOpenModal(false);
       })
       .catch((err) => {
+        console.log("err", err);
         setServerError(err.data.error);
-        setTimeout(() => {
-          setServerError("");
-        }, 5000);
       });
   };
 
@@ -163,7 +158,7 @@ export function ProductOrderStatusHistoryDrawer({
                           setServerError={setServerError}
                           openModal={openRevertModal}
                           setOpenModal={setOpenRevertModal}
-                          setDimBackground={setDimBackground}
+                         
                         />
                       )} */}
                   </Timeline.Body>
@@ -183,7 +178,6 @@ export function ProductOrderStatusHistoryDrawer({
                 setServerError={setServerError}
                 openModal={openModal}
                 setOpenModal={setOpenModal}
-                setDimBackground={setDimBackground}
               />
             </div>
           )}

@@ -4,7 +4,7 @@ import {
   HiArrowNarrowRight,
   HiOutlineExclamationCircle,
 } from "react-icons/hi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { capitalizeFirstLetter } from "@/utils/helpers";
 
 const ProductOrderUpdateStatus = ({
@@ -15,7 +15,7 @@ const ProductOrderUpdateStatus = ({
   setServerError,
   openModal,
   setOpenModal,
-  setDimBackground,
+ 
 }: {
   nextStatus?: {
     name: string;
@@ -30,18 +30,11 @@ const ProductOrderUpdateStatus = ({
   setServerError: (error: string) => void;
   openModal: boolean;
   setOpenModal: (openModal: boolean) => void;
-  setDimBackground: (openModal: boolean) => void;
 }) => {
   const [statusValue, setStatusValue] = useState("");
   const [modalQuestion, setModalQuestion] = useState("");
 
-  useEffect(
-    () => {
-      setDimBackground(openModal);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [openModal]
-  );
+ 
 
   const getQuestion = (status: { name: string; value: string }) => {
     const value = status?.value;
