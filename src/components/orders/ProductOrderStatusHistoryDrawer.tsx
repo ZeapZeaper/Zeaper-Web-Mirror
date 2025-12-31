@@ -14,6 +14,7 @@ import ProductOrderUpdateStatus from "./ProductOrderUpdateStatus";
 import { useState } from "react";
 import { capitalizeFirstLetter, displayDate } from "@/utils/helpers";
 import ProductOrderRejection from "./ProductOrderRejection";
+import { vendorActionStatusList } from "@/data/content";
 
 const drawerTheme = {
   root: {
@@ -49,12 +50,6 @@ const timelineTheme = {
     },
   },
 };
-
-const vendorActionStatusList = [
-  "order placed",
-  "order confirmed",
-  "order processing",
-];
 
 export function ProductOrderStatusHistoryDrawer({
   isOpen,
@@ -167,20 +162,24 @@ export function ProductOrderStatusHistoryDrawer({
             )
           )}
         </Timeline>
-        {nextStatus &&
-          isMyShopOrder &&
-          vendorActionStatusList.includes(currentStatus.value) && (
-            <div className="flex justify-center items-center gap-2 mt-6">
-              <ProductOrderUpdateStatus
-                nextStatus={nextStatus}
-                handleUpdateStatus={handleUpdateStatus}
-                serverError={serverError}
-                setServerError={setServerError}
-                openModal={openModal}
-                setOpenModal={setOpenModal}
-              />
-            </div>
-          )}
+        {isMyShopOrder && (
+          <div className="flex justify-center items-center gap-2 mt-6">
+            <ProductOrderUpdateStatus
+              nextStatus={nextStatus}
+              handleUpdateStatus={handleUpdateStatus}
+              serverError={serverError}
+              setServerError={setServerError}
+              openModal={openModal}
+              setOpenModal={setOpenModal}
+              isNextActionAllowed={vendorActionStatusList.includes(
+                nextStatus?.value
+              )}
+              isRevertActionAllowed={vendorActionStatusList.includes(
+                currentStatus?.value
+              )}
+            />
+          </div>
+        )}
         {isMyOrder && (
           <div className="flex justify-center items-center gap-2 mt-6">
             <ProductOrderCancellation

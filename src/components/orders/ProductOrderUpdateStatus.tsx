@@ -15,6 +15,8 @@ const ProductOrderUpdateStatus = ({
   setServerError,
   openModal,
   setOpenModal,
+  isNextActionAllowed,
+  isRevertActionAllowed
  
 }: {
   nextStatus?: {
@@ -30,6 +32,8 @@ const ProductOrderUpdateStatus = ({
   setServerError: (error: string) => void;
   openModal: boolean;
   setOpenModal: (openModal: boolean) => void;
+  isNextActionAllowed: boolean;
+  isRevertActionAllowed: boolean;
 }) => {
   const [statusValue, setStatusValue] = useState("");
   const [modalQuestion, setModalQuestion] = useState("");
@@ -82,6 +86,7 @@ const ProductOrderUpdateStatus = ({
             );
             setOpenModal(true);
           }}
+          disabled={!isRevertActionAllowed}
           className="flex gap-2 border bg-lightDanger p-2 rounded-md text-danger justify-center items-center text-xs"
         >
           change status back to {status?.name}
@@ -99,6 +104,7 @@ const ProductOrderUpdateStatus = ({
             setModalQuestion(getQuestion(nextStatus));
           }}
           className="w-full"
+          disabled={!isNextActionAllowed}
         >
           <HiArrowNarrowRight className="mr-2 h-5 w-5" />
           {getUpdateStatusLabel(nextStatus?.name)}

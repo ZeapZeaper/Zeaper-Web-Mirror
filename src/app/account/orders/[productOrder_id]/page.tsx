@@ -28,12 +28,7 @@ import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import ProductOrderUpdateStatus from "@/components/orders/ProductOrderUpdateStatus";
 import { FaEye } from "react-icons/fa";
 import ProductOrderRejection from "@/components/orders/ProductOrderRejection";
-
-const vendorActionStatusList = [
-  "order placed",
-  "order confirmed",
-  "order processing",
-];
+import { vendorActionStatusList } from "@/data/content";
 
 const OrderItemPage = () => {
   const { user } = useContext(AuthContext);
@@ -51,10 +46,8 @@ const OrderItemPage = () => {
   );
 
   const productOrder = productOrderQuery?.data?.data;
- 
 
   const isMyOrder = productOrder?.user?._id === user?._id;
-  
 
   const isMyShopOrder =
     productOrder?.shop.shopId && productOrder?.shop.shopId === user?.shopId;
@@ -105,7 +98,7 @@ const OrderItemPage = () => {
       })
       .catch((err) => {
         setServerError(err.data.error);
-        
+        setOpenModal(true);
       });
   };
 
@@ -135,7 +128,7 @@ const OrderItemPage = () => {
             </h1>
           </div>
           <div className="flex flex-col lg:flex-row  items-center gap-2 w-full  lg:w-[48rem] my-2 lg:my-0">
-            {isMyShopOrder && vendorActionStatusList.includes(status.value) && (
+            {isMyShopOrder && (
               <ProductOrderUpdateStatus
                 nextStatus={nextStatus}
                 handleUpdateStatus={handleUpdateStatus}
@@ -143,7 +136,12 @@ const OrderItemPage = () => {
                 setServerError={setServerError}
                 openModal={openModal}
                 setOpenModal={setOpenModal}
-             
+                isNextActionAllowed={vendorActionStatusList.includes(
+                  nextStatus?.value
+                )}
+                isRevertActionAllowed={vendorActionStatusList.includes(
+                  status?.value
+                )}
               />
             )}
             {isMyShopOrder && (

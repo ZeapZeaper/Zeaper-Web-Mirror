@@ -1325,3 +1325,10 @@ export const subNavPrimaryData = [
     collectionTitle: "ALL READY TO WEAR BRANDS",
   },
 ];
+
+export const vendorActionStatusList = [
+  "order placed",
+  "order confirmed",
+  "order processing",
+  "order quality check",
+];
