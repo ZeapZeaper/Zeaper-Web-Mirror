@@ -32,6 +32,11 @@ const NotificationProvider: React.FC<{ children: ReactNode }> = ({
         dispatch(zeapApiSlice.util.invalidateTags(["Notification"]));
 
         if (payload.notification || payload?.data) {
+          const isAdminNotification = payload?.data?.roleType === "admin";
+          if (isAdminNotification) {
+            // do not show toast for admin notifications
+            return;
+          }
           toast(
             <Message
               notification={{

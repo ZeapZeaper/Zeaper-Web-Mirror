@@ -18,12 +18,16 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
- 
   const notificationTitle = payload.notification?.title || "New Message";
   const notificationOptions = {
     body: payload.notification.body,
     icon: payload.notification.image || "/favicon.ico",
     image: payload.notification.image || "/favicon.ico",
   };
+  const isAdminNotification = payload?.data?.roleType === "admin";
+  if (isAdminNotification) {
+    // do not show toast for admin notifications
+    return;
+  }
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
