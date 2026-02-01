@@ -196,6 +196,42 @@ const SectionHeader = () => {
           </Link>
         )}
       </div>
+      <div className=" hidden md:block">
+        {promos?.length === 1 && (
+          <Link
+            href={`/promo/${promos[0]?.promoId}?productGroupPage=${productGroupPage}&collectionTitle=${promos[0]?.title}`}
+            className="relative h-full"
+          >
+            {/* <div className="">
+              <div className="text-white z-50 bg-transparent text-sm font-bold absolute bottom-2 left-1 border-2 border-white px-5 py-2 hover:bg-white hover:text-primary cursor-pointer rounded-md">
+                Shop Now
+              </div>
+            </div> */}
+            {promos[0]?.largeScreenImageUrl?.type === "image" ? (
+              <Image
+                key={promos[0]?.promoId}
+                src={promos[0]?.largeScreenImageUrl?.link}
+                alt="..."
+                layout="responsive"
+                width={500}
+                height={500}
+                objectFit="cover"
+              />
+            ) : (
+              <video
+                key={promos[0]?.promoId}
+                src={promos[0]?.largeScreenImageUrl?.link}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="none"
+                className="object-cover w-full h-full"
+              />
+            )}
+          </Link>
+        )}
+      </div>
     </>
   );
 };
