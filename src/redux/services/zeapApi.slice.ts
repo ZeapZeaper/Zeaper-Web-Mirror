@@ -1,7 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import fetchBaseQuery from "./baseQuery";
 import responseHandler from "./responseHandler";
-import Order from "@/components/orders/Order";
 
 export default createApi({
   reducerPath: "zeapApi",
