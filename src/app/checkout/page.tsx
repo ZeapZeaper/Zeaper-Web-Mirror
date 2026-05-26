@@ -6,7 +6,7 @@ import ContactInfo from "./ContactInfo";
 import ShippingAddress from "./ShippingAddress";
 import CartItem from "@/components/cart/CartItem";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { globalSelectors } from "@/redux/services/global.slice";
 import {
   getCurrencySmallSymbol,
@@ -46,6 +46,7 @@ interface ExpectDeliveryDateByMethodInterface {
 }
 
 const CheckoutPage = () => {
+  const dispatch = useDispatch();
   const { user } = useContext(AuthContext);
   const lastChildDiv = useRef<HTMLDivElement>(null);
   const [clientSecret, setClientSecret] = useState("");
@@ -66,7 +67,7 @@ const CheckoutPage = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState(user?.email);
   const [acceptMarketing, setAcceptMarketing] = useState(
-    user?.acceptMarketing ? true : false
+    user?.acceptMarketing ? true : false,
   );
   const [address, setAddress] = useState("");
   const [region, setRegion] = useState("");
@@ -84,7 +85,7 @@ const CheckoutPage = () => {
   }>({});
   const productOptionsQuery = zeapApiSlice.useGetProductsOptionsQuery(
     {},
-    { skip: !token }
+    { skip: !token },
   );
   const options = productOptionsQuery?.data?.data;
   const colorOptions: ColInterface[] = options?.readyMadeClothes?.colorEnums;
@@ -96,7 +97,7 @@ const CheckoutPage = () => {
   const getBasketDeliveryDatesQuery =
     zeapApiSlice.useGetBasketDeliveryDatesQuery(
       { country, method },
-      { skip: !token || !country || !method || !cart?.basketItems?.length }
+      { skip: !token || !country || !method || !cart?.basketItems?.length },
     );
 
   const basketDeliveryDates: ExpectDeliveryDateByMethodInterface[] | [] =
@@ -106,7 +107,7 @@ const CheckoutPage = () => {
 
   const getBasketTotalQuery = zeapApiSlice.useGetBasketTotalQuery(
     { country, method },
-    { skip: !token || !country || !method || !cart?.basketItems?.length }
+    { skip: !token || !country || !method || !cart?.basketItems?.length },
   );
   const basketCalc = getBasketTotalQuery?.data?.data;
 
@@ -156,7 +157,7 @@ const CheckoutPage = () => {
             }
           });
         },
-        { threshold: 0.5 }
+        { threshold: 0.5 },
       );
       observer.observe(lastChildDiv.current);
     }
@@ -266,7 +267,7 @@ const CheckoutPage = () => {
         postCode,
         phoneNumber,
         method,
-      }
+      },
       // true
     )
       .unwrap()
@@ -278,6 +279,7 @@ const CheckoutPage = () => {
           setOrderId(data?.orderId);
           setGainedPoints(data?.order?.gainedPoints || null);
           setIsLoading(false);
+          dispatch(zeapApiSlice.util.invalidateTags(["Basket", "Order"]));
           setShowOrderSuccessModal(true);
           return;
         }
@@ -515,25 +517,25 @@ const CheckoutPage = () => {
                         <div className="flex flex-col gap-0 text-sm text-info pl-8">
                           {getEstimatedDeliveryDates(
                             item.sku,
-                            "standardDeliveryDate"
+                            "standardDeliveryDate",
                           ) && (
                             <div className="text-xs text-gray-500 flex  ">
                               Estimated Standard Delivery:{" "}
                               {getEstimatedDeliveryDates(
                                 item.sku,
-                                "standardDeliveryDate"
+                                "standardDeliveryDate",
                               )}
                             </div>
                           )}
                           {getEstimatedDeliveryDates(
                             item.sku,
-                            "expressDeliveryDate"
+                            "expressDeliveryDate",
                           ) && (
                             <div className="text-xs text-gray-500 flex ">
                               Estimated Express Delivery:{" "}
                               {getEstimatedDeliveryDates(
                                 item.sku,
-                                "expressDeliveryDate"
+                                "expressDeliveryDate",
                               )}
                             </div>
                           )}
