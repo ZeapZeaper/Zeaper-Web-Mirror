@@ -45,14 +45,14 @@ const VendorProduct = ({ id }: { id: string }) => {
     useState<boolean>(false);
   const productQuery = zeapApiSlice.useGetProductQuery(
     { productId: id, currency: "NGN" },
-    { skip: !token }
+    { skip: !token },
   );
   const product = productQuery?.data?.data;
 
   const categories = product?.categories;
   const productOptionsQuery = zeapApiSlice.useGetProductsOptionsQuery(
     {},
-    { skip: !token }
+    { skip: !token },
   );
   const options = productOptionsQuery?.data?.data;
   const colors: ColInterface[] = options?.readyMadeClothes?.colorEnums;
@@ -60,7 +60,7 @@ const VendorProduct = ({ id }: { id: string }) => {
   const isBeskope = categories?.productGroup === "Bespoke";
   const variations = product?.variations;
   const bespokeVariation = variations?.find(
-    (variation: VariationInterface) => variation.colorValue === "Bespoke"
+    (variation: VariationInterface) => variation.colorValue === "Bespoke",
   )?.bespoke;
 
   const [images, setImages] = useState<string[]>([]);
@@ -76,7 +76,7 @@ const VendorProduct = ({ id }: { id: string }) => {
   useEffect(() => {
     if (!color && product) {
       setImages(
-        product.colors[0]?.images.map((image: { link: string }) => image.link)
+        product.colors[0]?.images.map((image: { link: string }) => image.link),
       );
     }
   }, [product, color]);
@@ -84,7 +84,7 @@ const VendorProduct = ({ id }: { id: string }) => {
     if (product) {
       setShowRejectionReasonsModal(product?.rejectionReasons?.length > 0);
       const color = product.colors.find(
-        (color: ColorInterface) => color.value === searchParams.get("color")
+        (color: ColorInterface) => color.value === searchParams.get("color"),
       );
       if (color) {
         setImages(color?.images.map((image: { link: string }) => image.link));
@@ -168,7 +168,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                       ></div>
                       <span className="text-[9px] mt-1">{color?.value}</span>
                     </div>
-                  )
+                  ),
                 )}
               </div>
             </div>
@@ -202,7 +202,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                       {getCurrencySmallSymbol(variation?.currency)}
                       {numberWithCommas(variation?.price)}
                     </div>
-                  )
+                  ),
                 )}
               </div>
             </div>
@@ -265,7 +265,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                             <Table.Cell>
                               <span
                                 className={`text-sm font-semibold p-1 rounded-md ${getTextColor(
-                                  getBg(variation.colorValue || "") as string
+                                  getBg(variation.colorValue || "") as string,
                                 )}`}
                                 style={{
                                   background: getBg(variation.colorValue || ""),
@@ -284,13 +284,14 @@ const VendorProduct = ({ id }: { id: string }) => {
                             <Table.Cell>
                               {variation.discount
                                 ? `${getCurrencySmallSymbol(
-                                    variation?.currency
+                                    variation?.currency,
                                   )}${numberWithCommas(variation.discount)}`
                                 : "N/A"}
                             </Table.Cell>
                             <Table.Cell>{variation.quantity}</Table.Cell>
                           </Table.Row>
-                        ))}
+                        ),
+                      )}
                     </Table.Body>
                   </Table>
                   <div className="flex flex-col  rounded-md p-4 gap-2 bg-white my-4">
@@ -381,7 +382,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                                     {color}
                                   </span>
                                 </div>
-                              )
+                              ),
                             )}
                           </span>
                         </div>
@@ -409,7 +410,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                             Color:{" "}
                             <span
                               className={`text-sm font-semibold ${getTextColor(
-                                getBg(variation.colorValue || "") as string
+                                getBg(variation.colorValue || "") as string,
                               )}`}
                               style={{
                                 background: getBg(variation.colorValue || ""),
@@ -438,7 +439,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                             <span className="font-normal text-slate-400">
                               {variation.discount
                                 ? `${getCurrencySmallSymbol(
-                                    variation?.currency
+                                    variation?.currency,
                                   )}${numberWithCommas(variation.discount)}`
                                 : "N/A"}
                             </span>
@@ -472,7 +473,7 @@ const VendorProduct = ({ id }: { id: string }) => {
                                   className="w-8 h-8 rounded-full cursor-pointer border  border-slate-200"
                                   style={{ background: getBg(color) }}
                                 ></div>
-                              )
+                              ),
                             )}
                           </span>
                         </div>

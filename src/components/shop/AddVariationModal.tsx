@@ -480,9 +480,7 @@ const AddVariationModal = ({
                   <button
                     type="button"
                     className="text-xs font-semibold text-gray-500 hover:underline disabled:opacity-40"
-                    disabled={
-                      Object.keys(selectedQuickVariations).length === 0
-                    }
+                    disabled={Object.keys(selectedQuickVariations).length === 0}
                     onClick={() => setSelectedQuickVariations({})}
                   >
                     Clear
@@ -706,9 +704,7 @@ const AddVariationModal = ({
                 : `Add ${
                     Object.keys(selectedQuickVariations).length || ""
                   } Variation${
-                    Object.keys(selectedQuickVariations).length === 1
-                      ? ""
-                      : "s"
+                    Object.keys(selectedQuickVariations).length === 1 ? "" : "s"
                   }`}
           </Button>
         </div>
