@@ -54,13 +54,13 @@ const ProductReview = ({
     { label: "Most Dislikes", value: "mostDislikes" },
   ];
   const [sortedReviews, setSortedReviews] = useState<ProductReviewInterface[]>(
-    []
+    [],
   );
   const [maxShow, setMaxShow] = useState<number>(5);
 
   const reviewQuery = zeapApiSlice.useGetProductReviewsQuery(
     { productId },
-    { skip: !token || !productId }
+    { skip: !token || !productId },
   );
   const reviews = reviewQuery?.data?.data?.reviews;
   const [likeReview, likeReviewStatus] =
@@ -90,40 +90,40 @@ const ProductReview = ({
         return setSortedReviews(
           [...reviews]?.sort(
             (a: ProductReviewInterface, b: ProductReviewInterface) =>
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          )
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          ),
         );
       }
       if (sortBy === "highestRating") {
         return setSortedReviews(
           [...reviews]?.sort(
             (a: ProductReviewInterface, b: ProductReviewInterface) =>
-              b.rating - a.rating
-          )
+              b.rating - a.rating,
+          ),
         );
       }
       if (sortBy === "lowestRating") {
         return setSortedReviews(
           [...reviews]?.sort(
             (a: ProductReviewInterface, b: ProductReviewInterface) =>
-              a.rating - b.rating
-          )
+              a.rating - b.rating,
+          ),
         );
       }
       if (sortBy === "mostLikes") {
         return setSortedReviews(
           [...reviews]?.sort(
             (a: ProductReviewInterface, b: ProductReviewInterface) =>
-              b.likes.value - a.likes.value
-          )
+              b.likes.value - a.likes.value,
+          ),
         );
       }
       if (sortBy === "mostDislikes") {
         return setSortedReviews(
           [...reviews]?.sort(
             (a: ProductReviewInterface, b: ProductReviewInterface) =>
-              b.dislikes.value - a.dislikes.value
-          )
+              b.dislikes.value - a.dislikes.value,
+          ),
         );
       }
     }
@@ -172,7 +172,7 @@ const ProductReview = ({
 
   const calcStarOccurrencePercentage = (star: number) => {
     const starCount = reviews?.filter(
-      (review: ProductReviewInterface) => review.rating === star
+      (review: ProductReviewInterface) => review.rating === star,
     ).length;
     return (starCount / reviews?.length) * 100;
   };
@@ -193,7 +193,7 @@ const ProductReview = ({
       )}
       {reviews?.length > 0 && (
         <div className="flex flex-col">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1  gap-4">
             <div className="flex flex-col  w-full md:col-span-2">
               <div className="flex justify-between ">
                 <Rating className="mb-2">

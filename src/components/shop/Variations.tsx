@@ -23,7 +23,7 @@ const Variations = ({
   const { setDimBackground } = useContext(ThemeContext);
   const [showInfo, setShowInfo] = useState(true);
   const [currVariation, setCurrVariation] = useState<VariationInterface | null>(
-    null
+    null,
   );
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
@@ -94,7 +94,7 @@ const Variations = ({
                     <Table.Cell>
                       <span
                         className={`text-sm font-semibold p-1 rounded-md ${getTextColor(
-                          getColorBg(variation?.colorValue || "") as string
+                          getColorBg(variation?.colorValue || "") as string,
                         )}`}
                         style={{
                           background: getColorBg(variation?.colorValue || ""),
@@ -164,7 +164,7 @@ const Variations = ({
                       Colour:{" "}
                       <span
                         className={`text-sm font-semibold ${getTextColor(
-                          getColorBg(variation.colorValue || "") as string
+                          getColorBg(variation.colorValue || "") as string,
                         )}`}
                         style={{
                           background: getColorBg(variation.colorValue || ""),
@@ -232,6 +232,7 @@ const Variations = ({
           color="primary"
           size="sm"
           onClick={() => {
+            setCurrVariation(null);
             setDimBackground(true);
             setOpenModal(true);
           }}
@@ -245,6 +246,7 @@ const Variations = ({
           allColors={allColors}
           currVariation={currVariation}
           close={() => {
+            setCurrVariation(null);
             setDimBackground(false);
             setOpenModal(false);
           }}

@@ -268,7 +268,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -290,7 +290,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -311,7 +311,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -332,7 +332,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -353,7 +353,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -374,7 +374,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -477,7 +477,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -498,7 +498,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -519,7 +519,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -540,7 +540,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -614,7 +614,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -635,7 +635,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -656,7 +656,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -848,7 +848,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -869,7 +869,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -891,7 +891,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -913,7 +913,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -934,8 +934,42 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
+      },
+    }),
+    addProductVariations: builder.mutation({
+      query: (arg) => {
+        const { payload } = arg;
+        return {
+          url: `product/update/addProductVariations`,
+          method: "PUT",
+          body: payload,
+        };
+      },
+      invalidatesTags: ["Products", "Product"],
+      onQueryStarted: async ({ successHandler, errorHandler }, queryArgs) => {
+        responseHandler(
+          {
+            success: "Variations Successfully Added",
+            successHandler,
+            errorHandler,
+          },
+          queryArgs,
+        );
+      },
+    }),
+    getRemainingProductVariations: builder.query({
+      query: (arg) => {
+        const { productId } = arg;
+        return {
+          url: `product/variation/remaining`,
+          params: { productId },
+        };
+      },
+      providesTags: ["Product"],
+      onQueryStarted: async (_, queryArgs) => {
+        responseHandler({}, queryArgs);
       },
     }),
     editProductVariation: builder.mutation({
@@ -955,7 +989,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -976,7 +1010,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -997,7 +1031,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1018,7 +1052,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1039,7 +1073,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1060,7 +1094,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1081,7 +1115,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1102,7 +1136,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1123,7 +1157,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1144,7 +1178,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1165,7 +1199,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1222,7 +1256,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1243,7 +1277,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1264,7 +1298,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1285,7 +1319,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1306,7 +1340,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1383,7 +1417,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1404,7 +1438,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1425,7 +1459,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1446,7 +1480,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1467,7 +1501,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1489,7 +1523,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1511,7 +1545,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1532,7 +1566,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1565,7 +1599,7 @@ export default createApi({
           params: { ...arg },
         };
       },
-      providesTags: ["Basket","Order","Payment"],
+      providesTags: ["Basket", "Order", "Payment"],
     }),
     getBaskets: builder.query({
       query: (arg) => {
@@ -1620,7 +1654,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1641,7 +1675,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1704,7 +1738,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1764,7 +1798,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1851,7 +1885,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1872,7 +1906,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1893,7 +1927,6 @@ export default createApi({
         };
       },
       providesTags: ["Payment"],
-
     }),
     payShop: builder.mutation({
       query: (arg) => {
@@ -1912,7 +1945,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1933,7 +1966,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -1967,7 +2000,6 @@ export default createApi({
         };
       },
       providesTags: ["Voucher", "Basket", "Point", "Order"],
-  
     }),
     getInActiveVouchers: builder.query({
       query: (arg) => {
@@ -1977,7 +2009,6 @@ export default createApi({
         };
       },
       providesTags: ["Voucher", "Basket", "Point", "Order"],
-  
     }),
     getPoints: builder.query({
       query: (arg) => {
@@ -2038,7 +2069,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2059,7 +2090,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2170,7 +2201,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2191,7 +2222,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2212,7 +2243,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2233,7 +2264,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2254,7 +2285,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2275,7 +2306,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2296,7 +2327,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2317,7 +2348,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2347,7 +2378,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2368,7 +2399,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2389,7 +2420,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2420,7 +2451,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2450,7 +2481,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),
@@ -2546,7 +2577,7 @@ export default createApi({
             successHandler,
             errorHandler,
           },
-          queryArgs
+          queryArgs,
         );
       },
     }),

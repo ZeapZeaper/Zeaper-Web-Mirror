@@ -64,8 +64,6 @@ const VendorProduct = ({ id }: { id: string }) => {
   )?.bespoke;
 
   const [images, setImages] = useState<string[]>([]);
-  const [numberOfShownVariations, setNumberOfShownVariations] =
-    useState<number>(5);
   const [viewAllTimeline, setViewAllTimeline] = useState<boolean>(false);
   const getTextColor = (hex: string) => {
     const red = parseInt(hex?.substring(1, 3), 16);
@@ -225,19 +223,6 @@ const VendorProduct = ({ id }: { id: string }) => {
                     Variation
                   </span>
                   <div className="flex gap-2">
-                    <Button
-                      onClick={() => {
-                        setNumberOfShownVariations(
-                          numberOfShownVariations === 5
-                            ? product?.variations?.length
-                            : 5
-                        );
-                      }}
-                      color="primary"
-                      size="xs"
-                    >
-                      {numberOfShownVariations === 5 ? "View All" : "View Less"}
-                    </Button>
                     {!isBeskope && (
                       <Button
                         className="text-primary"
@@ -271,9 +256,8 @@ const VendorProduct = ({ id }: { id: string }) => {
                       <Table.HeadCell>Quantity</Table.HeadCell>
                     </Table.Head>
                     <Table.Body className="divide-y ">
-                      {product?.variations
-                        ?.slice(0, numberOfShownVariations)
-                        ?.map((variation: VariationInterface) => (
+                      {product?.variations?.map(
+                        (variation: VariationInterface) => (
                           <Table.Row key={variation.sku}>
                             <Table.Cell className="text-xs font-semibold text-slate-900 ">
                               {variation.sku}
