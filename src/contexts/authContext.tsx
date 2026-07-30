@@ -70,6 +70,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [triggerGetAuthUser] = zeapApiSlice.useLazyGetAuthUserQuery();
 
   const [creatGuestUser] = zeapApiSlice.useCreateGuestUserMutation();
+  const [createGoogleAppleUser] =
+    zeapApiSlice.useCreateGoogleAppleUserMutation();
   const [mergeGoogleAppleLogin] =
     zeapApiSlice.useMergeGoogleAppleLoginGuestUserMutation();
   const [mergePasswordLogin] =
@@ -133,6 +135,43 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             setUser(userData);
             setIsGuest(false);
             setLoading(false);
+          } else {
+            // Firebase user exists but no DB record for this environment.
+            // This happens when a user registered in dev and logs in to prod
+            // (or vice versa) for the first time. Auto-provision the DB record
+            // using the info already available from the Firebase token.
+            const displayName = currentUser.displayName || "";
+            const nameParts = displayName.trim().split(" ");
+            const autoPayload = {
+              email: currentUser.email,
+              firstName: nameParts[0] || "",
+              lastName: nameParts.slice(1).join(" ") || "",
+              uid: currentUser.uid,
+              photoURL: currentUser.photoURL || "",
+            };
+            createGoogleAppleUser({ payload: autoPayload })
+              .unwrap()
+              .then(async () => {
+                // Re-fetch the newly created DB record
+                const retryResponse = await triggerGetAuthUser({ uid });
+                const newUserData = retryResponse?.data?.data;
+                if (newUserData) {
+                  setUser(newUserData);
+                }
+              })
+              .catch((err) => {
+                // If creation fails (e.g. race condition — record already
+                // exists), do one final fetch to ensure user state is set.
+                console.error("Auto-provision failed, retrying fetch:", err);
+                triggerGetAuthUser({ uid }).then((retryResponse) => {
+                  const newUserData = retryResponse?.data?.data;
+                  if (newUserData) setUser(newUserData);
+                });
+              })
+              .finally(() => {
+                setIsGuest(false);
+                setLoading(false);
+              });
           }
         }
       } else {
