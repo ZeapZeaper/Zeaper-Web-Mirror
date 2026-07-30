@@ -25,7 +25,7 @@ export const AuthContext = createContext<{
     email: string,
     password: string,
     callBack?: () => void,
-    merge?: boolean
+    merge?: boolean,
   ) => void;
   loginWithGoogle: (callBack?: () => void) => Promise<void>;
   logout: () => void;
@@ -204,7 +204,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     email: string,
     password: string,
     callBack?: (userData?: UserInterface) => void,
-    merge: boolean = true
+    merge: boolean = true,
   ) => {
     try {
       const redirectSignInPath =
@@ -284,7 +284,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const loginWithGoogle = async (
-    callBack?: (userData?: UserInterface) => void
+    callBack?: (userData?: UserInterface) => void,
   ) => {
     const redirectSignInPath =
       localStorage.getItem("redirectSignInPath") || "/";
