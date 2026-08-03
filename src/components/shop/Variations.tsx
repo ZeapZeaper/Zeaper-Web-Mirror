@@ -43,7 +43,7 @@ const Variations = ({
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 mt-4">
       {!showInfo && (
         <Badge
           color="info"
