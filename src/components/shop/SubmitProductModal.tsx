@@ -43,7 +43,6 @@ const SubmitProductModal = ({
       .then((data) => {
         setDimBackground(false);
         setShowShopSuccessModal(true);
-        console.log("data", data);
         setSubmittedProduct(data.data);
         // router.back();
       })

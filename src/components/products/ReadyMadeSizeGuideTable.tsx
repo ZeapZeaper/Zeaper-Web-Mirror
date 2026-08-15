@@ -1,14 +1,5 @@
-import { ToggleSwitch, Dropdown, DropdownItem } from "flowbite-react";
-
-const toggleTheme = {
-  toggle: {
-    base: "relative rounded-full after:absolute after:rounded-full after:border after:bg-white after:transition-all group-focus:ring-4",
-    checked: {
-      on: "after:translate-x-full after:border-transparent rtl:after:-translate-x-full",
-      off: "bg-indigo-400 after:border-gray-300 dark:bg-gray-700",
-    },
-  },
-};
+import ToggleSwitch from "@/shared/Toggle/ToggleSwitch";
+import { Dropdown, DropdownItem } from "flowbite-react";
 
 interface DataInterface {
   Size?: string;
@@ -87,14 +78,12 @@ const ReadyMadeSizeGuideTable = ({
         {/* Unit & Country Controls */}
 
         <div className="flex flex-wrap md:flex-nowrap items-center gap-3 w-full md:w-auto">
-          <span className="text-sm">Switch to</span>
           <ToggleSwitch
-            theme={toggleTheme}
             checked={unit === "cm"}
             onChange={() => setUnit(unit === "cm" ? "inch" : "cm")}
-            label={unit === "cm" ? "CM" : "INCH"}
             color="info"
           />
+
           {/* Country dropdown (mobile only) */}
           <div className="md:hidden">
             <Dropdown

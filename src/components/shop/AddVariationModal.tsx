@@ -97,7 +97,7 @@ const AddVariationModal = ({
   const sizes = product?.sizes;
   const availableVariations: AvailableVariationInterface[] =
     getRemainingVariationsStatus?.data?.data?.availableVariations || [];
-console.log("availableVariations", availableVariations);
+
   const getTextColor = (hex: string) => {
     const red = parseInt(hex?.substring(1, 3), 16);
     const green = parseInt(hex?.substring(3, 5), 16);

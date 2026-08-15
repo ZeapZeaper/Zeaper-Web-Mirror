@@ -68,9 +68,6 @@ export default createApi({
         };
       },
       providesTags: ["User"],
-      // onQueryStarted: async (_, queryArgs) => {
-      //   responseHandler({}, queryArgs);
-      // },
     }),
     getUsers: builder.query({
       query: () => {
