@@ -1,4 +1,3 @@
-import ToggleSwitch from "@/shared/Toggle/ToggleSwitch";
 import { Dropdown, DropdownItem } from "flowbite-react";
 
 interface DataInterface {
@@ -78,11 +77,36 @@ const ReadyMadeSizeGuideTable = ({
         {/* Unit & Country Controls */}
 
         <div className="flex flex-wrap md:flex-nowrap items-center gap-3 w-full md:w-auto">
-          <ToggleSwitch
-            checked={unit === "cm"}
-            onChange={() => setUnit(unit === "cm" ? "inch" : "cm")}
-            color="info"
-          />
+          <div
+            className="inline-flex items-center rounded-full border border-gray-300 bg-white p-1 shadow-sm"
+            role="group"
+            aria-label="Unit selector"
+          >
+            <button
+              type="button"
+              onClick={() => setUnit("cm")}
+              className={`rounded-full px-4 py-1.5 text-xs sm:text-sm font-semibold transition-colors ${
+                unit === "cm"
+                  ? "bg-primary text-white"
+                  : "text-gray-600 hover:bg-gray-100"
+              }`}
+              aria-pressed={unit === "cm"}
+            >
+              CM
+            </button>
+            <button
+              type="button"
+              onClick={() => setUnit("inch")}
+              className={`rounded-full px-4 py-1.5 text-xs sm:text-sm font-semibold transition-colors ${
+                unit === "inch"
+                  ? "bg-primary text-white"
+                  : "text-gray-600 hover:bg-gray-100"
+              }`}
+              aria-pressed={unit === "inch"}
+            >
+              INCH
+            </button>
+          </div>
 
           {/* Country dropdown (mobile only) */}
           <div className="md:hidden">
@@ -112,7 +136,7 @@ const ReadyMadeSizeGuideTable = ({
           </p>
         </div>
       ) : (
-        <div className="w-full overflow-x-auto">
+        <div className="w-full overflow-x-auto overflow-y-auto max-h-[70vh] rounded-lg border border-gray-200 dark:border-gray-700">
           <table className="w-full min-w-[500px] text-sm text-left text-gray-600 dark:text-gray-400 border-collapse">
             {/* Header */}
             <thead>
@@ -123,7 +147,7 @@ const ReadyMadeSizeGuideTable = ({
                   <th
                     key={key}
                     scope="col"
-                    className="px-3 py-2 sm:px-4 sm:py-3 font-semibold whitespace-nowrap"
+                    className={`sticky top-0 z-10 px-3 py-2 sm:px-4 sm:py-3 font-semibold whitespace-nowrap ${headerColor}`}
                   >
                     {key}
                   </th>
