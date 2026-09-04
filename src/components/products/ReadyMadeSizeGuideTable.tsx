@@ -136,8 +136,8 @@ const ReadyMadeSizeGuideTable = ({
           </p>
         </div>
       ) : (
-        <div className="w-full overflow-x-auto overflow-y-auto max-h-[70vh] rounded-lg border border-gray-200 dark:border-gray-700">
-          <table className="w-full min-w-[500px] text-sm text-left text-gray-600 dark:text-gray-400 border-collapse">
+        <div className="w-full overflow-x-visible md:overflow-x-auto overflow-y-visible md:overflow-y-auto max-h-none md:max-h-[70vh] rounded-lg border border-gray-200 dark:border-gray-700 [-webkit-overflow-scrolling:touch] overscroll-contain">
+          <table className="w-full min-w-0 md:min-w-[500px] table-fixed md:table-auto text-sm text-left text-gray-600 dark:text-gray-400 border-collapse">
             {/* Header */}
             <thead>
               <tr
@@ -147,7 +147,7 @@ const ReadyMadeSizeGuideTable = ({
                   <th
                     key={key}
                     scope="col"
-                    className={`sticky top-0 z-10 px-3 py-2 sm:px-4 sm:py-3 font-semibold whitespace-nowrap ${headerColor}`}
+                    className={`md:sticky md:top-0 md:z-10 px-3 py-2 sm:px-4 sm:py-3 font-semibold break-words md:whitespace-nowrap ${headerColor}`}
                   >
                     {key}
                   </th>
@@ -165,7 +165,7 @@ const ReadyMadeSizeGuideTable = ({
                   {Object.entries(row).map(([key, value], colIndex) => (
                     <td
                       key={key}
-                      className={`px-3 py-2 sm:px-4 sm:py-3 text-xs sm:text-sm text-gray-900 dark:text-white whitespace-nowrap ${
+                      className={`px-3 py-2 sm:px-4 sm:py-3 text-xs sm:text-sm text-gray-900 dark:text-white break-words md:whitespace-nowrap ${
                         colIndex === 0 ? `font-bold ${highlightColor}` : ""
                       }`}
                     >

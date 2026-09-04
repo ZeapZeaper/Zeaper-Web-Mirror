@@ -21,7 +21,7 @@ const ModalTheme = {
   content: {
     base: "fixed   w-full p:0 md:p-4 md:h-auto",
     inner:
-      "relative flex h-[100vh] md:h-full  flex-col rounded-lg bg-white shadow dark:bg-gray-700",
+      "relative flex h-[100dvh] md:h-full flex-col overflow-y-auto rounded-lg bg-white shadow dark:bg-gray-700",
   },
 };
 interface ReadyMadeSizeGuideInterface {
@@ -252,8 +252,8 @@ const ReadyMadeSizeGuideModal = ({
       <ModalHeader>
         <span className="font-bold">Ready to wear size guide</span>
       </ModalHeader>
-      <div className="w-full h-full flex flex-col gap-4 md:p-4">
-        <div className="flex flex-col">
+      <div className="w-full h-full min-h-0 flex flex-col gap-4 md:p-4">
+        <div className="flex min-h-0 flex-col">
           {isLoading && <Loading />}
 
           {readyMadeSizeGuide && (
