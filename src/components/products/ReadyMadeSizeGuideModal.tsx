@@ -37,7 +37,7 @@ interface ReadyMadeSizeGuideInterface {
         EU: string;
         AUS: string;
         "US/CAN": string;
-      }
+      },
     ];
     inch: [
       {
@@ -50,7 +50,7 @@ interface ReadyMadeSizeGuideInterface {
         UK: string;
         EU: string;
         AUS: string;
-      }
+      },
     ];
   };
   bottom: {
@@ -64,7 +64,7 @@ interface ReadyMadeSizeGuideInterface {
         EU: string;
         AUS: string;
         "US/CAN": string;
-      }
+      },
     ];
     inch: [
       {
@@ -76,7 +76,7 @@ interface ReadyMadeSizeGuideInterface {
         UK: string;
         EU: string;
         AUS: string;
-      }
+      },
     ];
   };
   footwear: {
@@ -88,7 +88,7 @@ interface ReadyMadeSizeGuideInterface {
         EU: string;
         AUS: string;
         "US/CAN": string;
-      }
+      },
     ];
     inch: [
       {
@@ -98,7 +98,7 @@ interface ReadyMadeSizeGuideInterface {
         EU: string;
         AUS: string;
         "US/CAN": string;
-      }
+      },
     ];
   };
 }
@@ -132,7 +132,7 @@ const ReadyMadeSizeGuideModal = ({
   const token = useSelector(globalSelectors.selectAuthToken);
   const getReadyMadeSizeGuideQuery = zeapApiSlice.useGetReadyMadeSizeGuideQuery(
     {},
-    { skip: !token }
+    { skip: !token },
   );
   const readyMadeSizeGuide = getReadyMadeSizeGuideQuery?.data?.data;
   const male: ReadyMadeSizeGuideInterface = readyMadeSizeGuide?.male;
