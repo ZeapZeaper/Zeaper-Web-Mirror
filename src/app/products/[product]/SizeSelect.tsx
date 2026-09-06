@@ -99,7 +99,7 @@ const SizeSelect = ({
           </span>
         )}
       </div>
-      <div className="flex items-center gap-3">
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 items-center gap-3">
         {sizes.map((size) => (
           <button
             key={size}
