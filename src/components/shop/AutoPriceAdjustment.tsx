@@ -109,7 +109,7 @@ const AutoPriceAdjustment = ({
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 mt-3 md:mt-6 lg:mt-2">
       {!showInfo && (
         <Badge
           color="info"
@@ -128,6 +128,7 @@ const AutoPriceAdjustment = ({
           icon={HiInformationCircle}
           onDismiss={() => setShowInfo(false)}
           rounded
+          className="mt-3 md:mt-6 lg:mt-2"
         >
           <span className="w-full flex flex-col gap-2">
             <span className="font-medium">Info alert! </span>

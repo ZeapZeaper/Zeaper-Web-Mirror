@@ -4,6 +4,7 @@ import { HiOutlineExclamationCircle, HiTrash } from "react-icons/hi";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "@/contexts/themeContext";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
+import { orderCancelled, orderConfirmed, orderPlaced } from "@/data/content";
 import LoadingDots from "../loading/LoadingDots";
 
 const ProductOrderCancellation = ({
@@ -29,7 +30,7 @@ const ProductOrderCancellation = ({
       setDimBackground(openModal);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [openModal]
+    [openModal],
   );
 
   const handleCancellation = () => {
@@ -64,9 +65,9 @@ const ProductOrderCancellation = ({
         }}
         disabled={
           isLoading ||
-          currentStatus?.value === "order cancelled" ||
-          (currentStatus?.value !== "order confirmed" &&
-            currentStatus?.value !== "order placed")
+          currentStatus?.value === orderCancelled ||
+          (currentStatus?.value !== orderConfirmed &&
+            currentStatus?.value !== orderPlaced)
         }
         className=" text-danger hover:text-white"
       >

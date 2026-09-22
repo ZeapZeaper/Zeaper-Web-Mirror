@@ -4,6 +4,10 @@ import { HiOutlineExclamationCircle, HiTrash } from "react-icons/hi";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "@/contexts/themeContext";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
+import {
+  orderCancelled,
+  vendorCancellationBlockedStatuses,
+} from "@/data/content";
 import LoadingDots from "../loading/LoadingDots";
 
 const ProductOrderRejection = ({
@@ -29,7 +33,7 @@ const ProductOrderRejection = ({
       setDimBackground(openModal);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [openModal]
+    [openModal],
   );
 
   const handleRejection = () => {
@@ -64,10 +68,8 @@ const ProductOrderRejection = ({
         }}
         disabled={
           isLoading ||
-          currentStatus?.value === "order cancelled" ||
-          currentStatus?.value === "order ready for delivery" ||
-          currentStatus?.value === "order dispatched" ||
-          currentStatus?.value === "order delivered"
+          currentStatus?.value === orderCancelled ||
+          vendorCancellationBlockedStatuses.includes(currentStatus?.value || "")
         }
         className=" text-danger hover:text-white w-full flex justify-center items-center"
       >
@@ -109,7 +111,6 @@ const ProductOrderRejection = ({
 
               <div className="flex justify-center gap-4">
                 <Button
-                  
                   color="failure"
                   onClick={() => {
                     handleRejection();

@@ -5,6 +5,11 @@ import {
   HiOutlineExclamationCircle,
 } from "react-icons/hi";
 import { useState } from "react";
+import {
+  orderConfirmed,
+  orderProcessing,
+  orderReadyForDelivery,
+} from "@/data/content";
 import { capitalizeFirstLetter } from "@/utils/helpers";
 
 const ProductOrderUpdateStatus = ({
@@ -16,8 +21,7 @@ const ProductOrderUpdateStatus = ({
   openModal,
   setOpenModal,
   isNextActionAllowed,
-  isRevertActionAllowed
- 
+  isRevertActionAllowed,
 }: {
   nextStatus?: {
     name: string;
@@ -38,18 +42,16 @@ const ProductOrderUpdateStatus = ({
   const [statusValue, setStatusValue] = useState("");
   const [modalQuestion, setModalQuestion] = useState("");
 
- 
-
   const getQuestion = (status: { name: string; value: string }) => {
     const value = status?.value;
 
-    if (value === "order confirmed") {
+    if (value === orderConfirmed) {
       return `Are you sure you want to update status to ${status?.name}? This will notify the customer.`;
     }
-    if (value === "order processing") {
+    if (value === orderProcessing) {
       return `Are you sure you want to update status to ${status?.name}? This will notify the customer.`;
     }
-    if (value === "order ready for delivery") {
+    if (value === orderReadyForDelivery) {
       return `Are you sure you want to update status to ${status?.name}? This will notify the customer.`;
     }
     return `Are you sure you want to update status to ${status?.name}. This will notify the customer.`;
@@ -82,7 +84,7 @@ const ProductOrderUpdateStatus = ({
           onClick={() => {
             setStatusValue(status?.value);
             setModalQuestion(
-              `Are you sure you want to revert status back to ${status?.name}`
+              `Are you sure you want to revert status back to ${status?.name}`,
             );
             setOpenModal(true);
           }}

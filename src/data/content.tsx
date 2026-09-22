@@ -1326,9 +1326,41 @@ export const subNavPrimaryData = [
   },
 ];
 
-export const vendorActionStatusList = [
-  "order placed",
-  "order confirmed",
-  "order processing",
-  "order quality check",
+export const orderPlaced = "order placed";
+export const orderConfirmed = "order confirmed";
+export const orderProcessing = "order processing";
+export const orderQualityCheck = "order quality check";
+export const orderReadyForDelivery = "order ready for delivery";
+export const orderDispatched = "order dispatched";
+export const orderDelivered = "order delivered";
+export const orderCancelled = "order cancelled";
+
+export const orderStatusEnums = [
+  { name: "Order placed", value: orderPlaced },
+  { name: "Order confirmed", value: orderConfirmed },
+  { name: "Order processing", value: orderProcessing },
+  { name: "Order quality check", value: orderQualityCheck },
+  { name: "Order ready for delivery", value: orderReadyForDelivery },
+  { name: "Order dispatched", value: orderDispatched },
+  { name: "Order delivered", value: orderDelivered },
+  { name: "Order cancelled", value: orderCancelled },
 ];
+
+export const vendorActionStatusList = [
+  orderPlaced,
+  orderConfirmed,
+  orderProcessing,
+  orderQualityCheck,
+];
+
+export const vendorCancellationBlockedStatuses = orderStatusEnums
+  .filter((status) =>
+    [
+      orderProcessing,
+      orderQualityCheck,
+      orderReadyForDelivery,
+      orderDispatched,
+      orderDelivered,
+    ].includes(status.value),
+  )
+  .map((status) => status.value);
