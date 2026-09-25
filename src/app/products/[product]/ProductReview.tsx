@@ -180,7 +180,7 @@ const ProductReview = ({
     <div>
       {isLoading && <Skeleton />}
 
-      {reviews?.length === 0 && reviewQuery.status === "fulfilled" && (
+      {/* {reviews?.length === 0 && reviewQuery.status === "fulfilled" && (
         <Alert color="info" className="mb-4 w-full">
           <div className="flex flex-col gap-2">
             <div className="flex flex-col">
@@ -190,7 +190,7 @@ const ProductReview = ({
             </div>
           </div>
         </Alert>
-      )}
+      )} */}
       {reviews?.length > 0 && (
         <div className="flex flex-col">
           <div className="grid grid-cols-1  gap-4">
