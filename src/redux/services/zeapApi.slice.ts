@@ -666,6 +666,14 @@ export default createApi({
       },
       providesTags: ["Products"],
     }),
+    getZeaperCommissionRates: builder.query({
+      query: () => {
+        return {
+          url: `products/commission`,
+        };
+      },
+      providesTags: ["Products"],
+    }),
     getProductsDynamicFilters: builder.query({
       query: (arg) => {
         return {

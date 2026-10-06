@@ -1,8 +1,11 @@
 import { ThemeContext } from "@/contexts/themeContext";
 import { ProductInterface, VariationInterface } from "@/interface/interface";
+import zeapApiSlice from "@/redux/services/zeapApi.slice";
+import { globalSelectors } from "@/redux/services/global.slice";
 import { numberWithCommas } from "@/utils/helpers";
 import { Alert, Badge, Button, Label, Table } from "flowbite-react";
 import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 import { HiInformationCircle } from "react-icons/hi";
 import AddVariationModal from "./AddVariationModal";
 import DeleteVariationModal from "./DeleteVariationModal";
@@ -21,6 +24,7 @@ const Variations = ({
   allColors: ColInterface[];
 }) => {
   const { setDimBackground } = useContext(ThemeContext);
+  const token = useSelector(globalSelectors.selectAuthToken);
   const [showInfo, setShowInfo] = useState(true);
   const [currVariation, setCurrVariation] = useState<VariationInterface | null>(
     null,
@@ -28,6 +32,18 @@ const Variations = ({
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const currency = product?.currency?.symbol || "₦";
+  const commissionRatesQuery = zeapApiSlice.useGetZeaperCommissionRatesQuery(
+    undefined,
+    { skip: !token },
+  );
+  const isBespokeProduct =
+    product?.productType === "bespokeCloth" ||
+    product?.productType === "bespokeShoe";
+  const commissionRate = isBespokeProduct
+    ? commissionRatesQuery?.data?.data?.bespoke
+    : commissionRatesQuery?.data?.data?.readyToWear;
+  const sellerKeepRate =
+    typeof commissionRate === "number" ? 100 - commissionRate : null;
 
   const getTextColor = (hex: string) => {
     const red = parseInt(hex?.substring(1, 3), 16);
@@ -57,20 +73,33 @@ const Variations = ({
       )}
 
       {showInfo && (
-        <Alert
-          color="info"
-          icon={HiInformationCircle}
-          onDismiss={() => setShowInfo(false)}
-          rounded
-        >
-          <span className="font-medium">Info alert! </span>
-          <span className="block sm:inline">
-            You can add multiple variations to your product. For example, if you
-            are selling a T-shirt, you can add different sizes and colors as
-            variations. Start by selecting one of the selected colors and then
-            add the sizes, price and quantity.
-          </span>
-        </Alert>
+        <div className="flex flex-col gap-3">
+          <Alert
+            color="info"
+            icon={HiInformationCircle}
+            onDismiss={() => setShowInfo(false)}
+            rounded
+          >
+            <span className="font-medium">Info alert! </span>
+            <span className="block sm:inline">
+              You can add multiple variations to your product. For example, if
+              you are selling a T-shirt, you can add different sizes and colors
+              as variations. Start by selecting one of the selected colors and
+              then add the sizes, price and quantity.
+            </span>
+          </Alert>
+
+          {typeof commissionRate === "number" && (
+            <Alert color="warning" icon={HiInformationCircle} rounded>
+              <span className="font-medium">Pricing heads-up. </span>
+              <span className="block sm:inline">
+                Zeaper commission for this product type is {commissionRate}%.{" "}
+                You keep about {sellerKeepRate}% of each sale price, so use that
+                net amount when setting variation prices.
+              </span>
+            </Alert>
+          )}
+        </div>
       )}
 
       <div className=" p-2">
@@ -244,6 +273,8 @@ const Variations = ({
       {openModal && (
         <AddVariationModal
           allColors={allColors}
+          commissionRate={commissionRate}
+          sellerKeepRate={sellerKeepRate}
           currVariation={currVariation}
           close={() => {
             setCurrVariation(null);

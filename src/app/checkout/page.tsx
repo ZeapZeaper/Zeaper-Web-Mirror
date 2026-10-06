@@ -74,6 +74,7 @@ const CheckoutPage = () => {
   const [country, setCountry] = useState(user?.country || "Nigeria");
   const [postCode, setPostCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [deliveryNote, setDeliveryNote] = useState("");
   const [method, setMethod] = useState("standard");
   const [shippingErrors, setErrors] = useState<{
     firstName?: string;
@@ -266,6 +267,7 @@ const CheckoutPage = () => {
         country,
         postCode,
         phoneNumber,
+        deliveryNote,
         method,
       },
       // true
@@ -398,6 +400,8 @@ const CheckoutPage = () => {
             setPostCode={setPostCode}
             phoneNumber={phoneNumber}
             setPhoneNumber={setPhoneNumber}
+            deliveryNote={deliveryNote}
+            setDeliveryNote={setDeliveryNote}
             errors={shippingErrors}
             validateShipping={validateShipping}
           />

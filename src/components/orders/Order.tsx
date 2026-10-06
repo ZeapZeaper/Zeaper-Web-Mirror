@@ -82,6 +82,12 @@ const Order = ({ order }: { order: OrderInterface }) => {
             <span>Contact No: </span>
             <span>{deliveryDetails?.phoneNumber || "N/P"}</span>
           </div>
+          {deliveryDetails?.deliveryNote && (
+            <div className="flex justify-between gap-4">
+              <span>Delivery Note: </span>
+              <span className="text-right">{deliveryDetails.deliveryNote}</span>
+            </div>
+          )}
         </div>
       </div>
 

@@ -53,12 +53,16 @@ const AddVariationModal = ({
   currVariation,
   product,
   allColors,
+  commissionRate,
+  sellerKeepRate,
 }: {
   open: boolean;
   close: () => void;
   product: ProductInterface;
   currVariation?: VariationInterface | null;
   allColors: ColInterface[];
+  commissionRate?: number;
+  sellerKeepRate?: number | null;
 }) => {
   const sku = currVariation?.sku;
   const [error, setError] = useState<string | null>(null);
@@ -95,8 +99,52 @@ const AddVariationModal = ({
 
   const colors = product?.colors?.map((color) => color.value);
   const sizes = product?.sizes;
+  const currencySymbol =
+    product?.currency?.symbol ||
+    getCurrencySmallSymbol(
+      product?.currency?.name || currVariation?.currency || "NGN",
+    );
   const availableVariations: AvailableVariationInterface[] =
     getRemainingVariationsStatus?.data?.data?.availableVariations || [];
+
+  const parseAmount = (value?: string | number) => {
+    if (value === undefined || value === null || value === "") {
+      return null;
+    }
+
+    const parsed = Number(
+      typeof value === "string" ? value.replace(/,/g, "") : value,
+    );
+
+    return Number.isFinite(parsed) ? parsed : null;
+  };
+
+  const formatMoney = (value: number) => {
+    return `${currencySymbol}${value.toLocaleString(undefined, {
+      minimumFractionDigits: value % 1 === 0 ? 0 : 2,
+      maximumFractionDigits: 2,
+    })}`;
+  };
+
+  const getCommissionPreview = (value?: string | number) => {
+    const numericValue = parseAmount(value);
+    if (
+      numericValue === null ||
+      numericValue < 0 ||
+      typeof commissionRate !== "number" ||
+      typeof sellerKeepRate !== "number"
+    ) {
+      return null;
+    }
+
+    const commissionValue = (numericValue * commissionRate) / 100;
+    const sellerValue = (numericValue * sellerKeepRate) / 100;
+
+    return {
+      commissionValue,
+      sellerValue,
+    };
+  };
 
   const getTextColor = (hex: string) => {
     const red = parseInt(hex?.substring(1, 3), 16);
@@ -377,6 +425,15 @@ const AddVariationModal = ({
           </Alert>
         )}
 
+        {typeof commissionRate === "number" &&
+          typeof sellerKeepRate === "number" && (
+            <Alert color="warning" className="mb-4">
+              <span className="font-medium">Zeaper commission: </span>
+              {commissionRate}% for this product type. For every listed price,
+              Zeaper keeps the commission and you keep about {sellerKeepRate}%.
+            </Alert>
+          )}
+
         {!currVariation && (
           <div className="mb-6 rounded-lg border border-gray-200 bg-gray-50 p-3 flex items-center justify-between gap-3">
             <div className="flex flex-col">
@@ -441,6 +498,16 @@ const AddVariationModal = ({
                   }`}
                   className="!mx-0 !max-w-none"
                 />
+                {getCommissionPreview(bulkPrice) && (
+                  <div className="mt-2 text-xs text-gray-500">
+                    Zeaper takes{" "}
+                    {formatMoney(
+                      getCommissionPreview(bulkPrice)!.commissionValue,
+                    )}
+                    . You keep about{" "}
+                    {formatMoney(getCommissionPreview(bulkPrice)!.sellerValue)}.
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -562,6 +629,25 @@ const AddVariationModal = ({
                             product?.currency?.name || "NGN"
                           }`}
                         />
+                        {getCommissionPreview(
+                          selectedQuickVariations[variation.sku]?.price,
+                        ) && (
+                          <div className="text-xs text-gray-500">
+                            Zeaper takes{" "}
+                            {formatMoney(
+                              getCommissionPreview(
+                                selectedQuickVariations[variation.sku]?.price,
+                              )!.commissionValue,
+                            )}
+                            . You keep about{" "}
+                            {formatMoney(
+                              getCommissionPreview(
+                                selectedQuickVariations[variation.sku]?.price,
+                              )!.sellerValue,
+                            )}
+                            .
+                          </div>
+                        )}
                       </div>
                       <div className="flex flex-col gap-1">
                         <Label value="Qty" />
@@ -656,6 +742,14 @@ const AddVariationModal = ({
                 )}
                 placeholder={`Enter price in ${currVariation?.currency || "NGN"}`}
               />
+              {getCommissionPreview(price) && (
+                <div className="text-xs text-gray-500">
+                  Zeaper takes{" "}
+                  {formatMoney(getCommissionPreview(price)!.commissionValue)}.{" "}
+                  You keep about{" "}
+                  {formatMoney(getCommissionPreview(price)!.sellerValue)}.
+                </div>
+              )}
             </div>
 
             {sku !== "BESPOKE" && (

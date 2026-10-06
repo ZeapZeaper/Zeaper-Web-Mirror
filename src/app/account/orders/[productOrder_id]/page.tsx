@@ -42,7 +42,7 @@ const OrderItemPage = () => {
     {
       productOrder_id,
     },
-    { skip: !token || !productOrder_id }
+    { skip: !token || !productOrder_id },
   );
 
   const productOrder = productOrderQuery?.data?.data;
@@ -66,13 +66,13 @@ const OrderItemPage = () => {
   const cancel = productOrder?.cancel;
 
   const images = productOrder?.images.map(
-    (image: { name: string; link: string }) => image.link
+    (image: { name: string; link: string }) => image.link,
   );
 
   const productOrderStatusHistoryQuery =
     zeapApiSlice.useGetProductOrderStatusHistoryQuery(
       { productOrder_id },
-      { skip: !token || !productOrder_id }
+      { skip: !token || !productOrder_id },
     );
 
   const nextStatus = productOrderStatusHistoryQuery?.data?.data.nextStatus;
@@ -106,7 +106,7 @@ const OrderItemPage = () => {
     if (product?.colors?.length > 0) {
       const colors = product.colors;
       const isDefault = colors.find((color) =>
-        color.images.find((image) => image.isDefault)
+        color.images.find((image) => image.isDefault),
       );
 
       if (isDefault) {
@@ -137,10 +137,10 @@ const OrderItemPage = () => {
                 openModal={openModal}
                 setOpenModal={setOpenModal}
                 isNextActionAllowed={vendorActionStatusList.includes(
-                  nextStatus?.value
+                  nextStatus?.value,
                 )}
                 isRevertActionAllowed={vendorActionStatusList.includes(
-                  status?.value
+                  status?.value,
                 )}
               />
             )}
@@ -209,7 +209,7 @@ const OrderItemPage = () => {
                     color || getDefaultColor()
                   }?productId=${product?.productId}&color=${
                     color || getDefaultColor()
-                  }`
+                  }`,
                 );
               }}
               className="text-sm lg:text-lg font-semibold cursor-pointer underline underline-thickness-thin underline-offset-small text-info hover:text-darkGold"
@@ -236,7 +236,7 @@ const OrderItemPage = () => {
                 <span className="text-md ">Status</span>
                 <span
                   className={`text-md max-w-[10rem] text-center border p-2 rounded-md font-bold  ${getProductOrderStatusBg(
-                    status?.value
+                    status?.value,
                   )}`}
                 >
                   {capitalizeFirstLetter(status.name)}{" "}
@@ -320,12 +320,12 @@ const OrderItemPage = () => {
                         {" "}
                         {displayDate(
                           productOrder?.expectedVendorCompletionDate?.min,
-                          false
+                          false,
                         )}{" "}
                         -{" "}
                         {displayDate(
                           productOrder?.expectedVendorCompletionDate?.max,
-                          false
+                          false,
                         )}
                       </span>
                     ) : (
@@ -342,12 +342,12 @@ const OrderItemPage = () => {
                       <span>
                         {displayDate(
                           productOrder?.expectedDeliveryDate?.min,
-                          false
+                          false,
                         )}{" "}
                         -{" "}
                         {displayDate(
                           productOrder?.expectedDeliveryDate?.max,
-                          false
+                          false,
                         )}
                       </span>
                     ) : (
@@ -410,7 +410,7 @@ const OrderItemPage = () => {
                         <span>Method: </span>
                         <span>
                           {capitalizeFirstLetter(
-                            productOrder?.deliveryMethod || ""
+                            productOrder?.deliveryMethod || "",
                           ) || "N/P"}
                         </span>
                       </div>
@@ -434,6 +434,14 @@ const OrderItemPage = () => {
                         <span>Contact No: </span>
                         <span>{deliveryDetails?.phoneNumber || "N/P"}</span>
                       </div>
+                      {deliveryDetails?.deliveryNote && (
+                        <div className="flex justify-between gap-4">
+                          <span>Delivery Note: </span>
+                          <span className="text-right">
+                            {deliveryDetails.deliveryNote}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

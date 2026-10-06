@@ -230,9 +230,9 @@ interface BodyMeasurementInterface {
           field: string;
           value: number;
           unit: string;
-        }
+        },
       ];
-    }
+    },
   ];
 }
 interface BodyMeasurementTemplateInterface {
@@ -244,7 +244,7 @@ interface BodyMeasurementTemplateInterface {
       field: string;
       value: number;
       unit: string;
-    }
+    },
   ];
 }
 interface RangePercentageInterface {
@@ -300,9 +300,9 @@ interface BasketItemIterface {
           field: string;
           value: number;
           unit: string;
-        }
+        },
       ];
-    }
+    },
   ];
 }
 interface BasketInterface {
@@ -331,6 +331,7 @@ interface deliveryAddressInterface {
   country: string;
   postCode: string;
   phoneNumber: string;
+  deliveryNote?: string;
   isDefault: boolean;
   disabled: boolean;
 }
@@ -377,7 +378,7 @@ interface ProductOrdersInterface {
     {
       name: string;
       link: string;
-    }
+    },
   ];
   bodyMeasurements?: [
     {
@@ -387,9 +388,9 @@ interface ProductOrdersInterface {
           field: string;
           value: number;
           unit: string;
-        }
+        },
       ];
-    }
+    },
   ];
   status: {
     name: string;
@@ -399,7 +400,7 @@ interface ProductOrdersInterface {
     {
       currency: string;
       value: number;
-    }
+    },
   ];
   promo?: {
     promoId: string;
@@ -503,7 +504,7 @@ interface ShopPaymentInterface {
       {
         name: string;
         link: string;
-      }
+      },
     ];
   };
 
@@ -570,7 +571,7 @@ interface BodyMeasurementGuideInterface {
         link: string;
       };
       description: string;
-    }
+    },
   ];
   createdAt: Date;
   updatedAt: Date;
@@ -589,7 +590,7 @@ interface CountAnalyticsInterface {
     {
       label: string;
       count: number;
-    }
+    },
   ];
 }
 interface DeliveryAddressInterface {
@@ -600,6 +601,7 @@ interface DeliveryAddressInterface {
   country: string;
   postCode: string;
   phoneNumber: string;
+  deliveryNote?: string;
   isDefault: boolean;
   disabled: boolean;
   firstName: string;

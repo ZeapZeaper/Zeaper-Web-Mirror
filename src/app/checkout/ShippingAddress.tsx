@@ -10,6 +10,7 @@ import FormItem from "@/shared/FormItem";
 import Input from "@/shared/Input/Input";
 // import Radio from '@/shared/Radio/Radio';
 import Select from "@/shared/Select/Select";
+import Textarea from "@/shared/TextArea/TextArea";
 import ExistingShippingAddress from "./ExistingShippingAddress";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import { AuthContext } from "@/contexts/authContext";
@@ -21,7 +22,6 @@ import { DeliveryAddressInterface } from "@/interface/interface";
 import PhoneInput from "react-phone-number-input";
 import { validatePhoneNumberInput } from "@/utils/helpers";
 import { CountryRegionData } from "react-country-region-selector";
-
 
 interface Props {
   isActive: boolean;
@@ -41,6 +41,8 @@ interface Props {
   setCountry: (value: string) => void;
   phoneNumber: string;
   setPhoneNumber: (value: string) => void;
+  deliveryNote: string;
+  setDeliveryNote: (value: string) => void;
   errors: {
     firstName?: string;
     lastName?: string;
@@ -70,6 +72,8 @@ const ShippingAddress: FC<Props> = ({
   setCountry,
   phoneNumber,
   setPhoneNumber,
+  deliveryNote,
+  setDeliveryNote,
   errors,
   validateShipping,
 }) => {
@@ -83,7 +87,7 @@ const ShippingAddress: FC<Props> = ({
   const user_id = user?._id;
   const getDeliveryAddressesQuery = zeapApiSlice.useGetDeliveryAddressesQuery(
     { user_id },
-    { skip: !token || !user_id }
+    { skip: !token || !user_id },
   );
 
   const deliveryAddresses = getDeliveryAddressesQuery?.data?.data || [];
@@ -97,7 +101,7 @@ const ShippingAddress: FC<Props> = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const regionsData: any = useMemo(
     () => CountryRegionData.find((data) => data[0] === country),
-    [country]
+    [country],
   );
 
   useEffect(() => {
@@ -145,7 +149,7 @@ const ShippingAddress: FC<Props> = ({
   };
   useEffect(() => {
     const defaultAddress = deliveryAddresses.find(
-      (address: DeliveryAddressInterface) => address.isDefault === true
+      (address: DeliveryAddressInterface) => address.isDefault === true,
     );
     if (defaultAddress) {
       setFirstName(defaultAddress.firstName);
@@ -370,6 +374,23 @@ const ShippingAddress: FC<Props> = ({
                 </span>
               )}
           </div>
+        </div>
+
+        <div>
+          <FormItem label="Delivery note">
+            <Textarea
+              rows={4}
+              className="border border-neutral-300 bg-transparent px-4 py-3 placeholder:text-neutral-500 focus:border-gold"
+              placeholder="Add any special delivery instructions for this order"
+              value={deliveryNote}
+              onChange={(e) => setDeliveryNote(e.target.value)}
+              maxLength={500}
+            />
+          </FormItem>
+          <span className="text-xs text-neutral-500">
+            Optional. Share gate codes, preferred handoff details, or timing
+            notes.
+          </span>
         </div>
 
         <div className="flex flex-col gap-1  mb-5">
