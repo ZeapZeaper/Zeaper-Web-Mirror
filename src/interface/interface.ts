@@ -410,6 +410,10 @@ interface ProductOrdersInterface {
     min: Date;
     max: Date;
   };
+  expectedBuyerCompletionDate: {
+    min: Date;
+    max: Date;
+  };
   expectedDeliveryDate: {
     min: Date;
     max: Date;

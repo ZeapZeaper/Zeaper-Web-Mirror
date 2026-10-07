@@ -1,9 +1,12 @@
 "use client";
 import { ProductInterface } from "@/interface/interface";
+import zeapApiSlice from "@/redux/services/zeapApi.slice";
+import { globalSelectors } from "@/redux/services/global.slice";
 import NumberInput from "@/shared/Input/NumberInput";
 import { getCurrencySmallSymbol, getTextColor } from "@/utils/helpers";
 import { Alert, Checkbox, Dropdown, Label } from "flowbite-react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 interface ColInterface {
   name: string;
@@ -20,6 +23,9 @@ const BespokeVariation = ({
   setAvailableColors,
   price,
   setPrice,
+  commissionRate,
+  sellerKeepRate,
+  showCommissionAlert = true,
 }: {
   product: ProductInterface;
   allColors: ColInterface[];
@@ -29,9 +35,27 @@ const BespokeVariation = ({
   setColorType: (colorType: string) => void;
   price: number | undefined | string;
   setPrice: (price: number | undefined | string) => void;
+  commissionRate?: number;
+  sellerKeepRate?: number | null;
+  showCommissionAlert?: boolean;
 }) => {
   const [colors, setColors] = useState<ColInterface[]>([]);
+  const token = useSelector(globalSelectors.selectAuthToken);
   const currency = product?.variations[0]?.currency || "NGN";
+  const commissionRatesQuery = zeapApiSlice.useGetZeaperCommissionRatesQuery(
+    undefined,
+    { skip: !token },
+  );
+  const resolvedCommissionRate =
+    typeof commissionRate === "number"
+      ? commissionRate
+      : commissionRatesQuery?.data?.data?.bespoke;
+  const resolvedSellerKeepRate =
+    typeof sellerKeepRate === "number"
+      ? sellerKeepRate
+      : typeof resolvedCommissionRate === "number"
+        ? 100 - resolvedCommissionRate
+        : null;
   useEffect(() => {
     if (colorType === "single") {
       const bespoke = product?.variations[0]?.bespoke;
@@ -77,6 +101,15 @@ const BespokeVariation = ({
   return (
     <>
       <div>
+        {showCommissionAlert &&
+          typeof resolvedCommissionRate === "number" &&
+          typeof resolvedSellerKeepRate === "number" && (
+            <Alert color="warning" className="mb-4 w-fit">
+              <span className="font-medium">Pricing heads-up. </span>
+              Zeaper commission for this product type is {resolvedCommissionRate}%.
+              You keep {resolvedSellerKeepRate}% for each sale.
+            </Alert>
+          )}
         <div className="mb-2 flex flex-col gap-1 w-fit">
           <Label value="Price" />
           <NumberInput

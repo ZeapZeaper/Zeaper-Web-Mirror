@@ -12,6 +12,7 @@ import zeapApiSlice from "@/redux/services/zeapApi.slice";
 import Loading from "../loading/Loading";
 import NumberInput from "@/shared/Input/NumberInput";
 import { getCurrencySmallSymbol } from "@/utils/helpers";
+import BespokeVariation from "./BespokeVariation";
 
 const ModalTheme = {
   root: {
@@ -76,6 +77,8 @@ const AddVariationModal = ({
   >({});
   const [bulkPrice, setBulkPrice] = useState<string>("");
   const [useDefaultPrice, setUseDefaultPrice] = useState<boolean>(false);
+  const [colorType, setColorType] = useState<string>("single");
+  const [availableColors, setAvailableColors] = useState<string[]>([]);
 
   const [quantity, setQuantity] = useState<number | undefined | string>(
     undefined,
@@ -99,6 +102,12 @@ const AddVariationModal = ({
 
   const colors = product?.colors?.map((color) => color.value);
   const sizes = product?.sizes;
+  const isBespokeProduct =
+    product?.productType === "bespokeCloth" ||
+    product?.productType === "bespokeShoe";
+  const hasExistingBespokeVariation = product?.variations?.some(
+    (variation) => variation?.bespoke?.isBespoke,
+  );
   const currencySymbol =
     product?.currency?.symbol ||
     getCurrencySmallSymbol(
@@ -106,6 +115,11 @@ const AddVariationModal = ({
     );
   const availableVariations: AvailableVariationInterface[] =
     getRemainingVariationsStatus?.data?.data?.availableVariations || [];
+  const footerNote = isBespokeProduct
+    ? "Note: Bespoke products support a single variation. Use this form to update its price and bespoke colour setup."
+    : !currVariation && useQuickVariationPicker
+      ? "Toggle combinations to add them quickly. SKU is previewed immediately before saving."
+      : "Note: You can add multiple variations for the same color and size. Each variation will have a unique SKU.";
 
   const parseAmount = (value?: string | number) => {
     if (value === undefined || value === null || value === "") {
@@ -166,20 +180,32 @@ const AddVariationModal = ({
       setSize(currVariation?.size || "");
       setPrice(currVariation?.price);
       setQuantity(currVariation?.quantity || 0);
+      if (currVariation?.bespoke) {
+        setColorType(currVariation.bespoke.colorType || "single");
+        setAvailableColors(currVariation.bespoke.availableColors || []);
+      }
       return;
     }
-    setUseQuickVariationPicker(true);
+    setUseQuickVariationPicker(!isBespokeProduct);
     setColor("");
     setSize("");
     setPrice(undefined);
     setQuantity(undefined);
     setSelectedQuickVariations({});
-  }, [currVariation]);
+    if (isBespokeProduct) {
+      const bespokeVariation = product?.variations?.find(
+        (variation) => variation?.bespoke?.isBespoke,
+      );
+      setColorType(bespokeVariation?.bespoke?.colorType || "single");
+      setAvailableColors(bespokeVariation?.bespoke?.availableColors || []);
+    }
+  }, [currVariation, isBespokeProduct, product?.variations]);
 
   useEffect(() => {
     if (
       !open ||
       currVariation ||
+      isBespokeProduct ||
       !useQuickVariationPicker ||
       !product?.productId
     ) {
@@ -189,10 +215,34 @@ const AddVariationModal = ({
   }, [
     open,
     currVariation,
+    isBespokeProduct,
     useQuickVariationPicker,
     product?.productId,
     getRemainingVariations,
   ]);
+
+  const validateBespokeVariation = () => {
+    if (!price) {
+      setError("Please enter a price");
+      return false;
+    }
+    if (Number(price) < 0) {
+      setError("Price cannot be less than 0");
+      return false;
+    }
+    if (!colorType || !["single", "multiple"].includes(colorType)) {
+      setError("Please select a valid bespoke colour type");
+      return false;
+    }
+    if (colorType === "single" && availableColors.length === 0) {
+      setError("Please select at least one available colour");
+      return false;
+    }
+    if (colorType === "multiple" && availableColors.length > 0) {
+      setAvailableColors([]);
+    }
+    return true;
+  };
 
   const validate = () => {
     if (!color) {
@@ -268,6 +318,8 @@ const AddVariationModal = ({
     setSize("");
     setPrice(undefined);
     setQuantity(undefined);
+    setColorType("single");
+    setAvailableColors([]);
     setSelectedQuickVariations({});
     setBulkPrice("");
     setUseDefaultPrice(false);
@@ -326,32 +378,52 @@ const AddVariationModal = ({
 
   const handleAddVariation = async () => {
     setError(null);
+    if (isBespokeProduct && !validateBespokeVariation()) {
+      return;
+    }
     if (
+      !isBespokeProduct &&
       !currVariation &&
       useQuickVariationPicker &&
       !validateQuickVariations()
     ) {
       return;
     }
-    if ((!useQuickVariationPicker || currVariation) && !validate()) return;
+    if (
+      !isBespokeProduct &&
+      (!useQuickVariationPicker || currVariation) &&
+      !validate()
+    )
+      return;
 
     const payload = {
       productId: product?.productId,
-      variation: {
-        colorValue: color,
-        size,
-        // remove commas from price and quantity string and convert to number
-        price: Number(
-          typeof price === "string" ? price.replace(/,/g, "") : price,
-        ),
-        quantity: Number(
-          typeof quantity === "string" ? quantity.replace(/,/g, "") : quantity,
-        ),
-        ...(currVariation && { sku: currVariation.sku }),
-      },
+      variation: isBespokeProduct
+        ? {
+            price: Number(
+              typeof price === "string" ? price.replace(/,/g, "") : price,
+            ),
+            colorType,
+            availableColors: colorType === "single" ? availableColors : [],
+            ...(currVariation && { sku: currVariation.sku }),
+          }
+        : {
+            colorValue: color,
+            size,
+            // remove commas from price and quantity string and convert to number
+            price: Number(
+              typeof price === "string" ? price.replace(/,/g, "") : price,
+            ),
+            quantity: Number(
+              typeof quantity === "string"
+                ? quantity.replace(/,/g, "")
+                : quantity,
+            ),
+            ...(currVariation && { sku: currVariation.sku }),
+          },
     };
 
-    if (!currVariation && useQuickVariationPicker) {
+    if (!isBespokeProduct && !currVariation && useQuickVariationPicker) {
       const selectedSkus = Object.keys(selectedQuickVariations);
       const selectedVariations = availableVariations.filter((variation) =>
         selectedSkus.includes(variation.sku),
@@ -428,13 +500,13 @@ const AddVariationModal = ({
         {typeof commissionRate === "number" &&
           typeof sellerKeepRate === "number" && (
             <Alert color="warning" className="mb-4">
-              <span className="font-medium">Zeaper commission: </span>
-              {commissionRate}% for this product type. For every listed price,
-              Zeaper keeps the commission and you keep about {sellerKeepRate}%.
+              <span className="font-medium">Pricing heads-up. </span>
+              Zeaper commission for this product type is {commissionRate}%. You
+              keep {sellerKeepRate}% for each sale.
             </Alert>
           )}
 
-        {!currVariation && (
+        {!currVariation && !isBespokeProduct && (
           <div className="mb-6 rounded-lg border border-gray-200 bg-gray-50 p-3 flex items-center justify-between gap-3">
             <div className="flex flex-col">
               <span className="text-sm font-semibold text-gray-800">
@@ -457,7 +529,7 @@ const AddVariationModal = ({
           </div>
         )}
 
-        {!currVariation && useQuickVariationPicker && (
+        {!currVariation && !isBespokeProduct && useQuickVariationPicker && (
           <div className="mb-4 rounded-lg border border-primary/30 bg-primary/5 p-3 flex flex-col gap-3">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
@@ -513,7 +585,7 @@ const AddVariationModal = ({
           </div>
         )}
 
-        {!currVariation && useQuickVariationPicker && (
+        {!currVariation && !isBespokeProduct && useQuickVariationPicker && (
           <div className="mb-6 border rounded-md p-3 max-h-[45dvh] overflow-auto flex flex-col gap-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2 text-sm text-gray-700">
@@ -676,7 +748,23 @@ const AddVariationModal = ({
           </div>
         )}
 
-        {(!useQuickVariationPicker || currVariation) && (
+        {isBespokeProduct && (
+          <BespokeVariation
+            product={product}
+            allColors={allColors}
+            colorType={colorType}
+            setColorType={setColorType}
+            availableColors={availableColors}
+            setAvailableColors={setAvailableColors}
+            price={price}
+            setPrice={setPrice}
+            commissionRate={commissionRate}
+            sellerKeepRate={sellerKeepRate}
+            showCommissionAlert={false}
+          />
+        )}
+
+        {(!useQuickVariationPicker || currVariation) && !isBespokeProduct && (
           <div className="flex flex-col md:flex-row md:justify-between gap-4">
             <div className="mb-2 flex flex-col gap-1">
               <Label value="Colour" />
@@ -768,11 +856,7 @@ const AddVariationModal = ({
           </div>
         )}
         <div className="mt-4">
-          <div className="text-sm text-gray-500">
-            {!currVariation && useQuickVariationPicker
-              ? "Toggle combinations to add them quickly. SKU is previewed immediately before saving."
-              : "Note: You can add multiple variations for the same color and size. Each variation will have a unique SKU."}
-          </div>
+          <div className="text-sm text-gray-500">{footerNote}</div>
         </div>
       </Modal.Body>
       <Modal.Footer>
@@ -793,6 +877,8 @@ const AddVariationModal = ({
           >
             {currVariation
               ? "Update Variation"
+              : isBespokeProduct && hasExistingBespokeVariation
+                ? "Update Variation"
               : !useQuickVariationPicker
                 ? "Add Variation"
                 : `Add ${

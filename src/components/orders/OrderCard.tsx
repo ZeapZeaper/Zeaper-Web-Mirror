@@ -1,8 +1,8 @@
 import Image from "next/image";
-import ReactTimeAgo from "react-time-ago";
 import { OrderInterface } from "@/interface/interface";
 import {
   capitalizeFirstLetter,
+  displayDate,
   getProductOrderStatusBg,
 } from "@/utils/helpers";
 
@@ -28,8 +28,8 @@ const OrderCard = ({ order }: { order: OrderInterface }) => {
             <span className="dark:text-slate-300 text-slate-500 text-xs">
               Placed on
             </span>
-            <span className="text-sm">
-              <ReactTimeAgo date={order?.createdAt} locale="en-US" />
+            <span className="text-[11px] text-right leading-tight sm:text-xs">
+              {displayDate(order?.createdAt)}
             </span>
 
             {/* ITEM COUNT */}

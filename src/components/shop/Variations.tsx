@@ -39,6 +39,8 @@ const Variations = ({
   const isBespokeProduct =
     product?.productType === "bespokeCloth" ||
     product?.productType === "bespokeShoe";
+  const canAddVariation =
+    !isBespokeProduct || (product?.variations?.length || 0) === 0;
   const commissionRate = isBespokeProduct
     ? commissionRatesQuery?.data?.data?.bespoke
     : commissionRatesQuery?.data?.data?.readyToWear;
@@ -82,10 +84,9 @@ const Variations = ({
           >
             <span className="font-medium">Info alert! </span>
             <span className="block sm:inline">
-              You can add multiple variations to your product. For example, if
-              you are selling a T-shirt, you can add different sizes and colors
-              as variations. Start by selecting one of the selected colors and
-              then add the sizes, price and quantity.
+              {isBespokeProduct
+                ? "Bespoke products support a single variation. You can manage its price and bespoke colour setup here."
+                : "You can add multiple variations to your product. For example, if you are selling a T-shirt, you can add different sizes and colors as variations. Start by selecting one of the selected colors and then add the sizes, price and quantity."}
             </span>
           </Alert>
 
@@ -94,8 +95,7 @@ const Variations = ({
               <span className="font-medium">Pricing heads-up. </span>
               <span className="block sm:inline">
                 Zeaper commission for this product type is {commissionRate}%.{" "}
-                You keep about {sellerKeepRate}% of each sale price, so use that
-                net amount when setting variation prices.
+                You keep {sellerKeepRate}% for each sale.
               </span>
             </Alert>
           )}
@@ -140,23 +140,26 @@ const Variations = ({
                       {numberWithCommas(variation.price)}
                     </Table.Cell>
                     <Table.Cell>
-                      {variation?.sku !== "BESPOKE"
+                      {variation?.sku !== "BESPOKE" &&
+                      variation?.sku !== "BESPOKE-MULTIPLE"
                         ? variation.quantity
                         : "N/A"}
                     </Table.Cell>
                     <Table.Cell className="flex gap-2">
-                      <Badge
-                        className="cursor-pointer"
-                        color="failure"
-                        size="xs"
-                        onClick={() => {
-                          setCurrVariation(variation);
-                          setOpenDeleteModal(true);
-                          setDimBackground(true);
-                        }}
-                      >
-                        Delete
-                      </Badge>
+                      {!isBespokeProduct && (
+                        <Badge
+                          className="cursor-pointer"
+                          color="failure"
+                          size="xs"
+                          onClick={() => {
+                            setCurrVariation(variation);
+                            setOpenDeleteModal(true);
+                            setDimBackground(true);
+                          }}
+                        >
+                          Delete
+                        </Badge>
+                      )}
 
                       <Badge
                         className="cursor-pointer"
@@ -220,24 +223,29 @@ const Variations = ({
                     <p className="text-sm font-semibold">
                       Quantity:{" "}
                       <span className="font-normal text-slate-400">
-                        {variation.quantity}
+                        {variation?.sku !== "BESPOKE" &&
+                        variation?.sku !== "BESPOKE-MULTIPLE"
+                          ? variation.quantity
+                          : "N/A"}
                       </span>
                     </p>
                   </div>
                 </div>
                 <div className="flex justify-end mt-2 gap-2 ">
-                  <Badge
-                    className="cursor-pointer"
-                    color="failure"
-                    size="xs"
-                    onClick={() => {
-                      setCurrVariation(variation);
-                      setOpenDeleteModal(true);
-                      setDimBackground(true);
-                    }}
-                  >
-                    Delete
-                  </Badge>
+                  {!isBespokeProduct && (
+                    <Badge
+                      className="cursor-pointer"
+                      color="failure"
+                      size="xs"
+                      onClick={() => {
+                        setCurrVariation(variation);
+                        setOpenDeleteModal(true);
+                        setDimBackground(true);
+                      }}
+                    >
+                      Delete
+                    </Badge>
+                  )}
                   <Badge
                     className="cursor-pointer"
                     onClick={() => {
@@ -256,19 +264,21 @@ const Variations = ({
           </div>
         </div>
       </div>
-      <div className="flex mt-4">
-        <Button
-          color="primary"
-          size="sm"
-          onClick={() => {
-            setCurrVariation(null);
-            setDimBackground(true);
-            setOpenModal(true);
-          }}
-        >
-          Add Variation{" "}
-        </Button>
-      </div>
+      {canAddVariation && (
+        <div className="flex mt-4">
+          <Button
+            color="primary"
+            size="sm"
+            onClick={() => {
+              setCurrVariation(null);
+              setDimBackground(true);
+              setOpenModal(true);
+            }}
+          >
+            Add Variation{" "}
+          </Button>
+        </div>
+      )}
 
       {openModal && (
         <AddVariationModal
@@ -286,7 +296,7 @@ const Variations = ({
         />
       )}
 
-      {openDeleteModal && (
+      {!isBespokeProduct && openDeleteModal && (
         <DeleteVariationModal
           open={openDeleteModal}
           close={() => {

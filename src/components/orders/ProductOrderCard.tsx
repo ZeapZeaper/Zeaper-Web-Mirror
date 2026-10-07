@@ -25,7 +25,7 @@ const ProductOrderCard = ({
   const isMyOrder = productOrder?.user === user?._id;
 
   const isMyShopOrder =
-    (productOrder?.shop.shopId && productOrder?.shop.shopId === user?.shopId) ||
+    (productOrder?.shop?.shopId && productOrder?.shop?.shopId === user?.shopId) ||
     false;
   return (
     <>

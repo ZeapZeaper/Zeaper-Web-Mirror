@@ -223,19 +223,17 @@ const VendorProduct = ({ id }: { id: string }) => {
                     Variation
                   </span>
                   <div className="flex gap-2">
-                    {!isBeskope && (
-                      <Button
-                        className="text-primary"
-                        color="primary"
-                        size="xs"
-                        outline
-                        onClick={() => {
-                          setOpenManageVariation(!openManageVariation);
-                        }}
-                      >
-                        Manage Variations
-                      </Button>
-                    )}
+                    <Button
+                      className="text-primary"
+                      color="primary"
+                      size="xs"
+                      outline
+                      onClick={() => {
+                        setOpenManageVariation(!openManageVariation);
+                      }}
+                    >
+                      {isBeskope ? "Manage Variation" : "Manage Variations"}
+                    </Button>
                   </div>
                   {openManageVariation && (
                     <ManageVariationDrawer

@@ -3,8 +3,6 @@ import { useSelector } from "react-redux";
 
 import { Alert, Button } from "flowbite-react";
 
-import ReactTimeAgo from "react-time-ago";
-
 import { useContext, useState } from "react";
 
 import {
@@ -48,9 +46,10 @@ const OrderItemPage = () => {
   const productOrder = productOrderQuery?.data?.data;
 
   const isMyOrder = productOrder?.user?._id === user?._id;
+ 
 
   const isMyShopOrder =
-    productOrder?.shop.shopId && productOrder?.shop.shopId === user?.shopId;
+    productOrder?.shop?.shopId && productOrder?.shop?.shopId === user?.shopId;
 
   const product: ProductInterface = productOrder?.product;
   const sku = productOrder?.sku;
@@ -297,25 +296,41 @@ const OrderItemPage = () => {
               )}
               <div className="flex justify-between items-center">
                 <span className="text-md ">Ordered on</span>
-                <span className="text-sm lg:text-sm lg:text-lg font-semibold">
-                  {" "}
-                  <ReactTimeAgo date={productOrder?.createdAt} locale="en-US" />
+                <span className="text-xs lg:text-sm font-semibold text-right">
+                  {displayDate(productOrder?.createdAt)}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-md ">Last Updated on</span>
-                <span className="text-sm lg:text-sm lg:text-lg font-semibold">
-                  {" "}
-                  <ReactTimeAgo date={productOrder?.updatedAt} locale="en-US" />
+                <span className="text-xs lg:text-sm font-semibold text-right">
+                  {displayDate(productOrder?.updatedAt)}
                 </span>
               </div>
-              {productOrder?.expectedVendorCompletionDate && (
+              {(isMyOrder || productOrder?.expectedVendorCompletionDate) && (
                 <div className="flex flex-col lg:flex-row justify-between lg:items-center">
                   <span className="text-md ">
-                    Expected Vendor Completion Date
+                    {isMyOrder
+                      ? "Expected Order Completion Date"
+                      : "Expected Vendor Completion Date"}
                   </span>
-                  <span className="text-sm lg:text-sm  font-semibold">
-                    {productOrder?.expectedVendorCompletionDate ? (
+                  <span className="text-sm  font-semibold">
+                    {isMyOrder ? (
+                      productOrder?.expectedBuyerCompletionDate ? (
+                        <span>
+                          {displayDate(
+                            productOrder?.expectedBuyerCompletionDate?.min,
+                            false,
+                          )}{" "}
+                          -{" "}
+                          {displayDate(
+                            productOrder?.expectedBuyerCompletionDate?.max,
+                            false,
+                          )}
+                        </span>
+                      ) : (
+                        "N/A"
+                      )
+                    ) : productOrder?.expectedVendorCompletionDate ? (
                       <span>
                         {" "}
                         {displayDate(
@@ -337,7 +352,7 @@ const OrderItemPage = () => {
               {productOrder?.expectedDeliveryDate && (
                 <div className="flex flex-col lg:flex-row justify-between lg:items-center">
                   <span className="text-md ">Expected Delivery Date</span>
-                  <span className="text-sm lg:text-lg font-semibold">
+                  <span className="text-sm  font-semibold">
                     {productOrder?.expectedDeliveryDate ? (
                       <span>
                         {displayDate(
