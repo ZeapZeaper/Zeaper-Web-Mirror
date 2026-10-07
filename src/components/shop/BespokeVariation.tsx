@@ -63,7 +63,7 @@ const BespokeVariation = ({
       if (bespoke?.availableColors) {
         setAvailableColors(bespoke?.availableColors);
         const removables = allColors.filter(
-          (color) => !bespoke?.availableColors.includes(color.name)
+          (color) => !bespoke?.availableColors.includes(color.name),
         );
         setColors(removables);
       } else {
@@ -79,7 +79,7 @@ const BespokeVariation = ({
   useEffect(() => {
     if (product) {
       const bespoke = product?.variations.find(
-        (variation) => variation.bespoke
+        (variation) => variation.bespoke,
       );
       if (bespoke) {
         setPrice(bespoke.price);
@@ -106,8 +106,9 @@ const BespokeVariation = ({
           typeof resolvedSellerKeepRate === "number" && (
             <Alert color="warning" className="mb-4 w-fit">
               <span className="font-medium">Pricing heads-up. </span>
-              Zeaper commission for this product type is {resolvedCommissionRate}%.
-              You keep {resolvedSellerKeepRate}% for each sale.
+              Zeaper commission for this product type is{" "}
+              {resolvedCommissionRate}%. You keep {resolvedSellerKeepRate}% for
+              each sale.
             </Alert>
           )}
         <div className="mb-2 flex flex-col gap-1 w-fit">
@@ -166,7 +167,7 @@ const BespokeVariation = ({
                   background: getAvailableColorBg(color),
                 }}
                 className={`min-w-20 h-6 rounded-md items-center  flex justify-between py-4 p-1  border border-neutral-300 ${getTextColor(
-                  getAvailableColorBg(color) as string
+                  getAvailableColorBg(color) as string,
                 )}`}
               >
                 <span className="text-sm w-full">{color}</span>
@@ -174,16 +175,16 @@ const BespokeVariation = ({
                   className="cursor-pointer text-sm  bg-danger text-white rounded-full p-1 h-4 w-4 flex items-center justify-center"
                   onClick={() => {
                     const removedColor = allColors.find(
-                      (col) => col.name === color
+                      (col) => col.name === color,
                     );
                     if (removedColor) {
                       const sortedColors = [...colors, removedColor].sort(
-                        (a, b) => a.name.localeCompare(b.name)
+                        (a, b) => a.name.localeCompare(b.name),
                       );
                       setColors(sortedColors);
                     }
                     setAvailableColors(
-                      availableColors.filter((col) => col !== color)
+                      availableColors.filter((col) => col !== color),
                     );
                   }}
                 >
@@ -217,7 +218,7 @@ const BespokeVariation = ({
                       background: color?.hex || color?.background,
                     }}
                     className={`w-20 h-6 rounded-md items-center justify-center flex border border-neutral-300 ${getTextColor(
-                      color?.hex || color?.background || ""
+                      color?.hex || color?.background || "",
                     )}`}
                   >
                     {color?.name}

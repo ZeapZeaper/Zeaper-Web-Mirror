@@ -60,7 +60,7 @@ const OrderCard = ({ order }: { order: OrderInterface }) => {
                   </div>
                   <p
                     className={`text-[7px] mt-1 text-center ${getProductOrderStatusBg(
-                      po?.status?.value
+                      po?.status?.value,
                     )}`}
                   >
                     {capitalizeFirstLetter(po?.status?.name || "")}

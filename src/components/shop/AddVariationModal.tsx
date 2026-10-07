@@ -879,13 +879,15 @@ const AddVariationModal = ({
               ? "Update Variation"
               : isBespokeProduct && hasExistingBespokeVariation
                 ? "Update Variation"
-              : !useQuickVariationPicker
-                ? "Add Variation"
-                : `Add ${
-                    Object.keys(selectedQuickVariations).length || ""
-                  } Variation${
-                    Object.keys(selectedQuickVariations).length === 1 ? "" : "s"
-                  }`}
+                : !useQuickVariationPicker
+                  ? "Add Variation"
+                  : `Add ${
+                      Object.keys(selectedQuickVariations).length || ""
+                    } Variation${
+                      Object.keys(selectedQuickVariations).length === 1
+                        ? ""
+                        : "s"
+                    }`}
           </Button>
         </div>
       </Modal.Footer>
