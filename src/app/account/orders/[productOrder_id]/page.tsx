@@ -308,9 +308,7 @@ const OrderItemPage = () => {
               {(isMyOrder || productOrder?.expectedVendorCompletionDate) && (
                 <div className="flex flex-col lg:flex-row justify-between lg:items-center">
                   <span className="text-md ">
-                    {isMyOrder
-                      ? "Expected Order Completion Date"
-                      : "Expected Vendor Completion Date"}
+                   Expected Vendor Completion Date
                   </span>
                   <span className="text-sm  font-semibold">
                     {isMyOrder ? (
