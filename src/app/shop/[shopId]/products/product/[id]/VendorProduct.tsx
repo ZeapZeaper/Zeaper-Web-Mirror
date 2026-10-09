@@ -6,7 +6,11 @@ import { useEffect, useState } from "react";
 import { Alert, Badge, Button, Table } from "flowbite-react";
 import { globalSelectors } from "@/redux/services/global.slice";
 import zeapApiSlice from "@/redux/services/zeapApi.slice";
-import { ColorInterface, VariationInterface } from "@/interface/interface";
+import {
+  ColorInterface,
+  ProductBodyMeasurementData,
+  VariationInterface,
+} from "@/interface/interface";
 import Loading from "@/app/loading";
 import ProductImage from "@/app/products/[product]/ProductImage";
 import ProductReview from "@/app/products/[product]/ProductReview";
@@ -26,6 +30,7 @@ import { ManageAutoPriceDrawer } from "@/components/shop/ManageAutoPriceDrawer";
 import RejectionReasonDisplay from "@/components/shop/RejectionReasonDisplay";
 import RejectionReasonsModal from "@/components/shop/RejectionReasonsModal";
 import ProductAccordion from "@/components/shop/ProductAccordion";
+import BespokeMeasurementsSummary from "@/components/products/BespokeMeasurementsSummary";
 
 interface ColInterface {
   name: string;
@@ -56,7 +61,22 @@ const VendorProduct = ({ id }: { id: string }) => {
   );
   const options = productOptionsQuery?.data?.data;
   const colors: ColInterface[] = options?.readyMadeClothes?.colorEnums;
-  const isLoading = productQuery.isLoading || productOptionsQuery.isLoading;
+  const productBodyMeasurementQuery =
+    zeapApiSlice.useGetProductBodyMeasurementQuery(
+      { productId: product?.productId },
+      {
+        skip: !token || !product?.productId,
+      },
+    );
+  const productBodyMeasurementData: ProductBodyMeasurementData | undefined =
+    productBodyMeasurementQuery?.data?.data;
+  const selectedMeasurements = productBodyMeasurementData?.measurements || [];
+  const additionalMeasurementNote =
+    productBodyMeasurementData?.additionalMeasurementNote;
+  const isLoading =
+    productQuery.isLoading ||
+    productOptionsQuery.isLoading ||
+    productBodyMeasurementQuery.isLoading;
   const isBeskope = categories?.productGroup === "Bespoke";
   const variations = product?.variations;
   const bespokeVariation = variations?.find(
@@ -123,9 +143,36 @@ const VendorProduct = ({ id }: { id: string }) => {
               <>
                 <div className="text-secondary text-lg mt-4">Reviews</div>
                 <div>
-                  <ProductReview product={product} />
+                  <ProductReview
+                    product={product}
+                    displayNoReviewsMessage={true}
+                  />
                 </div>
               </>
+              <div className="mt-6">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-secondary text-lg font-semibold">
+                    TimeLine
+                  </span>
+                  <div>
+                    <Button
+                      onClick={() => {
+                        setViewAllTimeline(!viewAllTimeline);
+                      }}
+                      color="primary"
+                      size="xs"
+                    >
+                      {!viewAllTimeline ? "Expand" : "Collapse"}
+                    </Button>
+                  </div>
+                </div>
+                <div>
+                  <ShopProductTimeline
+                    timeLines={product?.timeLine}
+                    viewAll={viewAllTimeline}
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div className=" flex flex-col">
@@ -480,6 +527,11 @@ const VendorProduct = ({ id }: { id: string }) => {
                   )}
                 </div>
               </div>
+              <BespokeMeasurementsSummary
+                isLoading={productBodyMeasurementQuery.isLoading}
+                measurements={selectedMeasurements}
+                additionalMeasurementNote={additionalMeasurementNote}
+              />
               <div>
                 <div className="text-secondary text-lg mt-4 font-semibold">
                   Promo
@@ -489,30 +541,6 @@ const VendorProduct = ({ id }: { id: string }) => {
                 </div>
               </div>
 
-              <div>
-                <div className="flex justify-between mt-4 item-center mb-2">
-                  <span className="text-secondary text-lg font-semibold">
-                    TimeLine
-                  </span>
-                  <div>
-                    <Button
-                      onClick={() => {
-                        setViewAllTimeline(!viewAllTimeline);
-                      }}
-                      color="primary"
-                      size="xs"
-                    >
-                      {!viewAllTimeline ? "Expand" : "Collapse"}
-                    </Button>
-                  </div>
-                </div>
-                <div>
-                  <ShopProductTimeline
-                    timeLines={product?.timeLine}
-                    viewAll={viewAllTimeline}
-                  />
-                </div>
-              </div>
               <div className="md:hidden ">
                 <RejectionReasonDisplay reasons={product?.rejectionReasons} />
                 <>

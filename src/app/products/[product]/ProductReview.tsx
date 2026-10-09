@@ -33,10 +33,12 @@ const ProductReview = ({
   product,
   setReviews,
   setAverageRating,
+  displayNoReviewsMessage = false,
 }: {
   product: ProductInterface;
   setReviews?: (reviews: ProductReviewInterface[]) => void;
   setAverageRating?: (rating: number) => void;
+  displayNoReviewsMessage?: boolean;
 }) => {
   const { productId } = product;
   const { user } = useContext(AuthContext);
@@ -191,6 +193,19 @@ const ProductReview = ({
           </div>
         </Alert>
       )} */}
+      {reviews?.length === 0 &&
+        reviewQuery.status === "fulfilled" &&
+        displayNoReviewsMessage && (
+          <Alert color="info" className="mb-4 w-full">
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col">
+                <p className="text-md font-bold text-gray-500 dark:text-gray-400">
+                  No reviews yet
+                </p>
+              </div>
+            </div>
+          </Alert>
+        )}
       {reviews?.length > 0 && (
         <div className="flex flex-col">
           <div className="grid grid-cols-1  gap-4">

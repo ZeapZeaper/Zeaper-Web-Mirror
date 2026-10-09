@@ -247,6 +247,16 @@ interface BodyMeasurementTemplateInterface {
     },
   ];
 }
+interface ProductMeasurementSelection {
+  name: string;
+  fields: string[];
+}
+
+interface ProductBodyMeasurementData {
+  measurements?: ProductMeasurementSelection[];
+  additionalMeasurementNote?: string;
+}
+
 interface RangePercentageInterface {
   min: number;
   max: number;
@@ -675,4 +685,5 @@ export type {
   BodyMeasurementTemplateInterface,
   WishInterface,
   HelpArticleInterface,
+  ProductBodyMeasurementData,
 };
